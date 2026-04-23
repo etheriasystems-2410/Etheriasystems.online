@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import LazyVideo from './LazyVideo';
 
 interface AntiqueMirrorFrameProps {
   videoSrc: string;
@@ -7,17 +7,6 @@ interface AntiqueMirrorFrameProps {
 }
 
 export default function AntiqueMirrorFrame({ videoSrc, posterSrc, className = '' }: AntiqueMirrorFrameProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.play().catch(() => {
-        // Autoplay blocked, poster will show
-      });
-    }
-  }, []);
-
   return (
     <div className={`relative ${className}`}>
       {/* Outer shadow glow */}
@@ -34,14 +23,9 @@ export default function AntiqueMirrorFrame({ videoSrc, posterSrc, className = ''
             
             {/* Video container with oval mask */}
             <div className="relative rounded-[60%_40%_55%_45%/50%_55%_45%_50%] overflow-hidden bg-[#0a0a0b] aspect-[3/4]">
-              <video
-                ref={videoRef}
+              <LazyVideo
                 src={videoSrc}
                 poster={posterSrc}
-                autoPlay
-                loop
-                muted
-                playsInline
                 className="w-full h-full object-cover opacity-90"
               />
               

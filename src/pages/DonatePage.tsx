@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Heart, Gift, Mail, Send, Calendar, User, AppWindow, AtSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,16 +66,12 @@ export default function DonatePage() {
   return (
     <div className="relative min-h-screen">
       {/* ═════ FIXED FULL-PAGE VIDEO BACKGROUND ═════ */}
-      <video
-        autoPlay
-        muted
-        loop
-        preload="auto" playsInline
+      <LazyVideo
+        hero
+        src="./donate-hero-video.mp4"
         className="fixed inset-0 w-full h-full object-cover z-0"
         style={{ filter: 'brightness(0.6)' }}
-      >
-        <source src="./donate-hero-video.mp4" type="video/mp4" />
-      </video>
+      />
 
       {/* Optional dark overlay for extra readability */}
       <div className="fixed inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50 z-0 pointer-events-none" />

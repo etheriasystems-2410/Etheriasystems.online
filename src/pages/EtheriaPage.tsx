@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Sparkles, Eye, Compass, MessageCircle, Zap, ExternalLink, Download, Mail, Bug, Gift, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LazyVideo from '../components/LazyVideo';
 
 export default function EtheriaPage() {
   const betaRef = useRef<HTMLDivElement>(null);
@@ -13,7 +14,7 @@ export default function EtheriaPage() {
     <div className="min-h-screen w-full overflow-x-hidden">
       {/* Fixed Hero — Always visible in background */}
       <div className="fixed inset-0 h-screen w-full overflow-hidden z-0">
-        <video src="./etheria-hero-video.mp4" autoPlay loop muted playsInline preload="auto" className="w-full h-full object-cover" />
+        <LazyVideo hero src="./etheria-hero-video.mp4" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/50 via-[#0a0a0b]/60 to-[#0a0a0b]" />
         <div className="absolute inset-0 bg-[#0a0a0b]/30" />
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">

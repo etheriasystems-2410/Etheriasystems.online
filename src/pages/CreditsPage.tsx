@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Music, Image, Clapperboard, Mic, Code, HardDrive, Globe, AtSign, Mail, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,7 +44,7 @@ export default function CreditsPage() {
 
   return (
     <div className="relative min-h-screen">
-      <video autoPlay muted loop playsInline preload="auto" src="./credits-hero-video.mp4" className="fixed inset-0 w-full h-full object-cover z-0" style={{ filter: 'brightness(0.5)' }} />
+      <LazyVideo hero src="./credits-hero-video.mp4" className="fixed inset-0 w-full h-full object-cover z-0" style={{ filter: 'brightness(0.5)' }} />
       <div className="fixed inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black/55 z-[1] pointer-events-none" />
 
       <div className="relative z-10">

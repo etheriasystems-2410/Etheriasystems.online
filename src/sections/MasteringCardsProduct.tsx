@@ -2,6 +2,7 @@ import React, { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BookOpen, Sparkles, Eye, Layers, History } from 'lucide-react';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,12 +43,8 @@ const MasteringCardsProduct: React.FC = () => {
       <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12">
         {/* Full-Page Product Video Banner */}
         <div className="relative w-screen left-1/2 right-1/2 -translate-x-1/2 h-[80vh] overflow-hidden mb-10">
-          <video
+          <LazyVideo
             src="/mastering-video.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />

@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
 import { Link } from 'react-router-dom';
+import LazyVideo from '../components/LazyVideo';
   Trophy, Mail, CheckCircle, AlertTriangle, Sparkles, Gift,
   Calendar, Shuffle, Ticket, RotateCcw
 } from 'lucide-react';
@@ -48,13 +49,12 @@ export default function ContestRulesPage() {
   return (
     <div className="relative min-h-screen">
       {/* ═════ FIXED FULL-PAGE VIDEO BACKGROUND ═════ */}
-      <video
-        autoPlay muted loop playsInline preload="auto"
+      <LazyVideo
+        hero
+        src="./contest-hero-video.mp4"
         className="fixed inset-0 w-full h-full object-cover z-0"
         style={{ filter: 'brightness(0.55)' }}
-      >
-        <source src="./contest-hero-video.mp4" type="video/mp4" />
-      </video>
+      />
 
       {/* Dark gradient overlay */}
       <div className="fixed inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/55 z-0 pointer-events-none" />

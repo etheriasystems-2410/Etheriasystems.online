@@ -2,6 +2,7 @@ import React, { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Construction } from 'lucide-react';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -187,12 +188,8 @@ const ProductsLanding: React.FC = () => {
             className="group relative overflow-hidden rounded-sm bg-secondary/30 border border-primary/30 hover:border-primary/60 transition-all duration-300 text-left"
           >
             <div className="aspect-[4/3] overflow-hidden">
-              <video
+              <LazyVideo
                 src="/mastering-video.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />

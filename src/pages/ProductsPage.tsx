@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sparkles, BookOpen, Lock, Flame, ArrowRight } from 'lucide-react';
 import { useScrollSnapDelay } from '../hooks/useScrollSnapDelay';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,7 +50,7 @@ export default function ProductsPage() {
     <div ref={containerRef} className="min-h-screen w-full overflow-x-hidden">
       {/* Etheria — Full Page */}
       <section ref={etheriaRef} data-snap-section className="relative min-h-screen w-full flex items-center overflow-hidden">
-        <video src="./etheria-hero-video.mp4" autoPlay loop muted playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover" />
+        <LazyVideo hero src="./etheria-hero-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/30" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0b]/60 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b]/50 via-transparent to-[#0a0a0b]/30" />
@@ -75,7 +76,7 @@ export default function ProductsPage() {
 
       {/* Arcanum Liberatus — Full Page */}
       <section ref={arcanumRef} data-snap-section className="relative min-h-screen w-full flex items-center overflow-hidden">
-        <video src="./arcanum-video.mp4" autoPlay loop muted playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover" />
+        <LazyVideo lowPriority src="./arcanum-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/30" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0a0a0b]/60 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b]/50 via-transparent to-[#0a0a0b]/30" />
@@ -102,7 +103,7 @@ export default function ProductsPage() {
 
       {/* Mastering the Cards — Full Page */}
       <section ref={masteringRef} data-snap-section className="relative min-h-screen w-full flex items-center overflow-hidden">
-        <video src="./mastering-video.mp4" autoPlay loop muted playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover" />
+        <LazyVideo lowPriority src="./mastering-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/20" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0b]/60 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b]/50 via-transparent to-[#0a0a0b]/30" />
@@ -129,7 +130,7 @@ export default function ProductsPage() {
 
       {/* Dead Speak — Full Page */}
       <section ref={deadspeakRef} data-snap-section className="relative min-h-screen w-full flex items-center overflow-hidden">
-        <video src="./deadspeak-video.mp4" autoPlay loop muted playsInline preload="auto" className="absolute inset-0 w-full h-full object-cover" />
+        <LazyVideo lowPriority src="./deadspeak-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/20" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0a0a0b]/60 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b]/50 via-transparent to-[#0a0a0b]/30" />

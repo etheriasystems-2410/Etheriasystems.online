@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sparkles, Target, Lightbulb } from 'lucide-react';
 import AntiqueMirrorFrame from '../components/AntiqueMirrorFrame';
 import { Link } from 'react-router-dom';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,13 +44,12 @@ export default function AboutPage() {
   return (
     <div className="relative min-h-screen">
       {/* ═════ FIXED FULL-PAGE VIDEO BACKGROUND ═════ */}
-      <video
-        autoPlay muted loop playsInline preload="auto"
+      <LazyVideo
+        hero
+        src="./about-hero-video.mp4"
         className="fixed inset-0 w-full h-full object-cover z-0"
         style={{ filter: 'brightness(0.5)' }}
-      >
-        <source src="./about-hero-video.mp4" type="video/mp4" />
-      </video>
+      />
 
       {/* Portal overlay */}
       <div className="fixed inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black/55 z-0 pointer-events-none" />

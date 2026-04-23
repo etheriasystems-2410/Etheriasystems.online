@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Sparkles, Brain, BookOpen, MessageSquare, Eye } from 'lucide-react';
 import { useVisitorCounter } from '../hooks/useVisitorCounter';
+import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,8 +89,8 @@ export default function HomePage() {
   return (
     <div className="relative min-h-screen">
       {/* ═════ FIXED FULL-PAGE VIDEO BACKGROUND ═════ */}
-      <video
-        autoPlay muted loop playsInline preload="auto"
+      <LazyVideo
+        hero
         src="home-hero-video.mp4"
         className="fixed inset-0 w-full h-full object-cover z-0"
         style={{ filter: 'brightness(0.55)' }}
@@ -178,9 +179,8 @@ export default function HomePage() {
                     {/* Video/Image */}
                     <div className="aspect-video overflow-hidden flex-shrink-0">
                       {product.video ? (
-                        <video
+                        <LazyVideo
                           src={product.video}
-                          autoPlay loop muted preload="auto" playsInline
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       ) : (
