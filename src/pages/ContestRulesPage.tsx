@@ -1,9 +1,9 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import {
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
+import {
   Trophy, Mail, CheckCircle, AlertTriangle, Sparkles, Gift,
   Calendar, Shuffle, Ticket, RotateCcw
 } from 'lucide-react';
