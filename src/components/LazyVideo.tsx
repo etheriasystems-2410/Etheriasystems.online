@@ -85,8 +85,6 @@ export default function LazyVideo({
       poster={poster}
       className={className}
       style={style}
-      fetchPriority={hero ? 'high' : 'auto'}
-      decoding="async"
       src={shouldLoad ? src : undefined}
     />
   );
