@@ -194,14 +194,9 @@ const ProductSection: React.FC = () => {
           ref={ctaRef}
           className="text-center mb-20"
         >
-          <a
-            href="https://expo.dev/artifacts/eas/oWvAhtgnpYWWSw9NraWkNa.apk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary inline-block"
-          >
+          <button className="btn-primary">
             Download the App
-          </a>
+          </button>
           <p className="text-muted-foreground text-xs tracking-wider font-inter mt-4">
             Available on Android
           </p>
