@@ -82,8 +82,11 @@ export default function CreditsPage() {
                     <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Background Music</h3>
                   </div>
                   <div className="text-center space-y-2">
-                    <p className="text-[#d0d0d0] text-sm"><span className="font-cinzel text-[#c9a227]">&quot;Shattered Glass&quot;</span> by <span className="text-[#f5f5f5]">Cjbeards</span></p>
-                    <p className="text-[#a0a0b8] text-xs">Free download:{" "}<a href="https://breakingcopyright.com/song/cjbeards-shattered-glass" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">breakingcopyright.com</a></p>
+                    <p className="text-[#d0d0d0] text-sm"><span className="font-cinzel text-[#c9a227]">&quot;The Long Dark&quot;</span> by <span className="text-[#f5f5f5]">Scott Buckley</span></p>
+                    <p className="text-[#a0a0b8] text-xs"><a href="https://soundcloud.com/scottbuckley" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">soundcloud.com/scottbuckley</a></p>
+                    <p className="text-[#a0a0b8] text-xs">Royalty Free Music by <a href="https://www.free-stock-music.com" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">free-stock-music.com</a></p>
+                    <p className="text-[#a0a0b8] text-xs">Creative Commons / Attribution 4.0 International (CC BY 4.0)</p>
+                    <p className="text-[#a0a0b8] text-xs"><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">creativecommons.org/licenses/by/4.0</a></p>
                   </div>
                 </GlassCard>
 
