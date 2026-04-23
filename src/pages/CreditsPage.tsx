@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Music, Image, Clapperboard, Mic, Code, HardDrive, Globe, AtSign, Mail, Terminal } from 'lucide-react';
+import { Music, Image, Clapperboard, Mic, Code, HardDrive, Globe, AtSign, Mail, Terminal, Star, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
 
@@ -87,6 +87,26 @@ export default function CreditsPage() {
                     <p className="text-[#a0a0b8] text-xs">Royalty Free Music by <a href="https://www.free-stock-music.com" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">free-stock-music.com</a></p>
                     <p className="text-[#a0a0b8] text-xs">Creative Commons / Attribution 4.0 International (CC BY 4.0)</p>
                     <p className="text-[#a0a0b8] text-xs"><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">creativecommons.org/licenses/by/4.0</a></p>
+                  </div>
+                </GlassCard>
+
+                <GlassCard className="p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-3 justify-center">
+                    <Star className="w-5 h-5 text-[#c9a227]" />
+                    <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Spiritual Advisors</h3>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <p className="text-[#d0d0d0] text-sm">J.L.</p>
+                  </div>
+                </GlassCard>
+
+                <GlassCard className="p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-3 justify-center">
+                    <BookOpen className="w-5 h-5 text-[#c9a227]" />
+                    <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Spiritual Texts</h3>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <p className="text-[#d0d0d0] text-sm">Keys of Solomon</p>
                   </div>
                 </GlassCard>
 
