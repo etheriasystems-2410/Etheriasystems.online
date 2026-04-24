@@ -59,7 +59,6 @@ export default function AboutPage() {
         {/* ── Hero ── */}
         <section className="min-h-[75vh] flex items-center justify-center px-6 pt-24">
           <div className="text-center max-w-4xl mx-auto">
-            <Sparkles className="w-16 h-16 text-[#c9a227] mx-auto mb-6 drop-shadow-[0_0_20px_rgba(201,162,39,0.4)]" />
             <h1
               ref={heroTitleRef}
               className="font-cinzel text-5xl md:text-6xl mb-6 text-[#f5f5f5] drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)]"
