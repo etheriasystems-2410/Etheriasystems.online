@@ -19,7 +19,6 @@ export default function EtheriaPage() {
         <div className="absolute inset-0 bg-[#0a0a0b]/30" />
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
           <div className="text-center px-4 sm:px-8 max-w-4xl mx-auto">
-            <Sparkles className="w-16 h-16 sm:w-24 sm:h-24 text-[#c9a227] mx-auto mb-6 sm:mb-8" />
             <h1 className="font-cinzel text-5xl sm:text-7xl md:text-8xl mb-4 sm:mb-6 text-[#f5f5f5] tracking-wider drop-shadow-lg">Etheria</h1>
             <p className="text-lg sm:text-2xl text-[#a3a3a3] max-w-2xl mx-auto font-light italic mb-6 sm:mb-8 px-4 drop-shadow-md">"Where the veil between worlds grows thin..."</p>
             <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mb-6 sm:mb-8" />
