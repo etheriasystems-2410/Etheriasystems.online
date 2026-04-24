@@ -106,7 +106,7 @@ export default function CreditsPage() {
                     <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Spiritual Texts</h3>
                   </div>
                   <div className="text-center space-y-2">
-                    <p className="text-[#d0d0d0] text-sm">Keys of Solomon</p>
+                    <p className="text-[#d0d0d0] text-sm">Keys of Solomon - attributed to King Solomon</p>
                     <p className="text-[#d0d0d0] text-sm">Three Books of Occult Philosophy (De Occulta Philosophia libri III) - Heinrich Cornelius Agrippa</p>
                     <p className="text-[#d0d0d0] text-sm">The Book of the Sacred Magic of Abramelin the Mage - Samuel Liddell MacGregor Mathers</p>
                     <p className="text-[#d0d0d0] text-sm">Encyclopedia of Spirits - Judika Illes</p>
