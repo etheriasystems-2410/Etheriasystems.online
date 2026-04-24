@@ -79,7 +79,6 @@ export default function QuantumAIPage() {
         <section className="py-10 px-6" ref={bannerRef}>
           <div className="max-w-4xl mx-auto">
             <GlassCard className="p-8 sm:p-10 border-[#c9a227]/20">
-              <Sparkles className="w-10 h-10 sm:w-12 sm:h-12 text-[#c9a227] mx-auto mb-4 sm:mb-6" />
               <h2 className="font-cinzel text-2xl sm:text-3xl mb-4 text-[#f5f5f5] text-center">
                 Included in Every App
               </h2>
