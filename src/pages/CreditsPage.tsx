@@ -113,6 +113,11 @@ export default function CreditsPage() {
                     <p className="text-[#d0d0d0] text-sm">The New Encyclopedia of the Occult - John Michael Greer</p>
                     <p className="text-[#d0d0d0] text-sm">An Evaluation of the Remote Viewing Program - CIA.gov</p>
                     <p className="text-[#d0d0d0] text-sm">Star Gate Project: An Overview - CIA.gov</p>
+                    <p className="text-[#d0d0d0] text-sm">The Picatrix - Unknown</p>
+                    <p className="text-[#d0d0d0] text-sm">The Grimorium Verum - Unknown</p>
+                    <p className="text-[#d0d0d0] text-sm">Corpus Hermeticum - Unknown</p>
+                    <p className="text-[#d0d0d0] text-sm">Egyptian Books of the Dead - Unknown</p>
+                    <p className="text-[#d0d0d0] text-sm">Malleus Maleficarum - Unknown</p>
                   </div>
                 </GlassCard>
 
