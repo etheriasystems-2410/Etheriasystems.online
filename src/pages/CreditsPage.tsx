@@ -22,6 +22,11 @@ const spiritualTexts = [
   'Malleus Maleficarum - Unknown',
 ];
 
+const betaTesters = [
+  'J.L.',
+  'N.D.',
+];
+
 const GlassCard = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
   <div className={`backdrop-blur-md bg-black/45 border border-white/10 rounded-2xl ${className}`}>
     {children}
@@ -225,6 +230,18 @@ export default function CreditsPage() {
             <div className="flex-1 md:pl-8" ref={rightRef}>
               <h2 className="font-cinzel text-xl sm:text-2xl text-[#c9a227] text-center tracking-wider mb-6 border-b border-[#c9a227]/20 pb-3 md:border-b-0 md:pb-0">Mobile Applications</h2>
               <div className="flex flex-col gap-4">
+
+                <GlassCard className="p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-3 justify-center">
+                    <Star className="w-5 h-5 text-[#c9a227]" />
+                    <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Thank You to Etheria&apos;s Beta Testers!</h3>
+                  </div>
+                  <div className="text-center space-y-2">
+                    {betaTesters.map((name, idx) => (
+                      <p key={name} className="text-[#d0d0d0] text-sm"><span className="text-[#c9a227] font-cinzel mr-2">{idx + 1}.</span>{name}</p>
+                    ))}
+                  </div>
+                </GlassCard>
 
                 <GlassCard className="p-5 sm:p-6">
                   <div className="flex items-center gap-3 mb-3 justify-center">
