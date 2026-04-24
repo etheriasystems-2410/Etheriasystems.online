@@ -107,6 +107,12 @@ export default function CreditsPage() {
                   </div>
                   <div className="text-center space-y-2">
                     <p className="text-[#d0d0d0] text-sm">Keys of Solomon</p>
+                    <p className="text-[#d0d0d0] text-sm">Three Books of Occult Philosophy (De Occulta Philosophia libri III) - Heinrich Cornelius Agrippa</p>
+                    <p className="text-[#d0d0d0] text-sm">The Book of the Sacred Magic of Abramelin the Mage - Samuel Liddell MacGregor Mathers</p>
+                    <p className="text-[#d0d0d0] text-sm">Encyclopedia of Spirits - Judika Illes</p>
+                    <p className="text-[#d0d0d0] text-sm">The New Encyclopedia of the Occult - John Michael Greer</p>
+                    <p className="text-[#d0d0d0] text-sm">An Evaluation of the Remote Viewing Program - CIA.gov</p>
+                    <p className="text-[#d0d0d0] text-sm">Star Gate Project: An Overview - CIA.gov</p>
                   </div>
                 </GlassCard>
 
