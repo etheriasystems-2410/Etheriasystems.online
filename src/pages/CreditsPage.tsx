@@ -7,7 +7,20 @@ import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const GlassCard = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+const spiritualTexts = [
+  'Keys of Solomon - attributed to King Solomon',
+  'Three Books of Occult Philosophy (De Occulta Philosophia libri III) - Heinrich Cornelius Agrippa',
+  'The Book of the Sacred Magic of Abramelin the Mage - Samuel Liddell MacGregor Mathers',
+  'Encyclopedia of Spirits - Judika Illes',
+  'The New Encyclopedia of the Occult - John Michael Greer',
+  'An Evaluation of the Remote Viewing Program - CIA.gov',
+  'Star Gate Project: An Overview - CIA.gov',
+  'The Picatrix - Unknown',
+  'The Grimorium Verum - Unknown',
+  'Corpus Hermeticum - Unknown',
+  'Egyptian Books of the Dead - Unknown',
+  'Malleus Maleficarum - Unknown',
+]; = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
   <div className={`backdrop-blur-md bg-black/45 border border-white/10 rounded-2xl ${className}`}>
     {children}
   </div>
@@ -106,18 +119,9 @@ export default function CreditsPage() {
                     <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Spiritual Texts</h3>
                   </div>
                   <div className="text-center space-y-2">
-                    <p className="text-[#d0d0d0] text-sm">Keys of Solomon - attributed to King Solomon</p>
-                    <p className="text-[#d0d0d0] text-sm">Three Books of Occult Philosophy (De Occulta Philosophia libri III) - Heinrich Cornelius Agrippa</p>
-                    <p className="text-[#d0d0d0] text-sm">The Book of the Sacred Magic of Abramelin the Mage - Samuel Liddell MacGregor Mathers</p>
-                    <p className="text-[#d0d0d0] text-sm">Encyclopedia of Spirits - Judika Illes</p>
-                    <p className="text-[#d0d0d0] text-sm">The New Encyclopedia of the Occult - John Michael Greer</p>
-                    <p className="text-[#d0d0d0] text-sm">An Evaluation of the Remote Viewing Program - CIA.gov</p>
-                    <p className="text-[#d0d0d0] text-sm">Star Gate Project: An Overview - CIA.gov</p>
-                    <p className="text-[#d0d0d0] text-sm">The Picatrix - Unknown</p>
-                    <p className="text-[#d0d0d0] text-sm">The Grimorium Verum - Unknown</p>
-                    <p className="text-[#d0d0d0] text-sm">Corpus Hermeticum - Unknown</p>
-                    <p className="text-[#d0d0d0] text-sm">Egyptian Books of the Dead - Unknown</p>
-                    <p className="text-[#d0d0d0] text-sm">Malleus Maleficarum - Unknown</p>
+                    {spiritualTexts.map((text) => (
+                      <p key={text} className="text-[#d0d0d0] text-sm">{text}</p>
+                    ))}
                   </div>
                 </GlassCard>
 
@@ -261,6 +265,18 @@ export default function CreditsPage() {
                   <div className="flex flex-col items-center gap-2">
                     <a href="https://elevenlabs.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ElevenLabs</a>
                     <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Google Gemini</a>
+                  </div>
+                </GlassCard>
+
+                <GlassCard className="p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-3 justify-center">
+                    <BookOpen className="w-5 h-5 text-[#c9a227]" />
+                    <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Spiritual Texts</h3>
+                  </div>
+                  <div className="text-center space-y-2">
+                    {spiritualTexts.map((text) => (
+                      <p key={text} className="text-[#d0d0d0] text-sm">{text}</p>
+                    ))}
                   </div>
                 </GlassCard>
 
