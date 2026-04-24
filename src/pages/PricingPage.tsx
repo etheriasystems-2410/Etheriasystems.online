@@ -107,7 +107,6 @@ export default function PricingPage() {
       {/* Our Promise */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0a0a0b]">
         <div className="max-w-4xl mx-auto text-center">
-          <Sparkles className="w-12 h-12 sm:w-16 sm:h-16 text-[#c9a227] mx-auto mb-6 sm:mb-8" />
           <h2 className="font-cinzel text-3xl sm:text-4xl mb-6 text-[#f5f5f5]">Our Sacred Promise</h2>
           <div className="p-6 sm:p-8 border border-[#c9a227]/30 rounded-2xl bg-[rgba(201,162,39,0.05)]">
             <p className="text-xl sm:text-2xl text-[#c9a227] font-cinzel mb-4">
