@@ -60,11 +60,11 @@ export default function CreditsPage() {
 
         <section className="py-8 px-6 pb-24">
           {/* Floating jump-to buttons (mobile only) */}
-          <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-center gap-3 px-4">
-            <button onClick={scrollToLeft} className="flex-1 max-w-[180px] px-4 py-3 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-xs tracking-wider rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(201,162,39,0.3)] active:bg-[#c9a227]/20 active:scale-95 transition-all">
+          <div className="md:hidden fixed bottom-4 left-0 right-0 z-50 flex justify-center gap-2 px-4">
+            <button onClick={scrollToLeft} className="flex-1 max-w-[140px] px-2 py-1.5 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-[10px] tracking-wider rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_15px_rgba(201,162,39,0.2)] active:bg-[#c9a227]/20 active:scale-95 transition-all">
               Jump to etheriasystems.online
             </button>
-            <button onClick={scrollToMobile} className="flex-1 max-w-[180px] px-4 py-3 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-xs tracking-wider rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_20px_rgba(201,162,39,0.3)] active:bg-[#c9a227]/20 active:scale-95 transition-all">
+            <button onClick={scrollToMobile} className="flex-1 max-w-[140px] px-2 py-1.5 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-[10px] tracking-wider rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_15px_rgba(201,162,39,0.2)] active:bg-[#c9a227]/20 active:scale-95 transition-all">
               Jump to Mobile Applications
             </button>
           </div>
