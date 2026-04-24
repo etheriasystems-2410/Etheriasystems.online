@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, Target, Lightbulb } from 'lucide-react';
+import { Target, Lightbulb } from 'lucide-react';
 import AntiqueMirrorFrame from '../components/AntiqueMirrorFrame';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
