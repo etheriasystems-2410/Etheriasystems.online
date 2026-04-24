@@ -12,7 +12,6 @@ export default function ArcanumPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/30 via-[#0a0a0b]/50 to-[#0a0a0b]" />
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
           <div className="text-center px-4 sm:px-8 max-w-4xl mx-auto">
-            <BookOpen className="w-16 h-16 sm:w-24 sm:h-24 text-[#c9a227] mx-auto mb-6 sm:mb-8" />
             <h1 className="font-cinzel text-4xl sm:text-6xl md:text-7xl mb-4 sm:mb-6 text-[#f5f5f5] tracking-wider">Arcanum Liberatus</h1>
             <p className="text-lg sm:text-2xl text-[#a3a3a3] max-w-2xl mx-auto font-light italic mb-8 sm:mb-12 px-4">"Knowledge that has been hidden shall be revealed..."</p>
             <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mb-8 sm:mb-16" />
