@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Music, Image, Clapperboard, Mic, Code, HardDrive, Globe, AtSign, Mail, Terminal, Star, BookOpen } from 'lucide-react';
+import { Music, Image, Clapperboard, Mic, Code, HardDrive, Globe, AtSign, Mail, Terminal, Star, BookOpen, Atom } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
 
@@ -107,6 +107,16 @@ export default function CreditsPage() {
                   </div>
                   <div className="text-center space-y-2">
                     <p className="text-[#d0d0d0] text-sm">Keys of Solomon</p>
+                  </div>
+                </GlassCard>
+
+                <GlassCard className="p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-3 justify-center">
+                    <Atom className="w-5 h-5 text-[#c9a227]" />
+                    <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Astrological Calculations</h3>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <p className="text-[#d0d0d0] text-sm">Swiss Ephemeris</p>
                   </div>
                 </GlassCard>
 
