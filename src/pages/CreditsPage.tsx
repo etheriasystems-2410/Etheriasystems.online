@@ -20,7 +20,9 @@ const spiritualTexts = [
   'Corpus Hermeticum - Unknown',
   'Egyptian Books of the Dead - Unknown',
   'Malleus Maleficarum - Unknown',
-]; = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+];
+
+const GlassCard = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
   <div className={`backdrop-blur-md bg-black/45 border border-white/10 rounded-2xl ${className}`}>
     {children}
   </div>
