@@ -1,10 +1,14 @@
-import { useRef } from 'react';
-import { Sparkles, Eye, Compass, MessageCircle, Zap, ExternalLink, Download, Mail, Bug, Gift, ChevronDown } from 'lucide-react';
+import { useRef, useEffect } from 'react';
+import { Sparkles, Eye, Compass, MessageCircle, Zap, ExternalLink, Download, Mail, Bug, Gift, ChevronDown, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
 
 export default function EtheriaPage() {
   const betaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, window.innerHeight);
+  }, []);
 
   const scrollToBeta = () => {
     betaRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -44,6 +48,15 @@ export default function EtheriaPage() {
 
       {/* Spacer so content starts below the fold */}
       <div className="h-screen" />
+
+      {/* Scroll up hint */}
+      <div className="relative z-10 flex justify-center pt-2">
+        <span className="text-[#a3a3a3]/30 text-[10px] tracking-widest font-cinzel flex items-center gap-1 select-none pointer-events-none">
+          <ChevronUp className="w-3 h-3" />
+          SCROLL UP
+          <ChevronUp className="w-3 h-3" />
+        </span>
+      </div>
 
       {/* Scrollable Content — opaque bg so hero peeks through at edges */}
       <div className="relative z-10">

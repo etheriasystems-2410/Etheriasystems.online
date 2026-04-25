@@ -1,8 +1,13 @@
-import { MessageSquare, Heart, Flame, Users, Sparkles } from 'lucide-react';
+import { useEffect } from 'react';
+import { MessageSquare, Heart, Flame, Users, Sparkles, ChevronUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
 
 export default function DeadSpeakPage() {
+  useEffect(() => {
+    window.scrollTo(0, window.innerHeight);
+  }, []);
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       {/* Fixed Hero — Always visible in background */}
@@ -22,6 +27,15 @@ export default function DeadSpeakPage() {
 
       {/* Spacer so content starts below the fold */}
       <div className="h-screen" />
+
+      {/* Scroll up hint */}
+      <div className="relative z-10 flex justify-center pt-2">
+        <span className="text-[#a3a3a3]/30 text-[10px] tracking-widest font-cinzel flex items-center gap-1 select-none pointer-events-none">
+          <ChevronUp className="w-3 h-3" />
+          SCROLL UP
+          <ChevronUp className="w-3 h-3" />
+        </span>
+      </div>
 
       {/* Scrollable Content */}
       <div className="relative z-10">

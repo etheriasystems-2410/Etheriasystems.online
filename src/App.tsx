@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
+import ScrollToTop from './components/ScrollToTop';
 import BackgroundMusic from './components/BackgroundMusic';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -20,6 +21,7 @@ import CreditsPage from './pages/CreditsPage';
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-[#0a0a0b] text-[#f5f5f5]">
         <Navigation />
         <main>
