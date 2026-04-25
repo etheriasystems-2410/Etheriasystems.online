@@ -1,8 +1,8 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, BookOpen, Lock, Flame, ArrowRight } from 'lucide-react';
+import { Sparkles, BookOpen, Lock, Flame, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { useScrollSnapDelay } from '../hooks/useScrollSnapDelay';
 import LazyVideo from '../components/LazyVideo';
 
@@ -15,6 +15,15 @@ export default function ProductsPage() {
   const masteringRef = useRef<HTMLDivElement>(null);
   const deadspeakRef = useRef<HTMLDivElement>(null);
   const comingSoonRef = useRef<HTMLDivElement>(null);
+
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({
+    etheria: false,
+    arcanum: false,
+    mastering: false,
+    deadspeak: false,
+  });
+
+  const toggle = (key: string) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,7 +70,14 @@ export default function ProductsPage() {
                 <span className="text-[#c9a227] p-3 bg-[rgba(201,162,39,0.15)] rounded-lg backdrop-blur-sm"><Sparkles className="w-8 h-8" /></span>
                 <h2 className="font-cinzel text-4xl sm:text-5xl text-[#f5f5f5] drop-shadow-lg">Etheria</h2>
               </div>
-              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Quantum AI powered meditation and psychic awareness study tool. Includes meditation techniques of all types: Timed meditation with ambient sounds, Chakra Alignment Meditations, and more. Also includes study tools and hands-on practical classes which help evolve your psychic gifts with the belief that all have the ability to see beyond the mundane with practice.</p>
+              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
+                {expanded.etheria
+                  ? "Quantum AI powered meditation and psychic awareness study tool. Includes meditation techniques of all types: Timed meditation with ambient sounds, Chakra Alignment Meditations, and more. Also includes study tools and hands-on practical classes which help evolve your psychic gifts with the belief that all have the ability to see beyond the mundane with practice."
+                  : "Quantum AI powered meditation and psychic awareness study tool. Includes meditation techniques of all types..."}
+              </p>
+              <button onClick={() => toggle('etheria')} className="mb-6 text-[#c9a227] text-sm font-cinzel tracking-wider flex items-center gap-1 hover:text-[#f5f5f5] transition-colors cursor-pointer">
+                {expanded.etheria ? <>Show Less <ChevronUp className="w-4 h-4" /></> : <>Read More <ChevronDown className="w-4 h-4" /></>}
+              </button>
               <div className="flex flex-wrap gap-3 mb-8">
                 {['AI Divination', 'Spiritual Guidance', 'Personal Readings'].map((f, i) => (
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
@@ -88,7 +104,14 @@ export default function ProductsPage() {
                 <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Arcanum Liberatus</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
-              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimoire's name.</p>
+              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
+                {expanded.arcanum
+                  ? "Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimoire's name."
+                  : "Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology..."}
+              </p>
+              <button onClick={() => toggle('arcanum')} className="mb-6 text-[#c9a227] text-sm font-cinzel tracking-wider flex items-center gap-1 hover:text-[#f5f5f5] transition-colors cursor-pointer">
+                {expanded.arcanum ? <>Show Less <ChevronUp className="w-4 h-4" /></> : <>Read More <ChevronDown className="w-4 h-4" /></>}
+              </button>
               <div className="flex flex-wrap gap-3 mb-8">
                 {['Mystical Knowledge', 'Arcane Library', 'Secret Wisdom'].map((f, i) => (
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
@@ -115,7 +138,14 @@ export default function ProductsPage() {
                 <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Mastering the Cards</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
-              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moment's notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today.</p>
+              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
+                {expanded.mastering
+                  ? "Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moment's notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today."
+                  : "Become a professional in the art of reading tarot. Learn all 84 cards inside and out..."}
+              </p>
+              <button onClick={() => toggle('mastering')} className="mb-6 text-[#c9a227] text-sm font-cinzel tracking-wider flex items-center gap-1 hover:text-[#f5f5f5] transition-colors cursor-pointer">
+                {expanded.mastering ? <>Show Less <ChevronUp className="w-4 h-4" /></> : <>Read More <ChevronDown className="w-4 h-4" /></>}
+              </button>
               <div className="flex flex-wrap gap-3 mb-8">
                 {['Tarot Learning', 'Card Meanings', 'Practice Readings'].map((f, i) => (
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
@@ -142,7 +172,14 @@ export default function ProductsPage() {
                 <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Dead Speak</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
-              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Comprehensive tool and spiritualism study guide which describes the beliefs of spiritualists and offers hands on training in the art of communicating with those who have departed and now exist beyond the veil.</p>
+              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
+                {expanded.deadspeak
+                  ? "Comprehensive tool and spiritualism study guide which describes the beliefs of spiritualists and offers hands on training in the art of communicating with those who have departed and now exist beyond the veil."
+                  : "Comprehensive tool and spiritualism study guide which describes the beliefs of spiritualists..."}
+              </p>
+              <button onClick={() => toggle('deadspeak')} className="mb-6 text-[#c9a227] text-sm font-cinzel tracking-wider flex items-center gap-1 hover:text-[#f5f5f5] transition-colors cursor-pointer">
+                {expanded.deadspeak ? <>Show Less <ChevronUp className="w-4 h-4" /></> : <>Read More <ChevronDown className="w-4 h-4" /></>}
+              </button>
               <div className="flex flex-wrap gap-3 mb-8">
                 {['Ancestral Connection', 'Guided Sessions', 'Sacred Space'].map((f, i) => (
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
