@@ -88,7 +88,7 @@ export default function ProductsPage() {
                 <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Arcanum Liberatus</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
-              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Powered by Quantum AI, this mobile grimorie blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimorie's name.</p>
+              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimoire's name.</p>
               <div className="flex flex-wrap gap-3 mb-8">
                 {['Mystical Knowledge', 'Arcane Library', 'Secret Wisdom'].map((f, i) => (
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
@@ -115,7 +115,7 @@ export default function ProductsPage() {
                 <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Mastering the Cards</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
-              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moments notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today.</p>
+              <p className="text-[#d4d4d4] text-lg leading-relaxed mb-6 drop-shadow-md">Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moment's notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today.</p>
               <div className="flex flex-wrap gap-3 mb-8">
                 {['Tarot Learning', 'Card Meanings', 'Practice Readings'].map((f, i) => (
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
@@ -160,7 +160,7 @@ export default function ProductsPage() {
         <div className="max-w-2xl mx-auto text-center">
           <img src="/coming-soon-placeholder.jpg" alt="Coming Soon" className="w-24 h-24 mx-auto mb-6 rounded-full object-cover opacity-70" />
           <h2 className="font-cinzel text-3xl text-center mb-4 text-[#f5f5f5]">More Coming Soon</h2>
-          <p className="text-[#737373] max-w-lg mx-auto">Were constantly developing new tools to bridge ancient wisdom with modern technology. Stay tuned for upcoming releases.</p>
+          <p className="text-[#737373] max-w-lg mx-auto">We're constantly developing new tools to bridge ancient wisdom with modern technology. Stay tuned for upcoming releases.</p>
 
         {/* Footer */}
         <footer className="relative z-10 py-10 px-6 border-t border-white/10 bg-black/60 backdrop-blur-md">
@@ -184,3 +184,4 @@ export default function ProductsPage() {
     </div>
   );
 }
+

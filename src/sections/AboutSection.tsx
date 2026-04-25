@@ -205,7 +205,7 @@ const AboutSection: React.FC = () => {
                 About the Creator
               </p>
               <p className="text-foreground/70 font-inter text-sm leading-relaxed mb-4">
-                As Founder, CEO, CFO, Marketing Manager, and sole developer, it has always been R. Williams's motto to not simply "Reach for the Stars", but to pass them and reach the edge of the universe and beyond. His ambition is the driving steam behind the products we provide to help those who are seeking their own knowledge of those who wish to continue on their personal path to enlightenment. We are not a religious company, but you will here talk of religious figures and spirits in the form of the esoteric, mystical, and magical.
+                As Founder, CEO, CFO, Marketing Manager, and sole developer, it has always been R. Williams's motto to not simply "Reach for the Stars", but to pass them and reach the edge of the universe and beyond. His ambition is the driving force behind the products we provide to help those who are seeking their own knowledge of those who wish to continue on their personal path to enlightenment. We are not a religious company, but you will hear talk of religious figures and spirits in the form of the esoteric, mystical, and magical.
               </p>
               <p className="text-foreground/70 font-inter text-sm leading-relaxed mb-4">
                 After all, depending on what mysteries and histories you subscribe to, King Solomon was a powerful magician who controlled legions of demonic forces and forced them to build his palace. Look it up....

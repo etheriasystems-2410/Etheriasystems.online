@@ -8,18 +8,18 @@ import LazyVideo from '../components/LazyVideo';
 gsap.registerPlugin(ScrollTrigger);
 
 const spiritualTexts = [
-  'Keys of Solomon - attributed to King Solomon',
-  'Three Books of Occult Philosophy (De Occulta Philosophia libri III) - Heinrich Cornelius Agrippa',
-  'The Book of the Sacred Magic of Abramelin the Mage - Samuel Liddell MacGregor Mathers',
-  'Encyclopedia of Spirits - Judika Illes',
-  'The New Encyclopedia of the Occult - John Michael Greer',
-  'An Evaluation of the Remote Viewing Program - CIA.gov',
-  'Star Gate Project: An Overview - CIA.gov',
-  'The Picatrix - Unknown',
-  'The Grimorium Verum - Unknown',
-  'Corpus Hermeticum - Unknown',
-  'Egyptian Books of the Dead - Unknown',
-  'Malleus Maleficarum - Unknown',
+  { title: 'Keys of Solomon', author: 'attributed to King Solomon' },
+  { title: 'Three Books of Occult Philosophy (De Occulta Philosophia libri III)', author: 'Heinrich Cornelius Agrippa' },
+  { title: 'The Book of the Sacred Magic of Abramelin the Mage', author: 'Samuel Liddell MacGregor Mathers' },
+  { title: 'Encyclopedia of Spirits', author: 'Judika Illes' },
+  { title: 'The New Encyclopedia of the Occult', author: 'John Michael Greer' },
+  { title: 'An Evaluation of the Remote Viewing Program', author: 'CIA.gov' },
+  { title: 'Star Gate Project: An Overview', author: 'CIA.gov' },
+  { title: 'The Picatrix', author: 'Unknown' },
+  { title: 'The Grimorium Verum', author: 'Unknown' },
+  { title: 'Corpus Hermeticum', author: 'Unknown' },
+  { title: 'Egyptian Books of the Dead', author: 'Unknown' },
+  { title: 'Malleus Maleficarum', author: 'Unknown' },
 ];
 
 const betaTesters = [
@@ -128,7 +128,7 @@ export default function CreditsPage() {
                   </div>
                   <div className="text-center space-y-2">
                     {spiritualTexts.map((text) => (
-                      <p key={text} className="text-[#d0d0d0] text-sm">{text}</p>
+                      <p key={text.title} className="text-[#d0d0d0] text-sm">{text.title} <span className="italic text-[#a0a0b8]">- {text.author}</span></p>
                     ))}
                   </div>
                 </GlassCard>
@@ -151,7 +151,7 @@ export default function CreditsPage() {
                   <div className="flex flex-col items-center gap-2">
                     <a href="https://www.shutterstock.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Shutterstock</a>
                     <a href="https://craynola.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Craynola.com</a>
-                    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGBT</a>
+                    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGPT</a>
                   </div>
                 </GlassCard>
 
@@ -212,7 +212,7 @@ export default function CreditsPage() {
                   </div>
                   <div className="flex flex-col items-center gap-2">
                     <a href="https://kimi.ai" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Kimi</a>
-                    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGBT</a>
+                    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGPT</a>
                   </div>
                 </GlassCard>
 
@@ -263,7 +263,7 @@ export default function CreditsPage() {
                   <div className="flex flex-col items-center gap-2">
                     <a href="https://www.shutterstock.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Shutterstock</a>
                     <a href="https://craynola.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Craynola.com</a>
-                    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGBT</a>
+                    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGPT</a>
                   </div>
                 </GlassCard>
 
@@ -295,7 +295,7 @@ export default function CreditsPage() {
                   </div>
                   <div className="text-center space-y-2">
                     {spiritualTexts.map((text) => (
-                      <p key={text} className="text-[#d0d0d0] text-sm">{text}</p>
+                      <p key={text.title} className="text-[#d0d0d0] text-sm">{text.title} <span className="italic text-[#a0a0b8]">- {text.author}</span></p>
                     ))}
                   </div>
                 </GlassCard>

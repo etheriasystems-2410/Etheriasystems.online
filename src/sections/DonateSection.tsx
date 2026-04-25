@@ -156,7 +156,7 @@ Date of donation: ${formData.donationDate}`;
           ref={introRef}
           className="text-center text-foreground/80 font-inter text-[clamp(14px,1.1vw,17px)] leading-relaxed max-w-2xl mx-auto mb-12"
         >
-          If you feel compelled, you can also donate to Etheria Systems's GoFundMe to help cover costs if you choose not to purchase an application subscription.
+          If you feel compelled, you can also donate to Etheria Systems' GoFundMe to help cover costs if you choose not to purchase an application subscription.
         </p>
 
         {/* GoFundMe Link */}

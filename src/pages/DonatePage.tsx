@@ -143,7 +143,7 @@ export default function DonatePage() {
                 Donate via GoFundMe
               </h2>
               <p className="text-center text-[#d0d0d0] mb-8 max-w-2xl mx-auto">
-                If you feel compelled, you can donate to Etheria Systems's GoFundMe to help cover costs
+                If you feel compelled, you can donate to Etheria Systems' GoFundMe to help cover costs
                 if you choose not to purchase an application subscription.
               </p>
               <a

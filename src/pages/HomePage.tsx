@@ -29,7 +29,7 @@ export default function HomePage() {
     {
       id: 'arcanum',
       title: 'Arcanum Liberatus',
-      description: 'Powered by Quantum AI, this mobile grimorie blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimorie\'s name.',
+      description: 'Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimoire\'s name.',
       icon: <BookOpen className="w-8 h-8" />,
       image: '/arcanum-product.jpg',
       video: '/arcanum-video.mp4',
@@ -38,7 +38,7 @@ export default function HomePage() {
     {
       id: 'mastering',
       title: 'Mastering the Cards',
-      description: 'Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moments notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today.',
+      description: 'Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moment\'s notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today.',
       icon: <Brain className="w-8 h-8" />,
       image: '/mastering-cards-product.jpg',
       video: './mastering-video.mp4',

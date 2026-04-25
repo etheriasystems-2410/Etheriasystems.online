@@ -39,7 +39,7 @@ export default function ContactPage() {
           <Mail className="w-16 h-16 text-[#c9a227] mx-auto mb-6" />
           <h1 className="font-cinzel text-5xl md:text-6xl mb-6 text-[#f5f5f5]">Contact Us</h1>
           <p className="text-xl text-[#a3a3a3] max-w-2xl mx-auto">
-            Have questions or feedback? Wed love to hear from you.
+            Have questions or feedback? We'd love to hear from you.
           </p>
         </div>
       </section>
