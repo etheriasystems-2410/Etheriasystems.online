@@ -1,0 +1,147 @@
+import React, { useRef, useLayoutEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SpiralGlyph } from '../components/Glyphs';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const JourneySection: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const glyphRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const bodyRef = useRef<HTMLParagraphElement>(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const bg = bgRef.current;
+    const glyph = glyphRef.current;
+    const label = labelRef.current;
+    const headline = headlineRef.current;
+    const body = bodyRef.current;
+
+    if (!section || !bg || !glyph || !label || !headline || !body) return;
+
+    const ctx = gsap.context(() => {
+      const scrollTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: '+=130%',
+          pin: true,
+          scrub: 0.6,
+        }
+      });
+
+      // ENTRANCE (0-30%)
+      scrollTl
+        .fromTo(bg, 
+          { scale: 1.12, opacity: 0.8 }, 
+          { scale: 1, opacity: 1, ease: 'none' }, 
+          0
+        )
+        .fromTo(glyph, 
+          { opacity: 0, rotate: 25, scale: 0.9 }, 
+          { opacity: 1, rotate: 0, scale: 1, ease: 'power2.out' }, 
+          0
+        )
+        .fromTo(label, 
+          { opacity: 0, y: '4vh' }, 
+          { opacity: 1, y: 0, ease: 'power2.out' }, 
+          0.06
+        )
+        .fromTo(headline, 
+          { opacity: 0, y: '7vh' }, 
+          { opacity: 1, y: 0, ease: 'power2.out' }, 
+          0.09
+        )
+        .fromTo(body, 
+          { opacity: 0, y: '5vh' }, 
+          { opacity: 1, y: 0, ease: 'power2.out' }, 
+          0.13
+        );
+
+      // SETTLE (30-70%): Hold positions
+
+      // EXIT (70-100%)
+      scrollTl
+        .to(bg, { scale: 1.05, opacity: 0.4, ease: 'none' }, 0.7)
+        .to(glyph, { opacity: 0, scale: 0.96, ease: 'power2.in' }, 0.7)
+        .to(label, { y: '-8vh', opacity: 0, ease: 'power2.in' }, 0.72)
+        .to(headline, { y: '-10vh', opacity: 0, ease: 'power2.in' }, 0.74)
+        .to(body, { y: '-8vh', opacity: 0, ease: 'power2.in' }, 0.76);
+
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section 
+      ref={sectionRef} 
+      className="section-pinned z-50"
+    >
+      {/* Background Image */}
+      <div 
+        ref={bgRef}
+        className="absolute inset-0 z-[1]"
+        style={{ opacity: 0.8 }}
+      >
+        <img 
+          src="/spiral-cosmic-face.jpg" 
+          alt="Cosmic spiral"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Vignette */}
+      <div className="vignette z-[3]" />
+
+      {/* Orb Glows */}
+      <div className="absolute top-1/4 right-1/3 orb orb-1 z-[4]" />
+      <div className="absolute bottom-1/3 left-1/4 orb orb-2 z-[4]" />
+
+      {/* Content */}
+      <div className="relative z-[5] w-full h-full flex flex-col items-center justify-center px-8">
+        {/* Label */}
+        <span 
+          ref={labelRef}
+          className="mb-4 text-primary/70 font-cinzel text-sm tracking-[0.2em]"
+          style={{ opacity: 0 }}
+        >
+          04 / Return
+        </span>
+
+        {/* Glyph */}
+        <div 
+          ref={glyphRef}
+          className="mb-6 text-foreground/85 spiral-rotate"
+          style={{ opacity: 0 }}
+        >
+          <SpiralGlyph size={100} />
+        </div>
+
+        {/* Headline */}
+        <h2 
+          ref={headlineRef}
+          className="font-cinzel text-[clamp(32px,5vw,56px)] font-semibold tracking-[0.1em] text-foreground text-center"
+          style={{ opacity: 0 }}
+        >
+          JOURNEY
+        </h2>
+
+        {/* Body */}
+        <p 
+          ref={bodyRef}
+          className="mt-6 text-center max-w-[56ch] text-foreground/75 font-inter text-[clamp(13px,1.2vw,17px)] leading-relaxed tracking-wide"
+          style={{ opacity: 0 }}
+        >
+          Development is not linear. Etheria maps a repeating path of insight, practice, and integration—deeper every time.
+        </p>
+      </div>
+    </section>
+  );
+};
+
+export default JourneySection;
