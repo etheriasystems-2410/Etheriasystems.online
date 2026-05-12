@@ -84,7 +84,7 @@ const ProductsLanding: React.FC = () => {
     }
   };
 
-  const scrollToArcanum = () => {
+  const scrollToArcanumCards = () => {
     const element = document.getElementById('tarot-major-arcana');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -184,7 +184,7 @@ const ProductsLanding: React.FC = () => {
 
           {/* Arcanum. - Coming Soon */}
           <button 
-            onClick={scrollToArcanum}
+            onClick={scrollToArcanumCards}
             className="group relative overflow-hidden rounded-sm bg-secondary/30 border border-primary/30 hover:border-primary/60 transition-all duration-300 text-left"
           >
             <div className="aspect-[4/3] overflow-hidden">
