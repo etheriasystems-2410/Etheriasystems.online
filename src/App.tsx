@@ -30,7 +30,7 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/etheria" element={<EtheriaPage />} />
             <Route path="/arcanum-liberatus" element={<ArcanumPage />} />
-            <Route path="/mastering-the-cards" element={<MasteringCardsPage />} />
+            <Route path="/arcanum" element={<MasteringCardsPage />} />
             <Route path="/dead-speak" element={<DeadSpeakPage />} />
             <Route path="/quantum-ai" element={<QuantumAIPage />} />
             <Route path="/about" element={<AboutPage />} />

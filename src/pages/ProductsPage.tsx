@@ -124,7 +124,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Mastering the Cards — Full Page */}
+      {/* Arcanum — Full Page */}
       <section ref={masteringRef} data-snap-section className="relative min-h-screen w-full flex items-center overflow-hidden">
         <LazyVideo lowPriority src="./mastering-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/20" />
@@ -135,7 +135,7 @@ export default function ProductsPage() {
             <div className="p-8 sm:p-10 rounded-2xl bg-[#0a0a0b]/45 border border-[#ffffff]/10 backdrop-blur-md shadow-[0_0_60px_rgba(201,162,39,0.15)]">
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-[#c9a227] p-3 bg-[rgba(201,162,39,0.15)] rounded-lg backdrop-blur-sm"><BookOpen className="w-8 h-8" /></span>
-                <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Mastering the Cards</h2>
+                <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Arcanum</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
               <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
@@ -151,7 +151,7 @@ export default function ProductsPage() {
                   <span key={i} className="px-4 py-2 bg-[rgba(201,162,39,0.2)] text-[#c9a227] rounded-full border border-[rgba(201,162,39,0.4)] text-sm backdrop-blur-sm drop-shadow-sm">{f}</span>
                 ))}
               </div>
-              <Link to="/mastering-the-cards" className="inline-flex items-center gap-3 px-8 py-4 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-lg tracking-wider rounded-lg transition-all duration-300 hover:bg-[#f5f5f5] hover:shadow-[0_0_30px_rgba(201,162,39,0.4)]">Explore Mastering the Cards <ArrowRight className="w-5 h-5" /></Link>
+              <Link to="/arcanum" className="inline-flex items-center gap-3 px-8 py-4 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-lg tracking-wider rounded-lg transition-all duration-300 hover:bg-[#f5f5f5] hover:shadow-[0_0_30px_rgba(201,162,39,0.4)]">Explore Arcanum <ArrowRight className="w-5 h-5" /></Link>
             </div>
           </div>
           <div className="hidden lg:block lg:w-1/2 xl:w-7/12" />

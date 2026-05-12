@@ -37,12 +37,12 @@ export default function HomePage() {
     },
     {
       id: 'mastering',
-      title: 'Mastering the Cards',
+      title: 'Arcanum',
       description: 'Become a professional in the art of reading tarot. Learn all 84 cards inside and out and be able to interpret at a moment\'s notice with this study tool. Study, learn, and perform popular and ancient tarot spreads while also learning about the ancient traditions which became the tarot that we know of today.',
       icon: <Brain className="w-8 h-8" />,
       image: '/mastering-cards-product.jpg',
       video: './mastering-video.mp4',
-      path: '/mastering-the-cards'
+      path: '/arcanum'
     },
     {
       id: 'deadspeak',

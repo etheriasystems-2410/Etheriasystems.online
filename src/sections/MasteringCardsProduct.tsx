@@ -36,7 +36,7 @@ const MasteringCardsProduct: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="mastering-cards" className="relative z-[130] bg-background py-24 md:py-32">
+    <section ref={sectionRef} id="arcanum" className="relative z-[130] bg-background py-24 md:py-32">
       <div className="absolute top-20 right-1/4 orb orb-1 opacity-50" />
       <div className="absolute bottom-40 left-1/3 orb orb-2 opacity-40" />
 
@@ -51,7 +51,7 @@ const MasteringCardsProduct: React.FC = () => {
         </div>
 
         <h2 ref={titleRef} className="font-cinzel text-[clamp(28px,4vw,44px)] font-semibold tracking-[0.08em] text-foreground text-center mb-2">
-          Mastering the Cards
+          Arcanum
         </h2>
 
         <div ref={badgeRef} className="text-center mb-4">

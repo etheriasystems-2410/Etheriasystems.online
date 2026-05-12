@@ -84,7 +84,7 @@ const ProductsLanding: React.FC = () => {
     }
   };
 
-  const scrollToMasteringCards = () => {
+  const scrollToArcanum = () => {
     const element = document.getElementById('tarot-major-arcana');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -182,9 +182,9 @@ const ProductsLanding: React.FC = () => {
             </div>
           </button>
 
-          {/* Mastering the Cards - Coming Soon */}
+          {/* Arcanum - Coming Soon */}
           <button 
-            onClick={scrollToMasteringCards}
+            onClick={scrollToArcanum}
             className="group relative overflow-hidden rounded-sm bg-secondary/30 border border-primary/30 hover:border-primary/60 transition-all duration-300 text-left"
           >
             <div className="aspect-[4/3] overflow-hidden">
@@ -201,7 +201,7 @@ const ProductsLanding: React.FC = () => {
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <h3 className="font-cinzel text-foreground text-lg tracking-wider mb-1 group-hover:text-primary transition-colors">
-                Mastering the Cards
+                Arcanum
               </h3>
               <p className="text-foreground/60 font-inter text-xs mb-3">
                 Read and Pathwork like a Professional
