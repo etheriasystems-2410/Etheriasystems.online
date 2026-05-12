@@ -7,7 +7,7 @@ export default function TermsPage() {
     <div className="min-h-screen pb-16">
       {/* Hero */}
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
-        <LazyVideo hero src="./etheria-hero-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
+        <LazyVideo hero src="./terms-hero-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/50" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/30 via-transparent to-[#0a0a0b]/70" />
         <div className="relative z-10 max-w-4xl mx-auto text-center px-8 pt-24">
