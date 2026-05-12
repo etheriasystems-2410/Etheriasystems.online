@@ -51,7 +51,7 @@ const MasteringCardsProduct: React.FC = () => {
         </div>
 
         <h2 ref={titleRef} className="font-cinzel text-[clamp(28px,4vw,44px)] font-semibold tracking-[0.08em] text-foreground text-center mb-2">
-          Arcanum
+          Arcanum.
         </h2>
 
         <div ref={badgeRef} className="text-center mb-4">

@@ -182,7 +182,7 @@ const ProductsLanding: React.FC = () => {
             </div>
           </button>
 
-          {/* Arcanum - Coming Soon */}
+          {/* Arcanum. - Coming Soon */}
           <button 
             onClick={scrollToArcanum}
             className="group relative overflow-hidden rounded-sm bg-secondary/30 border border-primary/30 hover:border-primary/60 transition-all duration-300 text-left"
@@ -201,7 +201,7 @@ const ProductsLanding: React.FC = () => {
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <h3 className="font-cinzel text-foreground text-lg tracking-wider mb-1 group-hover:text-primary transition-colors">
-                Arcanum
+                Arcanum.
               </h3>
               <p className="text-foreground/60 font-inter text-xs mb-3">
                 Read and Pathwork like a Professional
