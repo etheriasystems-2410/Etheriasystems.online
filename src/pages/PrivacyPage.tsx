@@ -1,21 +1,28 @@
 import { Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LazyVideo from '../components/LazyVideo';
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      {/* Hero */}
-      <section className="py-16 px-8 bg-[#0a0a0b]">
-        <div className="max-w-4xl mx-auto text-center">
+    <div className="min-h-screen">
+      {/* ═════ FULL-PAGE VIDEO HERO ═════ */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <LazyVideo hero src="./privacy-hero-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-[#0a0a0b]/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b]/30 via-transparent to-[#0a0a0b]/80" />
+        <div className="relative z-10 max-w-4xl mx-auto text-center px-8">
           <Shield className="w-16 h-16 text-[#c9a227] mx-auto mb-6" />
-          <h1 className="font-cinzel text-4xl md:text-5xl mb-4 text-[#f5f5f5]">Privacy Policy</h1>
-          <p className="text-[#737373]">Last updated: April 2025</p>
+          <h1 className="font-cinzel text-4xl md:text-5xl mb-4 text-[#f5f5f5] drop-shadow-lg">Privacy Policy</h1>
+          <p className="text-[#a3a3a3]">Last updated: April 2025</p>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="py-12 px-8 bg-[#0f0f10]">
-        <div className="max-w-4xl mx-auto space-y-12">
+      {/* ═════ CONTENT — SEMI-TRANSPARENT WRAPPER ═════ */}
+      <section className="relative py-12 px-8">
+        {/* Subtle video bleed-through: low-opacity dark overlay instead of solid bg */}
+        <div className="absolute inset-0 bg-[#0a0a0b]/70" />
+
+        <div className="relative z-10 max-w-4xl mx-auto space-y-12">
           <div>
             <h2 className="font-cinzel text-2xl mb-4 text-[#f5f5f5]">1. Introduction</h2>
             <p className="text-[#a3a3a3] leading-relaxed">
@@ -112,23 +119,23 @@ export default function PrivacyPage() {
             </p>
           </div>
 
-        {/* Footer */}
-        <footer className="relative z-10 py-10 px-6 border-t border-white/10 bg-black/60 backdrop-blur-md">
-          <div className="max-w-4xl mx-auto text-center space-y-4">
-            <h3 className="font-cinzel text-xl text-[#c9a227] tracking-wider">Etheria Systems</h3>
-            <div className="flex flex-wrap justify-center gap-3 text-sm">
-              <Link to="/terms" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Terms of Service</Link>
-              <span className="text-[#6b6b8a]">|</span>
-              <Link to="/privacy" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Privacy Policy</Link>
-              <span className="text-[#6b6b8a]">|</span>
-              <Link to="/contest-rules" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Contest Rules</Link>
-              <span className="text-[#6b6b8a]">|</span>
-              <Link to="/credits" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Credits</Link>
+          {/* Footer */}
+          <footer className="relative z-10 py-10 px-6 border-t border-white/10 bg-black/60 backdrop-blur-md">
+            <div className="max-w-4xl mx-auto text-center space-y-4">
+              <h3 className="font-cinzel text-xl text-[#c9a227] tracking-wider">Etheria Systems</h3>
+              <div className="flex flex-wrap justify-center gap-3 text-sm">
+                <Link to="/terms" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Terms of Service</Link>
+                <span className="text-[#6b6b8a]">|</span>
+                <Link to="/privacy" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Privacy Policy</Link>
+                <span className="text-[#6b6b8a]">|</span>
+                <Link to="/contest-rules" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Contest Rules</Link>
+                <span className="text-[#6b6b8a]">|</span>
+                <Link to="/credits" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Credits</Link>
+              </div>
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c9a227]/40 to-transparent mx-auto" />
+              <p className="text-[#6b6b8a] text-xs">&copy; {new Date().getFullYear()} Etheria Systems. All rights reserved.</p>
             </div>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c9a227]/40 to-transparent mx-auto" />
-            <p className="text-[#6b6b8a] text-xs">&copy; {new Date().getFullYear()} Etheria Systems. All rights reserved.</p>
-          </div>
-        </footer>
+          </footer>
         </div>
       </section>
     </div>
