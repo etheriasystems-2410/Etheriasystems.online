@@ -57,9 +57,15 @@ export default function PricingPage() {
                 ))}
               </ul>
               
-              <div className="p-4 bg-[rgba(201,162,39,0.05)] border border-[rgba(201,162,39,0.2)] rounded-lg">
+              <div className="p-4 bg-[rgba(201,162,39,0.05)] border border-[rgba(201,162,39,0.2)] rounded-lg mb-6">
                 <p className="text-[#a3a3a3] text-sm italic">
                   "The free path offers genuine value. We believe wisdom should never be locked behind a paywall."
+                </p>
+              </div>
+
+              <div className="p-4 bg-[rgba(255,100,100,0.05)] border border-[rgba(255,100,100,0.2)] rounded-lg">
+                <p className="text-[#ff8a8a] text-sm">
+                  <span className="font-cinzel tracking-wider">Note:</span> Arcanum Liberatus and Arcanum. require a monthly membership to function. These applications do not offer a free tier.
                 </p>
               </div>
             </div>
