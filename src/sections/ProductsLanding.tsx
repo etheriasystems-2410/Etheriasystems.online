@@ -173,7 +173,7 @@ const ProductsLanding: React.FC = () => {
                 Arcanum Liberatus
               </h3>
               <p className="text-foreground/60 font-inter text-xs mb-3">
-                Unlock the secrets of the arcane
+                Free tier with core tools. Premium unlocks AI chat, Ritual & Spell Creator, Sigil Garden, and more.
               </p>
               <span className="inline-flex items-center gap-2 text-primary text-xs font-cinzel tracking-wider group-hover:gap-3 transition-all">
                 Explore
@@ -195,8 +195,8 @@ const ProductsLanding: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
             </div>
             <div className="absolute top-3 right-3">
-              <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/40 rounded-sm text-purple-300 font-cinzel text-xs tracking-wider">
-                Coming Soon
+              <span className="px-3 py-1 bg-red-500/20 border border-red-400/40 rounded-sm text-red-300 font-cinzel text-xs tracking-wider">
+                Subscription Required
               </span>
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -204,7 +204,7 @@ const ProductsLanding: React.FC = () => {
                 Arcanum.
               </h3>
               <p className="text-foreground/60 font-inter text-xs mb-3">
-                Read and Pathwork like a Professional
+                Subscription required. No free tier.
               </p>
               <span className="inline-flex items-center gap-2 text-primary text-xs font-cinzel tracking-wider group-hover:gap-3 transition-all">
                 Explore

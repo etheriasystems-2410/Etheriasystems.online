@@ -29,7 +29,7 @@ export default function HomePage() {
     {
       id: 'arcanum',
       title: 'Arcanum Liberatus',
-      description: 'Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimoire\'s name.',
+      description: 'Powered by Quantum AI, this mobile grimoire blends ancient knowledge with modern technology. Core tools are free to all seekers. Premium unlocks unlimited AI chat, the Ritual & Spell Creator, Sigil Garden, unlimited journal entries, community features, and full customization.',
       icon: <BookOpen className="w-8 h-8" />,
       image: '/arcanum-product.jpg',
       video: '/arcanum-video.mp4',

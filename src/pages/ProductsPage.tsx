@@ -106,8 +106,8 @@ export default function ProductsPage() {
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
               <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
                 {expanded.arcanum
-                  ? "Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. From extensive glossaries detailing crystals and herbs to over 250 gods, goddesses, fey, and spirits from modern to ancient traditions, horoscopes and natal charts, planetary calculators and ritual/spell generators which all can save to a journal which chronicles your experiences on your path--this application will be all you need. You can even customize your grimoire's name."
-                  : "Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology..."}
+                  ? "Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. A free tier offers core tools including glossaries, basic horoscopes, and limited journal entries. Premium subscribers unlock unlimited AI chat, the Quantum AI Ritual & Spell Creator, unlimited journal entries, Sigil Garden, community features, customizable themes, grimoire naming, and much more."
+                  : "Powered by Quantum AI, this mobile grimoire blends ancient knowledge with modern technology. Free tier with core tools available..."}
               </p>
               <button onClick={() => toggle('arcanum')} className="mb-6 text-[#c9a227] text-sm font-cinzel tracking-wider flex items-center gap-1 hover:text-[#f5f5f5] transition-colors cursor-pointer">
                 {expanded.arcanum ? <>Show Less <ChevronUp className="w-4 h-4" /></> : <>Read More <ChevronDown className="w-4 h-4" /></>}

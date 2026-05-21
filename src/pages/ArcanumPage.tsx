@@ -94,8 +94,35 @@ export default function ArcanumPage() {
               <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-[#c9a227]" />
             </div>
             <h2 className="font-cinzel text-2xl sm:text-4xl mb-4 sm:mb-6 text-[#f5f5f5]">The Library Awaits</h2>
-            <p className="text-[#a3a3a3] text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed px-4">Arcanum Liberatus is being prepared for those ready to receive its wisdom. The doors will open when the time is right.</p>
+            <p className="text-[#a3a3a3] text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed px-4">Arcanum Liberatus is being prepared for those ready to receive its wisdom. The doors will open when the time is right.</p>
+            <div className="p-4 bg-[rgba(201,162,39,0.08)] border border-[#c9a227]/30 rounded-lg mb-6 sm:mb-8 max-w-lg mx-auto">
+              <p className="text-[#c9a227] text-sm font-cinzel tracking-wider mb-2">Free Tier Available</p>
+              <p className="text-[#a3a3a3] text-sm">Core tools including glossaries, planetary calculators, basic horoscopes, and limited journal entries are free for all seekers.</p>
+            </div>
             <button className="px-8 sm:px-12 py-4 sm:py-5 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base sm:text-lg tracking-wider rounded transition-all duration-300 hover:bg-[#f5f5f5]">Coming Soon</button>
+
+            {/* Premium Features */}
+            <div className="mt-12 sm:mt-16 max-w-lg mx-auto text-left">
+              <p className="text-[#c9a227] text-xs font-cinzel tracking-[0.2em] uppercase mb-4 text-center">Premium Unlocks</p>
+              <ul className="space-y-3 text-[#a3a3a3] text-sm">
+                {[
+                  'Unlimited AI chat',
+                  'Unlimited sigil generator',
+                  'Ritual & Spell Creator (powered by Quantum AI)',
+                  'Unlimited daily journal entries',
+                  'Sigil Garden',
+                  'Community features',
+                  'Customizable themes',
+                  'Custom grimoire name',
+                  'And more...'
+                ].map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <span className="text-[#c9a227] mt-0.5">+</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </section>
 

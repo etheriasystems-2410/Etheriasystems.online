@@ -152,7 +152,7 @@ const AboutSection: React.FC = () => {
               Subscription Model
             </h3>
             <p className="text-foreground/70 font-inter text-sm leading-relaxed mb-4">
-              With that being said though, all of our applications do require a very manageable monthly subscription fee in order to access all the features that our applications have to offer. Remember, we are one man and this small, manageable fee will go to nothing but our overhead costs, developer application subscriptions, and running costs for the applications being used.
+              With that being said though, most of our applications offer a free tier with core tools available to all seekers. A very manageable monthly subscription unlocks the full experience—premium features, unlimited access, and advanced AI-powered tools. Remember, we are one man and this small, manageable fee will go to nothing but our overhead costs, developer application subscriptions, and running costs for the applications being used.
             </p>
             <p className="text-primary font-cinzel text-sm tracking-wider">
               Truly, you will never see a price above $3.99 per month on any application we produce.
@@ -160,7 +160,7 @@ const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-foreground/80 font-inter text-[clamp(14px,1.1vw,17px)] leading-relaxed">
-            If you wish to remain a free user, every application will have tools you can use, but you will be greatly restricted on what features you may access.
+            If you wish to remain a free user, most applications will have core tools you can use, though you will be restricted on what features you may access. <span className="text-primary font-cinzel text-sm tracking-wider">Arcanum.</span> is the only application that requires an active subscription to function—there is no free tier.
           </p>
 
           {/* Bi-Weekly Contest */}
