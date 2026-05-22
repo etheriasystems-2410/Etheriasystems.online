@@ -1,12 +1,18 @@
-import { useEffect } from 'react';
-import { BookOpen, Scroll, Lock, Flame, Key, ChevronUp } from 'lucide-react';
+import { useRef, useEffect } from 'react';
+import { BookOpen, Scroll, Lock, Flame, Key, Sparkles, ExternalLink, Download, Mail, Bug, Gift, ChevronUp, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
 
 export default function ArcanumPage() {
+  const betaRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     window.scrollTo(0, window.innerHeight);
   }, []);
+
+  const scrollToBeta = () => {
+    betaRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
@@ -20,7 +26,10 @@ export default function ArcanumPage() {
             <h1 className="font-cinzel text-4xl sm:text-6xl md:text-7xl mb-4 sm:mb-6 text-[#f5f5f5] tracking-wider">Arcanum Liberatus</h1>
             <p className="text-lg sm:text-2xl text-[#a3a3a3] max-w-2xl mx-auto font-light italic mb-8 sm:mb-12 px-4">"Knowledge that has been hidden shall be revealed..."</p>
             <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mb-8 sm:mb-16" />
-            <p className="text-base sm:text-lg text-[#a3a3a3] max-w-xl mx-auto leading-relaxed px-4">Within the Arcanum lies the collected wisdom of ages—the hermetic mysteries, alchemical truths, and esoteric knowledge passed down through secret traditions.</p>
+            <p className="text-base sm:text-lg text-[#a3a3a3] max-w-xl mx-auto leading-relaxed px-4 mb-6">Within the Arcanum lies the collected wisdom of ages—the hermetic mysteries, alchemical truths, and esoteric knowledge passed down through secret traditions.</p>
+            <button onClick={scrollToBeta} className="inline-flex items-center gap-2 px-4 py-2 bg-[#c9a227]/20 border border-[#c9a227]/50 text-[#c9a227] font-cinzel text-xs tracking-wider rounded-full transition-all duration-300 hover:bg-[#c9a227] hover:text-[#0a0a0b] cursor-pointer backdrop-blur-sm">
+              <Sparkles className="w-4 h-4" /> Join Beta Testing <ChevronDown className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
@@ -87,41 +96,41 @@ export default function ArcanumPage() {
           </div>
         </section>
 
-        {/* Coming Soon */}
-        <section className="py-16 sm:py-32 px-4 sm:px-8 bg-[#0a0a0b]/85 backdrop-blur-sm w-full">
-          <div className="max-w-xl mx-auto text-center">
+        {/* Open for Beta Testing */}
+        <section ref={betaRef} className="py-16 sm:py-32 px-4 sm:px-8 bg-[#0a0a0b]/85 backdrop-blur-sm w-full">
+          <div className="max-w-2xl mx-auto text-center">
             <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-6 sm:mb-10 rounded-full border-2 border-[#c9a227]/30 flex items-center justify-center">
-              <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-[#c9a227]" />
+              <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-[#c9a227]" />
             </div>
-            <h2 className="font-cinzel text-2xl sm:text-4xl mb-4 sm:mb-6 text-[#f5f5f5]">The Library Awaits</h2>
-            <p className="text-[#a3a3a3] text-base sm:text-lg mb-4 sm:mb-6 leading-relaxed px-4">Arcanum Liberatus is being prepared for those ready to receive its wisdom. The doors will open when the time is right.</p>
-            <div className="p-4 bg-[rgba(201,162,39,0.08)] border border-[#c9a227]/30 rounded-lg mb-6 sm:mb-8 max-w-lg mx-auto">
-              <p className="text-[#c9a227] text-sm font-cinzel tracking-wider mb-2">Free Tier Available</p>
-              <p className="text-[#a3a3a3] text-sm">Core tools including glossaries, planetary calculators, basic horoscopes, and limited journal entries are free for all seekers.</p>
-            </div>
-            <button className="px-8 sm:px-12 py-4 sm:py-5 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base sm:text-lg tracking-wider rounded transition-all duration-300 hover:bg-[#f5f5f5]">Coming Soon</button>
+            <h2 className="font-cinzel text-2xl sm:text-4xl mb-4 sm:mb-6 text-[#f5f5f5]">Open for Beta Testing</h2>
+            <p className="text-[#a3a3a3] text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed px-4">Arcanum Liberatus is now open for beta testing. Be among the first to experience AI-powered arcane wisdom that honors the sacred traditions.</p>
+            <a href="#" className="inline-flex items-center gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base sm:text-lg tracking-wider rounded transition-all duration-300 hover:bg-[#f5f5f5] cursor-not-allowed opacity-70">
+              <ExternalLink className="w-5 h-5" /> Get .APK (Android Devices)
+            </a>
 
-            {/* Premium Features */}
-            <div className="mt-12 sm:mt-16 max-w-lg mx-auto text-left">
-              <p className="text-[#c9a227] text-xs font-cinzel tracking-[0.2em] uppercase mb-4 text-center">Premium Unlocks</p>
-              <ul className="space-y-3 text-[#a3a3a3] text-sm">
+            <div className="mt-16 text-left">
+              <h3 className="font-cinzel text-xl sm:text-2xl text-center mb-8 text-[#f5f5f5]">To Beta Test:</h3>
+              <div className="space-y-4">
                 {[
-                  'Unlimited AI chat',
-                  'Unlimited sigil generator',
-                  'Ritual & Spell Creator (powered by Quantum AI)',
-                  'Unlimited daily journal entries',
-                  'Sigil Garden',
-                  'Community features',
-                  'Customizable themes',
-                  'Custom grimoire name',
-                  'And more...'
-                ].map((feature, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="text-[#c9a227] mt-0.5">+</span>
-                    <span>{feature}</span>
-                  </li>
+                  { icon: Download, text: 'Follow link and download the .APK file' },
+                  { icon: Mail, text: 'Contact Etheria Systems in-app once you have created a free account' },
+                  { icon: Gift, text: 'We will send you a code valid for a free lifetime premium membership as well as instructions on how to use them to your email' },
+                  { icon: Bug, text: 'You report bugs in-app by using our contact form' },
+                ].map((step, idx) => (
+                  <div key={idx} className="flex items-start gap-4 p-4 sm:p-5 border border-[#262626]/70 rounded-xl bg-gradient-to-b from-[#0f0f10]/80 to-[#0a0a0b]/80 backdrop-blur-sm">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#c9a227]/20 flex items-center justify-center mt-0.5">
+                      <step.icon className="w-4 h-4 text-[#c9a227]" />
+                    </div>
+                    <p className="text-[#a3a3a3] text-sm sm:text-base leading-relaxed"><span className="text-[#c9a227] font-cinzel mr-2">{idx + 1}.</span>{step.text}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
+
+              <div className="mt-10 p-6 border border-[#c9a227]/30 rounded-xl bg-[#c9a227]/5 backdrop-blur-sm text-center">
+                <p className="text-[#f5f5f5] font-cinzel text-base sm:text-lg mb-2">First 15 testers to message Etheria Systems will be granted the access codes.</p>
+                <p className="text-[#a3a3a3] text-sm italic">Good luck on your spiritual journey.</p>
+                <p className="text-[#c9a227] text-xs tracking-wider mt-4 font-cinzel">- Arcanum Liberatus Developer</p>
+              </div>
             </div>
           </div>
         </section>
