@@ -157,7 +157,7 @@ const ProductsLanding: React.FC = () => {
           >
             <div className="aspect-[4/3] overflow-hidden">
               <img 
-                src="/arcanum-liberatus.jpg" 
+                src="/arcanum-product.jpg" 
                 alt="Arcanum Liberatus"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
