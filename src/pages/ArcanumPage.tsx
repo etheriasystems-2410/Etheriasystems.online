@@ -27,6 +27,19 @@ export default function ArcanumPage() {
             <p className="text-lg sm:text-2xl text-[#a3a3a3] max-w-2xl mx-auto font-light italic mb-8 sm:mb-12 px-4">"Knowledge that has been hidden shall be revealed..."</p>
             <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mb-8 sm:mb-16" />
             <p className="text-base sm:text-lg text-[#a3a3a3] max-w-xl mx-auto leading-relaxed px-4 mb-6">Within the Arcanum lies the collected wisdom of ages—the hermetic mysteries, alchemical truths, and esoteric knowledge passed down through secret traditions.</p>
+            <div className="max-w-lg mx-auto mb-8 p-5 sm:p-6 border border-[#c9a227]/30 rounded-xl bg-gradient-to-b from-[#0f0f10]/80 to-[#0a0a0b]/80 backdrop-blur-sm">
+              <h3 className="font-cinzel text-lg sm:text-xl text-center mb-4 text-[#c9a227] tracking-wider">Thank you to Arcanum Liberatus's Beta Testers!</h3>
+              <div className="grid grid-cols-4 gap-x-3 gap-y-2 text-center">
+                {[
+                  '', '', '', '', '',
+                  '', '', '', '', '',
+                  '', '', '', '', '',
+                  '', '', '', '', '',
+                ].map((name, idx) => (
+                  <p key={idx} className="text-[#d0d0d0] text-sm"><span className="text-[#c9a227] font-cinzel mr-1">{idx + 1}.</span>{name}</p>
+                ))}
+              </div>
+            </div>
             <button onClick={scrollToBeta} className="inline-flex items-center gap-2 px-4 py-2 bg-[#c9a227]/20 border border-[#c9a227]/50 text-[#c9a227] font-cinzel text-xs tracking-wider rounded-full transition-all duration-300 hover:bg-[#c9a227] hover:text-[#0a0a0b] cursor-pointer backdrop-blur-sm">
               <Sparkles className="w-4 h-4" /> Join Beta Testing <ChevronDown className="w-4 h-4" />
             </button>

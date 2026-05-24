@@ -26,6 +26,7 @@ const betaTesters = [
   'J.L.', 'N.D.', '', '', '',
   '', '', '', '', '',
   '', '', '', '', '',
+  '', '', '', '', '',
 ];
 
 const GlassCard = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
@@ -237,7 +238,7 @@ export default function CreditsPage() {
                     <Star className="w-5 h-5 text-[#c9a227]" />
                     <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Thank You to Etheria&apos;s Beta Testers!</h3>
                   </div>
-                  <div className="grid grid-cols-3 gap-x-3 gap-y-2 text-center">
+                  <div className="grid grid-cols-4 gap-x-3 gap-y-2 text-center">
                     {betaTesters.map((name, idx) => (
                       <p key={idx} className="text-[#d0d0d0] text-sm"><span className="text-[#c9a227] font-cinzel mr-1">{idx + 1}.</span>{name}</p>
                     ))}

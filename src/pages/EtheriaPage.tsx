@@ -29,9 +29,10 @@ export default function EtheriaPage() {
             <p className="text-sm sm:text-base text-[#a3a3a3] max-w-xl mx-auto leading-relaxed px-4 drop-shadow-md mb-6">Your personal gateway to the unseen. Through ancient divination arts and modern AI, receive guidance that speaks directly to your soul's journey.</p>
             <div className="max-w-lg mx-auto mb-8 p-5 sm:p-6 border border-[#c9a227]/30 rounded-xl bg-gradient-to-b from-[#0f0f10]/80 to-[#0a0a0b]/80 backdrop-blur-sm">
               <h3 className="font-cinzel text-lg sm:text-xl text-center mb-4 text-[#c9a227] tracking-wider">Thank you to Etheria's Beta Testers!</h3>
-              <div className="grid grid-cols-3 gap-x-3 gap-y-2 text-center">
+              <div className="grid grid-cols-4 gap-x-3 gap-y-2 text-center">
                 {[
                   'J.L.', 'N.D.', '', '', '',
+                  '', '', '', '', '',
                   '', '', '', '', '',
                   '', '', '', '', '',
                 ].map((name, idx) => (
