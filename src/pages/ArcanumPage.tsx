@@ -31,7 +31,7 @@ export default function ArcanumPage() {
               <h3 className="font-cinzel text-lg sm:text-xl text-center mb-4 text-[#c9a227] tracking-wider">Thank you to Arcanum Liberatus's Beta Testers!</h3>
               <div className="grid grid-cols-4 gap-x-3 gap-y-2 text-center">
                 {[
-                  '', '', '', '', '',
+                  'J.L.', 'N.D.', '', '', '',
                   '', '', '', '', '',
                   '', '', '', '', '',
                   '', '', '', '', '',
