@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Star, Moon, Eye, Brain, Sparkles, ExternalLink, Download, Mail, Bug, Gift, ChevronUp, ChevronDown } from 'lucide-react';
+import { Star, Moon, Eye, Sparkles, ExternalLink, Download, Mail, Bug, Gift, ChevronUp, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LazyVideo from '../components/LazyVideo';
 
