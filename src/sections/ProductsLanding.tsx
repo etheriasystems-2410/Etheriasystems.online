@@ -150,7 +150,7 @@ const ProductsLanding: React.FC = () => {
             </div>
           </button>
 
-          {/* Arcanum Liberatus - Coming Soon */}
+          {/* Arcanum Liberatus */}
           <button 
             onClick={scrollToArcanum}
             className="group relative overflow-hidden rounded-sm bg-secondary/30 border border-primary/30 hover:border-primary/60 transition-all duration-300 text-left"
@@ -164,8 +164,8 @@ const ProductsLanding: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
             </div>
             <div className="absolute top-3 right-3">
-              <span className="px-3 py-1 bg-primary/20 border border-primary/40 rounded-sm text-primary font-cinzel text-xs tracking-wider">
-                Coming Soon
+              <span className="px-3 py-1 bg-[#c9a227]/20 border border-[#c9a227]/40 rounded-sm text-[#c9a227] font-cinzel text-xs tracking-wider">
+                Beta Testing
               </span>
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-5">

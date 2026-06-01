@@ -117,8 +117,8 @@ export default function ArcanumPage() {
             </div>
             <h2 className="font-cinzel text-2xl sm:text-4xl mb-4 sm:mb-6 text-[#f5f5f5]">Open for Beta Testing</h2>
             <p className="text-[#a3a3a3] text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed px-4">Arcanum Liberatus is now open for beta testing. Be among the first to experience AI-powered arcane wisdom that honors the sacred traditions.</p>
-            <a href="#" className="inline-flex items-center gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base sm:text-lg tracking-wider rounded transition-all duration-300 hover:bg-[#f5f5f5] cursor-not-allowed opacity-70">
-              <ExternalLink className="w-5 h-5" /> Testing Opening Soon
+            <a href="https://expo.dev/artifacts/eas/mbhx1RD7Tm6F1xxZfAXYve.apk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base sm:text-lg tracking-wider rounded transition-all duration-300 hover:bg-[#f5f5f5]">
+              <ExternalLink className="w-5 h-5" /> Get .APK (Android Devices)
             </a>
 
             <div className="mt-16 text-left">

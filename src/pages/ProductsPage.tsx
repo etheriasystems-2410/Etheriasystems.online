@@ -103,7 +103,7 @@ export default function ProductsPage() {
                 <span className="text-[#c9a227] p-3 bg-[rgba(201,162,39,0.15)] rounded-lg backdrop-blur-sm"><Lock className="w-8 h-8" /></span>
                 <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Arcanum Liberatus</h2>
               </div>
-              <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
+              <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Open for Beta Testing</p>
               <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">
                 {expanded.arcanum
                   ? "Powered by Quantum AI, this mobile grimoire blends masterfully ancient knowledge with modern technology and places that knowledge in the palm of your hand. A free tier offers core tools including glossaries, basic horoscopes, and limited journal entries. Premium subscribers unlock unlimited AI chat, the Quantum AI Ritual & Spell Creator, unlimited journal entries, Sigil Garden, community features, customizable themes, grimoire naming, and much more."
