@@ -65,7 +65,7 @@ export default function PricingPage() {
 
               <div className="p-4 bg-[rgba(255,100,100,0.05)] border border-[rgba(255,100,100,0.2)] rounded-lg">
                 <p className="text-[#ff8a8a] text-sm mb-3">
-                  <span className="font-cinzel tracking-wider">Note:</span> Arcanum. requires an active subscription to use. This is the only application that does not offer a free tier.
+                  <span className="font-cinzel tracking-wider">Note:</span> Arcanum. Tarot Academy requires an active subscription to use. This is the only application that does not offer a free tier.
                 </p>
                 <p className="text-[#c9a227] text-sm">
                   <span className="font-cinzel tracking-wider">Arcanum Liberatus</span> offers a free tier with core tools. Premium subscribers unlock unlimited AI chat, the Ritual & Spell Creator, unlimited journal entries, Sigil Garden, community features, customizable themes, and more.

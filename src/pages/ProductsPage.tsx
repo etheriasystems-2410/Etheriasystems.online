@@ -124,7 +124,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Arcanum. — Full Page */}
+      {/* Arcanum. Tarot Academy — Full Page */}
       <section ref={masteringRef} data-snap-section className="relative min-h-screen w-full flex items-center overflow-hidden">
         <LazyVideo lowPriority src="./mastering-video.mp4" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a0a0b]/20" />
@@ -135,7 +135,7 @@ export default function ProductsPage() {
             <div className="p-8 sm:p-10 rounded-2xl bg-[#0a0a0b]/45 border border-[#ffffff]/10 backdrop-blur-md shadow-[0_0_60px_rgba(201,162,39,0.15)]">
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-[#c9a227] p-3 bg-[rgba(201,162,39,0.15)] rounded-lg backdrop-blur-sm"><BookOpen className="w-8 h-8" /></span>
-                <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Arcanum.</h2>
+                <h2 className="font-cinzel text-3xl sm:text-4xl text-[#f5f5f5] drop-shadow-lg">Arcanum. Tarot Academy</h2>
               </div>
               <p className="text-[#c9a227] text-xs font-cinzel tracking-widest uppercase mb-3">Coming Soon</p>
               <p className="text-[#d4d4d4] text-lg leading-relaxed mb-2 drop-shadow-md">

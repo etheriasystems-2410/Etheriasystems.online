@@ -160,7 +160,7 @@ const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-foreground/80 font-inter text-[clamp(14px,1.1vw,17px)] leading-relaxed">
-            If you wish to remain a free user, most applications will have core tools you can use, though you will be restricted on what features you may access. <span className="text-primary font-cinzel text-sm tracking-wider">Arcanum.</span> is the only application that requires an active subscription to function—there is no free tier.
+            If you wish to remain a free user, most applications will have core tools you can use, though you will be restricted on what features you may access. <span className="text-primary font-cinzel text-sm tracking-wider">Arcanum. Tarot Academy</span> is the only application that requires an active subscription to function—there is no free tier.
           </p>
 
           {/* Bi-Weekly Contest */}
