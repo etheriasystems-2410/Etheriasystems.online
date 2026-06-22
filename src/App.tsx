@@ -17,6 +17,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import PricingPage from './pages/PricingPage';
 import ContestRulesPage from './pages/ContestRulesPage';
 import CreditsPage from './pages/CreditsPage';
+import FAQPage from './pages/FAQPage';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/contest-rules" element={<ContestRulesPage />} />
             <Route path="/credits" element={<CreditsPage />} />
+            <Route path="/faq" element={<FAQPage />} />
           </Routes>
         </main>
         {/* Footer is inline on each page */}
