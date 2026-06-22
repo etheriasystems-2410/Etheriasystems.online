@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HelpCircle, Crown, Sparkles } from 'lucide-react';
+import LazyVideo from '../components/LazyVideo';
 
 interface FAQItem {
   question: string;
@@ -127,108 +128,120 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="min-h-screen pb-16">
-      {/* ═════ HERO ═════ */}
-      <section className="relative py-24 sm:py-32 px-6 sm:px-8 bg-[#0a0a0b]">
-        <div className="absolute top-20 left-1/3 w-64 h-64 rounded-full bg-[#c9a227]/5 blur-3xl" />
-        <div className="absolute bottom-20 right-1/4 w-48 h-48 rounded-full bg-[#c9a227]/3 blur-3xl" />
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <HelpCircle className="w-16 h-16 sm:w-20 sm:h-20 text-[#c9a227] mx-auto mb-6 sm:mb-8" />
-          <h1 className="font-cinzel text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 text-[#f5f5f5] tracking-wider drop-shadow-lg">
-            Frequently Asked Questions
-          </h1>
-          <p className="text-[#a3a3a3] text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            Answers to the questions most commonly asked by our community of seekers
-          </p>
-          <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-8 sm:mt-12" />
-        </div>
-      </section>
+    <div className="min-h-screen relative">
+      {/* ═════ FULL-PAGE VIDEO BACKGROUND ═════ */}
+      <LazyVideo
+        hero
+        src="./faq-video.mp4"
+        className="fixed inset-0 w-full h-full object-cover"
+      />
+      {/* Dark overlay for readability */}
+      <div className="fixed inset-0 bg-[#0a0a0b]/60" />
+      {/* Gradient top/bottom fades */}
+      <div className="fixed inset-0 bg-gradient-to-b from-[#0a0a0b]/70 via-transparent to-[#0a0a0b]/70" />
 
-      {/* ═════ CATEGORY TABS ═════ */}
-      <section className="sticky top-[72px] z-40 bg-[#0a0a0b]/95 backdrop-blur-xl border-b border-[#262626] px-4 sm:px-6 py-4">
-        <div className="max-w-4xl mx-auto flex gap-2 overflow-x-auto scrollbar-hide">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`flex-shrink-0 px-4 py-2 rounded-full font-cinzel text-xs sm:text-sm tracking-wider transition-all duration-300 border ${
-                activeCategory === cat
-                  ? 'bg-[#c9a227] text-[#0a0a0b] border-[#c9a227]'
-                  : 'bg-transparent text-[#a3a3a3] border-[#262626] hover:border-[#c9a227]/50 hover:text-[#c9a227]'
-              }`}
-            >
-              <span className="mr-1.5">{categoryIcons[cat]}</span>
-              {cat}
-            </button>
-          ))}
-        </div>
-      </section>
+      {/* ═════ CONTENT OVERLAY ═════ */}
+      <div className="relative z-10">
+        {/* Hero */}
+        <section className="relative py-24 sm:py-32 px-6 sm:px-8">
+          <div className="relative z-10 max-w-4xl mx-auto text-center">
+            <HelpCircle className="w-16 h-16 sm:w-20 sm:h-20 text-[#c9a227] mx-auto mb-6 sm:mb-8 drop-shadow-lg" />
+            <h1 className="font-cinzel text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 text-[#f5f5f5] tracking-wider drop-shadow-lg">
+              Frequently Asked Questions
+            </h1>
+            <p className="text-[#d0d0d0] text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+              Answers to the questions most commonly asked by our community of seekers
+            </p>
+            <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-8 sm:mt-12" />
+          </div>
+        </section>
 
-      {/* ═════ FAQ CONTENT — ALL ANSWERS VISIBLE ═════ */}
-      <section className="py-12 sm:py-20 px-6 sm:px-8 bg-[#0f0f10]">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-cinzel text-2xl sm:text-3xl text-[#f5f5f5] mb-8 sm:mb-12 flex items-center gap-3">
-            <Crown className="w-6 h-6 text-[#c9a227]" />
-            {activeCategory}
-          </h2>
-
-          <div className="space-y-6">
-            {filtered.map((item, idx) => (
-              <div
-                key={idx}
-                className="border border-[#262626] rounded-xl bg-gradient-to-b from-[#0f0f10] to-[#0a0a0b] overflow-hidden hover:border-[#c9a227]/30 transition-all duration-300"
+        {/* Category Tabs */}
+        <section className="sticky top-[72px] z-40 bg-[#0a0a0b]/80 backdrop-blur-xl border-b border-[#262626]/60 px-4 sm:px-6 py-4">
+          <div className="max-w-4xl mx-auto flex gap-2 overflow-x-auto scrollbar-hide">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`flex-shrink-0 px-4 py-2 rounded-full font-cinzel text-xs sm:text-sm tracking-wider transition-all duration-300 border ${
+                  activeCategory === cat
+                    ? 'bg-[#c9a227] text-[#0a0a0b] border-[#c9a227]'
+                    : 'bg-[#0a0a0b]/40 text-[#c0c0c0] border-[#c9a227]/30 hover:bg-[#c9a227]/20 hover:border-[#c9a227]'
+                }`}
               >
-                <div className="p-5 sm:p-6">
-                  <h3 className="font-cinzel text-sm sm:text-base text-[#f5f5f5] tracking-wider leading-relaxed mb-3">
-                    {item.question}
-                  </h3>
-                  <div className="h-px bg-gradient-to-r from-[#c9a227]/20 to-transparent mb-4" />
-                  <p className="text-[#a3a3a3] text-sm sm:text-base leading-relaxed">
-                    {item.answer}
-                  </p>
-                </div>
-              </div>
+                <span className="mr-1.5">{categoryIcons[cat]}</span>
+                {cat}
+              </button>
             ))}
           </div>
+        </section>
 
-          {/* Still have questions */}
-          <div className="mt-16 p-8 sm:p-10 border border-[#c9a227]/20 rounded-2xl bg-[rgba(201,162,39,0.03)] text-center">
-            <Sparkles className="w-10 h-10 text-[#c9a227] mx-auto mb-4" />
-            <h3 className="font-cinzel text-xl sm:text-2xl text-[#f5f5f5] mb-3">
-              Still Have Questions?
-            </h3>
-            <p className="text-[#a3a3a3] text-sm sm:text-base mb-6 max-w-lg mx-auto">
-              If you could not find the answer you were looking for, our team is always here to help guide you on your journey.
-            </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base tracking-wider rounded-lg transition-all duration-300 hover:bg-[#f5f5f5]"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
+        {/* FAQ Content — Semi-Transparent Boxes */}
+        <section className="py-12 sm:py-20 px-6 sm:px-8">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="font-cinzel text-2xl sm:text-3xl text-[#f5f5f5] mb-8 sm:mb-12 flex items-center gap-3 drop-shadow-lg">
+              <Crown className="w-6 h-6 text-[#c9a227]" />
+              {activeCategory}
+            </h2>
 
-      {/* Footer */}
-      <footer className="relative z-10 py-10 px-6 border-t border-white/10 bg-black/60 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <h3 className="font-cinzel text-xl text-[#c9a227] tracking-wider">Etheria Systems</h3>
-          <div className="flex flex-wrap justify-center gap-3 text-sm">
-            <Link to="/terms" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Terms of Service</Link>
-            <span className="text-[#6b6b8a]">|</span>
-            <Link to="/privacy" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Privacy Policy</Link>
-            <span className="text-[#6b6b8a]">|</span>
-            <Link to="/faq" className="text-[#c9a227] transition-colors">FAQ</Link>
-            <span className="text-[#6b6b8a]">|</span>
-            <Link to="/contact" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Contact</Link>
-            <span className="text-[#6b6b8a]">|</span>
-            <Link to="/credits" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Credits</Link>
+            <div className="space-y-6">
+              {filtered.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="border border-[#c9a227]/20 rounded-xl bg-[#0a0a0b]/55 backdrop-blur-md overflow-hidden hover:border-[#c9a227]/50 hover:bg-[#0a0a0b]/65 transition-all duration-300"
+                >
+                  <div className="p-5 sm:p-6">
+                    <h3 className="font-cinzel text-sm sm:text-base text-[#f5f5f5] tracking-wider leading-relaxed mb-3 drop-shadow-md">
+                      {item.question}
+                    </h3>
+                    <div className="h-px bg-gradient-to-r from-[#c9a227]/30 to-transparent mb-4" />
+                    <p className="text-[#d0d0d0] text-sm sm:text-base leading-relaxed drop-shadow-sm">
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Still have questions */}
+            <div className="mt-16 p-8 sm:p-10 border border-[#c9a227]/20 rounded-2xl bg-[#0a0a0b]/50 backdrop-blur-md text-center">
+              <Sparkles className="w-10 h-10 text-[#c9a227] mx-auto mb-4" />
+              <h3 className="font-cinzel text-xl sm:text-2xl text-[#f5f5f5] mb-3">
+                Still Have Questions?
+              </h3>
+              <p className="text-[#d0d0d0] text-sm sm:text-base mb-6 max-w-lg mx-auto">
+                If you could not find the answer you were looking for, our team is always here to help guide you on your journey.
+              </p>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base tracking-wider rounded-lg transition-all duration-300 hover:bg-[#f5f5f5]"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c9a227]/40 to-transparent mx-auto" />
-          <p className="text-[#6b6b8a] text-xs">&copy; {new Date().getFullYear()} Etheria Systems. All rights reserved.</p>
-        </div>
-      </footer>
+        </section>
+
+        {/* Footer */}
+        <footer className="relative z-10 py-10 px-6 border-t border-[#c9a227]/20 bg-[#0a0a0b]/60 backdrop-blur-md">
+          <div className="max-w-4xl mx-auto text-center space-y-4">
+            <h3 className="font-cinzel text-xl text-[#c9a227] tracking-wider">Etheria Systems</h3>
+            <div className="flex flex-wrap justify-center gap-3 text-sm">
+              <Link to="/terms" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Terms of Service</Link>
+              <span className="text-[#6b6b8a]">|</span>
+              <Link to="/privacy" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Privacy Policy</Link>
+              <span className="text-[#6b6b8a]">|</span>
+              <Link to="/faq" className="text-[#c9a227] transition-colors">FAQ</Link>
+              <span className="text-[#6b6b8a]">|</span>
+              <Link to="/contact" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Contact</Link>
+              <span className="text-[#6b6b8a]">|</span>
+              <Link to="/credits" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Credits</Link>
+            </div>
+            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#c9a227]/40 to-transparent mx-auto" />
+            <p className="text-[#6b6b8a] text-xs">&copy; {new Date().getFullYear()} Etheria Systems. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
