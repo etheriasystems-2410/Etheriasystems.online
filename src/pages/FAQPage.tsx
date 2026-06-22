@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HelpCircle, ChevronDown, ChevronUp, Crown, Sparkles } from 'lucide-react';
+import { HelpCircle, Crown, Sparkles } from 'lucide-react';
 
 interface FAQItem {
   question: string;
@@ -9,7 +9,6 @@ interface FAQItem {
 }
 
 const faqData: FAQItem[] = [
-  // General
   {
     question: 'What is Etheria Systems?',
     answer: 'Etheria Systems is a collection of AI-powered spiritual and mystical tools designed to bridge ancient wisdom with modern technology. Our applications cover meditation, tarot, ancestral communication, and arcane knowledge—each powered by Quantum AI to deliver personalized, meaningful experiences.',
@@ -22,10 +21,9 @@ const faqData: FAQItem[] = [
   },
   {
     question: 'How do I download an app?',
-    answer: 'Visit the product page for the app you want and click the "Get .APK" button. This will download the Android installation file. You may need to enable "Install from unknown sources" in your device settings. Each product page has step-by-step instructions.',
+    answer: 'Visit the product page for the app you want and click the "Get .APK" button. This will download the Android installation file. You may need to enable "Install from unknown sources" in your Android device settings. Each product page has step-by-step instructions.',
     category: 'General'
   },
-  // Subscriptions & Pricing
   {
     question: 'How much does a subscription cost?',
     answer: 'All Etheria Systems applications are priced at $3.99 per month. We will never charge more than this for any app we create. This is our sacred promise to keeping spiritual wisdom accessible.',
@@ -51,7 +49,6 @@ const faqData: FAQItem[] = [
     answer: 'Every two weeks, we hold a random drawing for each app. Users who meet the activity threshold are automatically entered. One winner per app receives a free month of premium access. Both free and paid members are eligible to win. Winners are contacted via email with their redemption code.',
     category: 'Subscriptions & Pricing'
   },
-  // Beta Testing
   {
     question: 'How do I become a beta tester?',
     answer: 'When beta testing is open for an app, visit its product page and click the "Get .APK" button to download the beta version. Create a free account in-app, then contact us through the in-app contact form. The first 20 testers to message us will receive a free lifetime premium membership code.',
@@ -67,31 +64,26 @@ const faqData: FAQItem[] = [
     answer: 'Beta testing opens on a per-app basis. Currently, Etheria and Arcanum Liberatus are open for beta testing. Dead Speak and Arcanum. Tarot Academy will open for beta testing soon. Check each product page for current status.',
     category: 'Beta Testing'
   },
-  // Products - Etheria
   {
     question: 'What is Etheria?',
     answer: 'Etheria is a Quantum AI-powered meditation and psychic awareness study tool. It includes guided meditation techniques, Chakra Alignment Meditations, timed meditation with ambient sounds, and practical hands-on classes designed to evolve your psychic gifts.',
     category: 'Products'
   },
-  // Products - Arcanum Liberatus
   {
     question: 'What is Arcanum Liberatus?',
     answer: 'Arcanum Liberatus is a mobile grimoire powered by Quantum AI. It blends ancient knowledge with modern technology, offering glossaries of crystals and herbs, over 250 gods/goddesses/spirits, horoscopes, natal charts, planetary calculators, AI-powered ritual and spell generators, and a personal journal. Free tier includes core tools; premium unlocks AI chat, the Ritual & Spell Creator, Sigil Garden, and more.',
     category: 'Products'
   },
-  // Products - Arcanum. Tarot Academy
   {
     question: 'What is Arcanum. Tarot Academy?',
     answer: 'Arcanum. Tarot Academy is your complete guide to tarot mastery. Learn all 78 cards inside and out, from the Major Arcana to the Minor Mysteries. Features include guided pathworking, expert spreads from three-card pulls to the Celtic Cross, and deep knowledge of symbolism, numerology, and elemental correspondences. A subscription is required to use this app.',
     category: 'Products'
   },
-  // Products - Dead Speak
   {
     question: 'What is Dead Speak?',
     answer: 'Dead Speak is a comprehensive tool and spiritualism study guide for communicating with those who have departed. It covers spiritualist beliefs and offers hands-on training in the art of sacred ancestral communication, including guided ceremonies and protected space creation.',
     category: 'Products'
   },
-  // Technical
   {
     question: 'The app is not installing. What should I do?',
     answer: 'First, ensure you have enabled "Install from unknown sources" in your Android device settings under Security. If the issue persists, try downloading the .APK again in case the file was corrupted. For further assistance, contact us through the website contact form.',
@@ -107,7 +99,6 @@ const faqData: FAQItem[] = [
     answer: 'Yes, all your data—including journal entries, saved readings, and account information—is synced to your account and can be accessed on any device when you log in.',
     category: 'Technical Support'
   },
-  // Account & Privacy
   {
     question: 'Is my personal information secure?',
     answer: 'Absolutely. We take data security seriously and implement appropriate technical and organizational measures to protect your personal information. We never sell your data to third parties. For full details, please review our Privacy Policy.',
@@ -123,14 +114,7 @@ const faqData: FAQItem[] = [
 const categories = ['General', 'Subscriptions & Pricing', 'Beta Testing', 'Products', 'Technical Support', 'Account & Privacy'];
 
 export default function FAQPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState('General');
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  const toggle = (idx: number) => {
-    setOpenIndex(openIndex === idx ? null : idx);
-  };
-
   const filtered = faqData.filter((f) => f.category === activeCategory);
 
   const categoryIcons: Record<string, string> = {
@@ -166,7 +150,7 @@ export default function FAQPage() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => { setActiveCategory(cat); setOpenIndex(null); }}
+              onClick={() => setActiveCategory(cat)}
               className={`flex-shrink-0 px-4 py-2 rounded-full font-cinzel text-xs sm:text-sm tracking-wider transition-all duration-300 border ${
                 activeCategory === cat
                   ? 'bg-[#c9a227] text-[#0a0a0b] border-[#c9a227]'
@@ -180,47 +164,28 @@ export default function FAQPage() {
         </div>
       </section>
 
-      {/* ═════ FAQ CONTENT ═════ */}
-      <section className="py-12 sm:py-20 px-6 sm:px-8 bg-[#0f0f10]" ref={contentRef}>
+      {/* ═════ FAQ CONTENT — ALL ANSWERS VISIBLE ═════ */}
+      <section className="py-12 sm:py-20 px-6 sm:px-8 bg-[#0f0f10]">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-cinzel text-2xl sm:text-3xl text-[#f5f5f5] mb-8 sm:mb-12 flex items-center gap-3">
             <Crown className="w-6 h-6 text-[#c9a227]" />
             {activeCategory}
           </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             {filtered.map((item, idx) => (
               <div
                 key={idx}
-                className="border border-[#262626] rounded-xl bg-gradient-to-b from-[#0f0f10] to-[#0a0a0b] overflow-hidden transition-all duration-300 hover:border-[#c9a227]/30"
+                className="border border-[#262626] rounded-xl bg-gradient-to-b from-[#0f0f10] to-[#0a0a0b] overflow-hidden hover:border-[#c9a227]/30 transition-all duration-300"
               >
-                <button
-                  onClick={() => toggle(idx)}
-                  className="w-full flex items-start gap-4 p-5 sm:p-6 text-left cursor-pointer"
-                >
-                  <span className="flex-shrink-0 mt-0.5">
-                    {openIndex === idx ? (
-                      <ChevronUp className="w-5 h-5 text-[#c9a227]" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-[#c9a227]" />
-                    )}
-                  </span>
-                  <span className="font-cinzel text-sm sm:text-base text-[#f5f5f5] tracking-wider leading-relaxed">
+                <div className="p-5 sm:p-6">
+                  <h3 className="font-cinzel text-sm sm:text-base text-[#f5f5f5] tracking-wider leading-relaxed mb-3">
                     {item.question}
-                  </span>
-                </button>
-
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openIndex === idx ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <div className="px-5 sm:px-6 pb-5 sm:pb-6 pl-14 sm:pl-16">
-                    <div className="h-px bg-gradient-to-r from-[#c9a227]/20 to-transparent mb-4" />
-                    <p className="text-[#a3a3a3] text-sm sm:text-base leading-relaxed">
-                      {item.answer}
-                    </p>
-                  </div>
+                  </h3>
+                  <div className="h-px bg-gradient-to-r from-[#c9a227]/20 to-transparent mb-4" />
+                  <p className="text-[#a3a3a3] text-sm sm:text-base leading-relaxed">
+                    {item.answer}
+                  </p>
                 </div>
               </div>
             ))}
