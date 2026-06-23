@@ -151,12 +151,23 @@ const AboutSection: React.FC = () => {
             <h3 className="font-cinzel text-foreground text-lg tracking-wider mb-4">
               Subscription Model
             </h3>
-            <p className="text-foreground/70 font-inter text-sm leading-relaxed mb-4">
-              With that being said though, most of our applications offer a free tier with core tools available to all seekers. A very manageable monthly subscription unlocks the full experience—premium features, unlimited access, and advanced AI-powered tools. Remember, we are one man and this small, manageable fee will go to nothing but our overhead costs, developer application subscriptions, and running costs for the applications being used.
-            </p>
-            <p className="text-primary font-cinzel text-sm tracking-wider">
-              Truly, you will never see a price above $3.99 per month on any application we produce.
-            </p>
+            <div className="space-y-4 text-foreground/70 font-inter text-sm leading-relaxed">
+              <p>
+                It is our goal at Etheria Systems to bring to the masses the ability to research, study, and practice esoteric the wisdom of the ancients, but by doing so we do incur business costs. In order to offset our costs we do charge a subscription fee (monthly or annually) for full access to our applications on an app by app basis.
+              </p>
+              <p>
+                However, if you download the <span className="text-primary font-cinzel tracking-wider">"Etheria Systems Hub"</span> social networking application, which is free to use completely, you will have the option to pay one monthly or annual fee for all applications. There is also a lifetime membership option as well.
+              </p>
+              <p>
+                To keep true to our mission, we have made our subscriptions as affordable as possible — no monthly subscription will be over $5 — but some applications do also support in-app purchases.
+              </p>
+              <p>
+                Beyond Google, we are proud to partner with <span className="text-primary font-cinzel tracking-wider">Stripe</span> to insure the privacy and protection of your sensitive financial and personal data when it comes to billing.
+              </p>
+              <p>
+                Most of our applications do offer a free tier of membership, but in the interest of transparency, are heavily restricted in what the user may do and participate in. We highly encourage everyone to take advantage of the memberships.
+              </p>
+            </div>
           </div>
 
           <p className="text-foreground/80 font-inter text-[clamp(14px,1.1vw,17px)] leading-relaxed">

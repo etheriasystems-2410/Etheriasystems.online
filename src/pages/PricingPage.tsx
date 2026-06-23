@@ -1,4 +1,4 @@
-import { Sparkles, Gift, Crown, Star, Check, Trophy } from 'lucide-react';
+import { Crown, Trophy, Gift, Star, Check, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function PricingPage() {
@@ -18,14 +18,42 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Free vs Premium */}
+      {/* ═════ PRICING NOTE ═════ */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0f0f10]">
+        <div className="max-w-4xl mx-auto">
+          <div className="p-6 sm:p-10 border border-[#c9a227]/30 rounded-2xl bg-[rgba(201,162,39,0.05)] backdrop-blur-sm">
+            <h2 className="font-cinzel text-xl sm:text-2xl text-[#c9a227] tracking-wider mb-6 text-center">
+              Our Commitment to You
+            </h2>
+            <div className="space-y-4 text-[#a3a3a3] leading-relaxed text-sm sm:text-base">
+              <p>
+                It is our goal at Etheria Systems to bring to the masses the ability to research, study, and practice esoteric the wisdom of the ancients, but by doing so we do incur business costs. In order to offset our costs we do charge a subscription fee (monthly or annually) for full access to our applications on an app by app basis.
+              </p>
+              <p>
+                However, if you download the <span className="text-[#c9a227] font-cinzel tracking-wider">"Etheria Systems Hub"</span> social networking application, which is free to use completely, you will have the option to pay one monthly or annual fee for all applications. There is also a lifetime membership option as well.
+              </p>
+              <p>
+                To keep true to our mission, we have made our subscriptions as affordable as possible — no monthly subscription will be over $5 — but some applications do also support in-app purchases.
+              </p>
+              <p>
+                Beyond Google, we are proud to partner with <span className="text-[#c9a227] font-cinzel tracking-wider">Stripe</span> to insure the privacy and protection of your sensitive financial and personal data when it comes to billing.
+              </p>
+              <p>
+                Most of our applications do offer a free tier of membership, but in the interest of transparency, are heavily restricted in what the user may do and participate in. We highly encourage everyone to take advantage of the memberships.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Free vs Premium */}
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0a0a0b]">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-cinzel text-3xl sm:text-4xl text-center mb-4 text-[#f5f5f5]">Choose Your Path</h2>
           <p className="text-[#737373] text-center mb-12 sm:mb-16 max-w-xl mx-auto px-4">
             Every Etheria Systems app offers free access to core features
           </p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {/* Free Tier */}
             <div className="relative p-8 sm:p-10 border border-[#262626] rounded-2xl bg-gradient-to-b from-[#0f0f10] to-[#0a0a0b]">
@@ -36,11 +64,11 @@ export default function PricingPage() {
                   <p className="text-[#737373] text-sm">Available to all seekers</p>
                 </div>
               </div>
-              
+
               <div className="text-4xl sm:text-5xl font-cinzel text-[#f5f5f5] mb-8">
                 $0<span className="text-lg text-[#737373]">/month</span>
               </div>
-              
+
               <ul className="space-y-4 mb-8">
                 {[
                   'Core app functionality',
@@ -56,19 +84,10 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              
-              <div className="p-4 bg-[rgba(201,162,39,0.05)] border border-[rgba(201,162,39,0.2)] rounded-lg mb-6">
+
+              <div className="p-4 bg-[rgba(201,162,39,0.05)] border border-[rgba(201,162,39,0.2)] rounded-lg">
                 <p className="text-[#a3a3a3] text-sm italic">
                   "The free path offers genuine value. We believe wisdom should never be locked behind a paywall."
-                </p>
-              </div>
-
-              <div className="p-4 bg-[rgba(255,100,100,0.05)] border border-[rgba(255,100,100,0.2)] rounded-lg">
-                <p className="text-[#ff8a8a] text-sm mb-3">
-                  <span className="font-cinzel tracking-wider">Note:</span> Arcanum. Tarot Academy requires an active subscription to use. This is the only application that does not offer a free tier.
-                </p>
-                <p className="text-[#c9a227] text-sm">
-                  <span className="font-cinzel tracking-wider">Arcanum Liberatus</span> offers a free tier with core tools. Premium subscribers unlock unlimited AI chat, the Ritual & Spell Creator, unlimited journal entries, Sigil Garden, community features, customizable themes, and more.
                 </p>
               </div>
             </div>
@@ -78,7 +97,7 @@ export default function PricingPage() {
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-sm rounded-full">
                 Recommended
               </div>
-              
+
               <div className="flex items-center gap-4 mb-6">
                 <Crown className="w-10 h-10 sm:w-12 sm:h-12 text-[#c9a227]" />
                 <div>
@@ -86,12 +105,12 @@ export default function PricingPage() {
                   <p className="text-[#737373] text-sm">Unlock the full experience</p>
                 </div>
               </div>
-              
+
               <div className="text-4xl sm:text-5xl font-cinzel text-[#c9a227] mb-2">
                 $3.99<span className="text-lg text-[#737373]">/month</span>
               </div>
               <p className="text-[#737373] text-sm mb-8">Maximum price for any Etheria app</p>
-              
+
               <ul className="space-y-4">
                 {[
                   'Everything in Free, plus:',
@@ -108,13 +127,19 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
+
+              <div className="mt-8 p-4 bg-[rgba(255,100,100,0.05)] border border-[rgba(255,100,100,0.2)] rounded-lg">
+                <p className="text-[#ff8a8a] text-sm">
+                  <span className="font-cinzel tracking-wider">Note:</span> Arcanum. Tarot Academy requires an active subscription to use. This is the only application that does not offer a free tier.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Our Promise */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0a0a0b]">
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0f0f10]">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-cinzel text-3xl sm:text-4xl mb-6 text-[#f5f5f5]">Our Sacred Promise</h2>
           <div className="p-6 sm:p-8 border border-[#c9a227]/30 rounded-2xl bg-[rgba(201,162,39,0.05)]">
@@ -122,8 +147,8 @@ export default function PricingPage() {
               We Will Never Charge More Than $3.99/Month
             </p>
             <p className="text-[#a3a3a3] leading-relaxed">
-              For any app we create, ever. This is our commitment to keeping spiritual wisdom 
-              accessible. No hidden fees, no surprise price increases, no premium tiers beyond 
+              For any app we create, ever. This is our commitment to keeping spiritual wisdom
+              accessible. No hidden fees, no surprise price increases, no premium tiers beyond
               this single fair price.
             </p>
           </div>
@@ -131,7 +156,7 @@ export default function PricingPage() {
       </section>
 
       {/* Bi-Weekly Contest */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0f0f10]">
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0a0a0b]">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 sm:mb-16">
             <Trophy className="w-12 h-12 sm:w-16 sm:h-16 text-[#c9a227] mx-auto mb-6 sm:mb-8" />
@@ -140,7 +165,7 @@ export default function PricingPage() {
               Fortune favors the active seeker
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             <div className="p-6 sm:p-8 border border-[#262626] rounded-xl bg-[#0a0a0b]">
               <Gift className="w-10 h-10 sm:w-12 sm:h-12 text-[#c9a227] mb-6" />
@@ -152,7 +177,7 @@ export default function PricingPage() {
                 Both free and paid members are eligible to win.
               </p>
             </div>
-            
+
             <div className="p-6 sm:p-8 border border-[#262626] rounded-xl bg-[#0a0a0b]">
               <Star className="w-10 h-10 sm:w-12 sm:h-12 text-[#c9a227] mb-6" />
               <h3 className="font-cinzel text-xl sm:text-2xl mb-4 text-[#f5f5f5]">How to Qualify</h3>
@@ -172,7 +197,7 @@ export default function PricingPage() {
               </ul>
             </div>
           </div>
-          
+
           <div className="mt-8 sm:mt-12 p-6 sm:p-8 border border-[#c9a227]/20 rounded-xl bg-[rgba(201,162,39,0.03)]">
             <h4 className="font-cinzel text-lg sm:text-xl mb-4 text-[#f5f5f5] flex items-center gap-3">
               <Sparkles className="w-6 h-6 text-[#c9a227]" />
@@ -201,19 +226,20 @@ export default function PricingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0a0a0b]">
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#0f0f10]">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="font-cinzel text-2xl sm:text-3xl mb-6 text-[#f5f5f5]">Begin Your Journey</h2>
           <p className="text-[#a3a3a3] mb-8 leading-relaxed px-4">
-            All Etheria Systems apps will be available soon. Whether you choose the free path 
+            All Etheria Systems apps will be available soon. Whether you choose the free path
             or unlock premium features, the wisdom of the ages awaits.
           </p>
           <button className="px-10 sm:px-12 py-4 sm:py-5 bg-[#c9a227] text-[#0a0a0b] font-cinzel text-base sm:text-lg tracking-wider rounded transition-all duration-300 hover:bg-[#f5f5f5]">
             Coming Soon
           </button>
+        </div>
 
         {/* Footer */}
-        <footer className="relative z-10 py-10 px-6 border-t border-white/10 bg-black/60 backdrop-blur-md">
+        <footer className="relative z-10 py-10 px-6 border-t border-white/10 bg-black/60 backdrop-blur-md mt-16">
           <div className="max-w-4xl mx-auto text-center space-y-4">
             <h3 className="font-cinzel text-xl text-[#c9a227] tracking-wider">Etheria Systems</h3>
             <div className="flex flex-wrap justify-center gap-3 text-sm">
@@ -229,7 +255,6 @@ export default function PricingPage() {
             <p className="text-[#6b6b8a] text-xs">&copy; {new Date().getFullYear()} Etheria Systems. All rights reserved.</p>
           </div>
         </footer>
-        </div>
       </section>
     </div>
   );

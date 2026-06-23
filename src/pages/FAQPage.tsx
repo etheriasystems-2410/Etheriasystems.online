@@ -27,7 +27,7 @@ const faqData: FAQItem[] = [
   },
   {
     question: 'How much does a subscription cost?',
-    answer: 'All Etheria Systems applications are priced at $3.99 per month. We will never charge more than this for any app we create. This is our sacred promise to keeping spiritual wisdom accessible.',
+    answer: 'It is our goal at Etheria Systems to keep spiritual wisdom accessible. Individual app subscriptions are charged monthly or annually on an app-by-app basis, with no monthly subscription exceeding $5. However, if you download the free "Etheria Systems Hub" social networking app, you can pay one monthly or annual fee for all applications — including a lifetime membership option.',
     category: 'Subscriptions & Pricing'
   },
   {
