@@ -192,7 +192,7 @@ export default function CreditsPage() {
                     <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Domain Name</h3>
                   </div>
                   <div className="text-center">
-                    <span className="text-[#6b6b8a] text-sm italic">Coming soon</span>
+                    <span className="text-[#c9a227] font-cinzel text-sm tracking-wider">Namecheap.com</span>
                   </div>
                 </GlassCard>
 
