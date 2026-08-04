@@ -74,7 +74,7 @@ export default function CreditsPage() {
           <div className="text-center max-w-4xl mx-auto">
             <h1 ref={heroTitleRef} className="font-cinzel text-5xl md:text-6xl mb-4 text-[#f5f5f5] drop-shadow-lg">Credits</h1>
             <p ref={heroSubRef} className="text-xl text-[#a0a0b8] max-w-3xl mx-auto leading-relaxed px-4">
-              Creators, think-tank, spiritual advisors, and technical companies which lent their services to help Etheria Systems, and its applications, come to life on the web and on your devices.
+              Creators, think-tank, spiritual advisors, and technical companies which lent their services to help Etheria Systems, and its applications, come to life on the web and on your devices[...]
             </p>
             <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-8" />
           </div>
@@ -83,10 +83,10 @@ export default function CreditsPage() {
         <section className="py-8 px-6 pb-24">
           {/* Floating jump-to buttons (mobile only) */}
           <div className="md:hidden fixed bottom-4 left-0 right-0 z-50 flex justify-center gap-2 px-4">
-            <button onClick={scrollToLeft} className="flex-1 max-w-[140px] px-2 py-1.5 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-[10px] tracking-wider rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_15px_rgba(201,162,39,0.2)] active:bg-[#c9a227]/20 active:scale-95 transition-all">
+            <button onClick={scrollToLeft} className="flex-1 max-w-[140px] px-2 py-1.5 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-[10px] tracking-wider rounded-full bg-black/60 bac[...]
               Jump to etheriasystems.online
             </button>
-            <button onClick={scrollToMobile} className="flex-1 max-w-[140px] px-2 py-1.5 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-[10px] tracking-wider rounded-full bg-black/60 backdrop-blur-md shadow-[0_0_15px_rgba(201,162,39,0.2)] active:bg-[#c9a227]/20 active:scale-95 transition-all">
+            <button onClick={scrollToMobile} className="flex-1 max-w-[140px] px-2 py-1.5 border border-[#c9a227]/60 text-[#c9a227] font-cinzel text-[10px] tracking-wider rounded-full bg-black/60 b[...]
               Jump to Mobile Applications
             </button>
           </div>
@@ -104,11 +104,11 @@ export default function CreditsPage() {
                     <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Background Music</h3>
                   </div>
                   <div className="text-center space-y-2">
-                    <p className="text-[#d0d0d0] text-sm"><span className="font-cinzel text-[#c9a227]">&quot;The Long Dark&quot;</span> by <span className="text-[#f5f5f5]">Scott Buckley</span></p>
-                    <p className="text-[#a0a0b8] text-xs"><a href="https://soundcloud.com/scottbuckley" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">soundcloud.com/scottbuckley</a></p>
-                    <p className="text-[#a0a0b8] text-xs">Royalty Free Music by <a href="https://www.free-stock-music.com" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">free-stock-music.com</a></p>
+                    <p className="text-[#d0d0d0] text-sm"><span className="font-cinzel text-[#c9a227]">&quot;The Long Dark&quot;</span> by <span className="text-[#f5f5f5]">Scott Buckley</span></p[...]
+                    <p className="text-[#a0a0b8] text-xs"><a href="https://soundcloud.com/scottbuckley" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transit[...]
+                    <p className="text-[#a0a0b8] text-xs">Royalty Free Music by <a href="https://www.free-stock-music.com" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hove[...]
                     <p className="text-[#a0a0b8] text-xs">Creative Commons / Attribution 4.0 International (CC BY 4.0)</p>
-                    <p className="text-[#a0a0b8] text-xs"><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underline transition-colors">creativecommons.org/licenses/by/4.0</a></p>
+                    <p className="text-[#a0a0b8] text-xs"><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-[#00e5e5] hover:underlin[...]
                   </div>
                 </GlassCard>
 
@@ -265,6 +265,16 @@ export default function CreditsPage() {
                     <a href="https://www.shutterstock.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Shutterstock</a>
                     <a href="https://craynola.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Craynola.com</a>
                     <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">ChatGPT</a>
+                  </div>
+                </GlassCard>
+
+                <GlassCard className="p-5 sm:p-6">
+                  <div className="flex items-center gap-3 mb-3 justify-center">
+                    <Image className="w-5 h-5 text-[#c9a227]" />
+                    <h3 className="font-cinzel text-base sm:text-lg text-[#f5f5f5]">Visuals</h3>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="text-[#d0d0d0] text-sm hover:text-[#00e5e5] transition-colors">Pexels</a>
                   </div>
                 </GlassCard>
 
