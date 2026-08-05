@@ -18,7 +18,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0, 9);
+    camera.position.set(0, 0, 8.4);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
     renderer.setClearColor(0x000000, 0);
@@ -38,7 +38,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const coreMaterial = new THREE.MeshBasicMaterial({
       color: VIOLET,
       transparent: true,
-      opacity: 0.16,
+      opacity: 0.24,
       wireframe: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -50,7 +50,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const innerMaterial = new THREE.MeshBasicMaterial({
       color: CYAN,
       transparent: true,
-      opacity: 0.24,
+      opacity: 0.34,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -61,7 +61,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const ringMaterials = [GOLD, CYAN, VIOLET].map((color) => new THREE.MeshBasicMaterial({
       color,
       transparent: true,
-      opacity: 0.42,
+      opacity: 0.62,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     }));
@@ -99,7 +99,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       size: 0.055,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.88,
+      opacity: 0.98,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -120,7 +120,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const connectionMaterial = new THREE.LineBasicMaterial({
       color: VIOLET,
       transparent: true,
-      opacity: 0.17,
+      opacity: 0.28,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -143,7 +143,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       color: GOLD,
       size: 0.025,
       transparent: true,
-      opacity: 0.48,
+      opacity: 0.62,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -167,7 +167,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      quantumGroup.scale.setScalar(width < 640 ? 0.78 : 1);
+      quantumGroup.scale.setScalar(width < 640 ? 0.98 : 1.2);
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);

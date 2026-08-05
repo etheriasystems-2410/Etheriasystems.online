@@ -155,7 +155,7 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-4xl mx-auto">
       <div className="p-4 rounded-2xl bg-[#0a0a0b]/40 border border-white/10 backdrop-blur-md">
         <div className="flex items-center justify-between mb-4">
           <h4 className="font-cinzel text-lg text-[#f5f5f5]">Ask Quantum AI</h4>

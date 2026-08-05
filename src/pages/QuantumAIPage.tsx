@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Cpu, Atom, Network, Zap } from 'lucide-react';
+import { Atom, Network, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ChatWidget from '../components/ChatWidget';
 import LazyVideo from '../components/LazyVideo';
@@ -32,7 +32,7 @@ export default function QuantumAIPage() {
       gsap.fromTo(heroSubRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 0.5 });
 
       /* Sections staggered fade-up */
-      [bannerRef, featuresRef, archRef, chatRef, ctaRef].forEach((ref) => {
+      [chatRef, bannerRef, featuresRef, archRef, ctaRef].forEach((ref) => {
         if (!ref.current) return;
         gsap.fromTo(ref.current, { opacity: 0, y: 30 }, {
           opacity: 1, y: 0, duration: 0.8,
@@ -59,14 +59,11 @@ export default function QuantumAIPage() {
       {/* ═════ SCROLLABLE CONTENT ═════ */}
       <div className="relative z-10">
         {/* ── Hero ── */}
-        <section className="relative min-h-[80vh] flex items-center justify-center px-6 pt-24 overflow-hidden">
-          <QuantumField className="absolute inset-0 z-0 opacity-90" />
-          <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,rgba(10,10,11,0.08)_0%,rgba(10,10,11,0.34)_48%,rgba(10,10,11,0.68)_100%)] pointer-events-none" />
+        <section className="relative px-4 sm:px-6 pt-28 sm:pt-32 pb-0 overflow-hidden">
           <div className="relative z-10 text-center max-w-4xl mx-auto pointer-events-none">
-            <Cpu className="w-16 h-16 sm:w-24 sm:h-24 text-[#c9a227] mx-auto mb-6 sm:mb-8 drop-shadow-[0_0_20px_rgba(201,162,39,0.4)]" />
             <h1
               ref={heroTitleRef}
-              className="font-cinzel text-5xl sm:text-7xl mb-4 sm:mb-6 text-[#f5f5f5] drop-shadow-[0_2px_16px_rgba(0,0,0,0.9)] tracking-wider"
+              className="font-cinzel text-5xl sm:text-7xl lg:text-8xl mb-4 sm:mb-6 text-[#f5f5f5] drop-shadow-[0_2px_20px_rgba(0,0,0,0.95)] tracking-wider"
             >
               Quantum AI
             </h1>
@@ -76,7 +73,21 @@ export default function QuantumAIPage() {
             >
               The engine that powers every Etheria Systems experience
             </p>
-            <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-8 sm:mt-12" />
+            <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-7 sm:mt-9" />
+          </div>
+
+          <div className="relative w-full max-w-6xl h-[430px] sm:h-[560px] lg:h-[640px] mx-auto mt-6 sm:mt-8 overflow-hidden rounded-[2rem] border border-[#c9a227]/30 bg-black/20 shadow-[0_0_90px_rgba(139,92,246,0.18),0_30px_80px_rgba(0,0,0,0.5)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,229,229,0.08)_0%,rgba(139,92,246,0.08)_42%,rgba(10,10,11,0.72)_100%)] pointer-events-none" />
+            <div className="absolute inset-x-[8%] top-0 h-px bg-gradient-to-r from-transparent via-[#00e5e5]/70 to-transparent" />
+            <QuantumField className="absolute -inset-[8%] z-10 opacity-100" />
+            <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(10,10,11,0.18)_68%,rgba(10,10,11,0.62)_100%)] pointer-events-none" />
+          </div>
+        </section>
+
+        {/* ── Quantum AI Chat ── */}
+        <section className="relative z-20 px-4 sm:px-6 pt-5 sm:pt-6 pb-12" ref={chatRef}>
+          <div className="max-w-4xl mx-auto rounded-2xl border border-[#c9a227]/25 bg-black/45 p-2 sm:p-3 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-md">
+            <ChatWidget />
           </div>
         </section>
 
@@ -147,23 +158,6 @@ export default function QuantumAIPage() {
                   </div>
                 ))}
               </div>
-            </GlassCard>
-          </div>
-        </section>
-
-        {/* ── Quantum AI Chat ── */}
-        <section className="py-10 px-6" ref={chatRef}>
-          <div className="max-w-4xl mx-auto">
-            <GlassCard className="p-6 sm:p-10 border-[#c9a227]/25">
-              <div className="text-center mb-8">
-                <h2 className="font-cinzel text-3xl sm:text-4xl mb-4 text-[#f5f5f5]">
-                  Speak With Quantum AI
-                </h2>
-                <p className="text-[#b0b0b0] max-w-2xl mx-auto">
-                  Ask about Etheria Systems, our applications, and the technology behind them.
-                </p>
-              </div>
-              <ChatWidget />
             </GlassCard>
           </div>
         </section>
