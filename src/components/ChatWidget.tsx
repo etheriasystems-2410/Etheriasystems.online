@@ -53,6 +53,7 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
     const txt = input.trim();
+    window.dispatchEvent(new CustomEvent('quantum-ai-question', { detail: { length: txt.length } }));
     appendMessage({ id: `u-${Date.now()}`, role: 'user', text: txt });
     setInput('');
     setLoading(true);
@@ -70,6 +71,8 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
       }
 
       if (!res.body) throw new Error('Quantum AI returned an empty response.');
+
+      window.dispatchEvent(new CustomEvent('quantum-ai-answer-start'));
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -103,6 +106,7 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
         if (payload.token) {
           partial += payload.token;
           updateAssistant();
+          window.dispatchEvent(new CustomEvent('quantum-ai-answer-token', { detail: { length: payload.token.length } }));
         }
       };
 
@@ -126,7 +130,9 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
       }
 
       if (!partial && !receivedMeta) throw new Error('Quantum AI returned an incomplete response.');
+      window.dispatchEvent(new CustomEvent('quantum-ai-answer-complete', { detail: { length: partial.length } }));
     } catch (error) {
+      window.dispatchEvent(new CustomEvent('quantum-ai-answer-error'));
       appendMessage({
         id: `x-${Date.now()}`,
         role: 'assistant',

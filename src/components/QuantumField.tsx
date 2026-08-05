@@ -5,9 +5,64 @@ type QuantumFieldProps = {
   className?: string;
 };
 
+type QuantumShape = 'sphere' | 'torus' | 'helix' | 'diamond';
+
 const GOLD = new THREE.Color('#c9a227');
 const CYAN = new THREE.Color('#00e5e5');
 const VIOLET = new THREE.Color('#8b5cf6');
+const WHITE = new THREE.Color('#f5f5f5');
+const SHAPES: QuantumShape[] = ['sphere', 'torus', 'helix', 'diamond'];
+const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+
+function createShapePositions(count: number, shape: QuantumShape) {
+  const positions = new Float32Array(count * 3);
+
+  for (let index = 0; index < count; index += 1) {
+    const progress = (index + 0.5) / count;
+    const angle = index * GOLDEN_ANGLE;
+    let x = 0;
+    let y = 0;
+    let z = 0;
+
+    if (shape === 'sphere') {
+      const polar = Math.acos(1 - 2 * progress);
+      const radius = 2.18 + Math.sin(index * 1.73) * 0.12;
+      x = radius * Math.sin(polar) * Math.cos(angle);
+      y = radius * Math.cos(polar);
+      z = radius * Math.sin(polar) * Math.sin(angle);
+    } else if (shape === 'torus') {
+      const tubeAngle = ((index * 29) % count) / count * Math.PI * 2;
+      const radius = 1.55 + 0.62 * Math.cos(tubeAngle);
+      x = radius * Math.cos(angle);
+      y = 0.62 * Math.sin(tubeAngle);
+      z = radius * Math.sin(angle);
+    } else if (shape === 'helix') {
+      const vertical = progress * 4.8 - 2.4;
+      const helixAngle = progress * Math.PI * 9;
+      const radius = 1.35 + Math.sin(index * 0.7) * 0.16;
+      x = radius * Math.cos(helixAngle);
+      y = vertical;
+      z = radius * Math.sin(helixAngle);
+    } else {
+      const polar = Math.acos(1 - 2 * progress);
+      const direction = new THREE.Vector3(
+        Math.sin(polar) * Math.cos(angle),
+        Math.cos(polar),
+        Math.sin(polar) * Math.sin(angle),
+      );
+      const radius = 2.35 / (Math.abs(direction.x) + Math.abs(direction.y) + Math.abs(direction.z));
+      x = direction.x * radius;
+      y = direction.y * radius;
+      z = direction.z * radius;
+    }
+
+    positions[index * 3] = x;
+    positions[index * 3 + 1] = y;
+    positions[index * 3 + 2] = z;
+  }
+
+  return positions;
+}
 
 export default function QuantumField({ className = '' }: QuantumFieldProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,6 +83,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
+    renderer.domElement.style.touchAction = 'pan-y';
     container.appendChild(renderer.domElement);
 
     const quantumGroup = new THREE.Group();
@@ -76,27 +132,15 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       return ring;
     });
 
-    const nodeCount = 74;
-    const nodePositions = new Float32Array(nodeCount * 3);
-    const nodes: THREE.Vector3[] = [];
-    for (let index = 0; index < nodeCount; index += 1) {
-      const radius = 1.45 + Math.random() * 1.55;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const node = new THREE.Vector3(
-        radius * Math.sin(phi) * Math.cos(theta),
-        radius * Math.cos(phi),
-        radius * Math.sin(phi) * Math.sin(theta),
-      );
-      nodes.push(node);
-      node.toArray(nodePositions, index * 3);
-    }
-
+    const nodeCount = 180;
+    const shapeTargets = SHAPES.map((shape) => createShapePositions(nodeCount, shape));
+    const nodePositions = shapeTargets[0].slice();
     const nodeGeometry = new THREE.BufferGeometry();
-    nodeGeometry.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
+    const nodePositionAttribute = new THREE.BufferAttribute(nodePositions, 3);
+    nodeGeometry.setAttribute('position', nodePositionAttribute);
     const nodeMaterial = new THREE.PointsMaterial({
       color: CYAN,
-      size: 0.055,
+      size: 0.065,
       sizeAttenuation: true,
       transparent: true,
       opacity: 0.98,
@@ -106,17 +150,10 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const nodeCloud = new THREE.Points(nodeGeometry, nodeMaterial);
     quantumGroup.add(nodeCloud);
 
-    const connectionPositions: number[] = [];
-    nodes.forEach((node, index) => {
-      for (let otherIndex = index + 1; otherIndex < nodes.length; otherIndex += 1) {
-        const otherNode = nodes[otherIndex];
-        if (node.distanceTo(otherNode) < 0.82) {
-          connectionPositions.push(node.x, node.y, node.z, otherNode.x, otherNode.y, otherNode.z);
-        }
-      }
-    });
+    const connectionPositions = new Float32Array(nodeCount * 12);
     const connectionGeometry = new THREE.BufferGeometry();
-    connectionGeometry.setAttribute('position', new THREE.Float32BufferAttribute(connectionPositions, 3));
+    const connectionPositionAttribute = new THREE.BufferAttribute(connectionPositions, 3);
+    connectionGeometry.setAttribute('position', connectionPositionAttribute);
     const connectionMaterial = new THREE.LineBasicMaterial({
       color: VIOLET,
       transparent: true,
@@ -150,15 +187,112 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const dust = new THREE.Points(dustGeometry, dustMaterial);
     scene.add(dust);
 
+    const rippleGeometry = new THREE.RingGeometry(0.96, 1, 96);
+    const rippleMaterial = new THREE.MeshBasicMaterial({
+      color: CYAN,
+      transparent: true,
+      opacity: 0,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const ripple = new THREE.Mesh(rippleGeometry, rippleMaterial);
+    ripple.visible = false;
+    scene.add(ripple);
+
     const pointer = new THREE.Vector2();
-    const targetRotation = new THREE.Vector2();
+    const targetRotation = new THREE.Vector2(-0.14, 0.2);
+    let baseScale = 1.2;
+    let shapeIndex = 0;
+    let nextShapeAt = 8;
+    let energy = 0;
+    let answerEnergy = 0;
+    let pulse = 0;
+    let rippleLife = 0;
+    let colorMix = 0;
+
+    const selectShape = (index: number, holdSeconds = 7) => {
+      shapeIndex = (index + SHAPES.length) % SHAPES.length;
+      nextShapeAt = elapsedTime + holdSeconds;
+      pulse = Math.max(pulse, 0.7);
+    };
+
+    const triggerRipple = (normalizedX = 0, normalizedY = 0) => {
+      const vector = new THREE.Vector3(normalizedX, normalizedY, 0.5).unproject(camera);
+      const direction = vector.sub(camera.position).normalize();
+      const distance = -camera.position.z / direction.z;
+      const position = camera.position.clone().add(direction.multiplyScalar(distance));
+      ripple.position.copy(position);
+      ripple.scale.setScalar(0.12);
+      rippleMaterial.opacity = 0.88;
+      ripple.visible = true;
+      rippleLife = 1;
+    };
+
     const onPointerMove = (event: PointerEvent) => {
       const bounds = container.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       pointer.y = -(((event.clientY - bounds.top) / bounds.height) * 2 - 1);
-      targetRotation.set(pointer.y * 0.16, pointer.x * 0.24);
+      targetRotation.set(-0.14 + pointer.y * 0.22, 0.2 + pointer.x * 0.34);
+      energy = Math.min(1, energy + 0.025);
     };
+
+    const onPointerLeave = () => targetRotation.set(-0.14, 0.2);
+
+    const onPointerDown = (event: PointerEvent) => {
+      const bounds = container.getBoundingClientRect();
+      const normalizedX = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      const normalizedY = -(((event.clientY - bounds.top) / bounds.height) * 2 - 1);
+      triggerRipple(normalizedX, normalizedY);
+      energy = 1;
+      pulse = 1;
+      selectShape(shapeIndex + 1, 8);
+    };
+
+    const onQuestion = (event: Event) => {
+      const detail = (event as CustomEvent<{ length?: number }>).detail;
+      energy = Math.min(1.35, 0.8 + (detail?.length || 0) / 300);
+      colorMix = 0.35;
+      selectShape(1, 10);
+      triggerRipple();
+    };
+
+    const onAnswerStart = () => {
+      answerEnergy = 1;
+      energy = 1;
+      colorMix = 1;
+      selectShape(2, 12);
+    };
+
+    const onAnswerToken = (event: Event) => {
+      const detail = (event as CustomEvent<{ length?: number }>).detail;
+      answerEnergy = Math.min(1.4, answerEnergy + 0.08 + (detail?.length || 0) / 220);
+      pulse = Math.min(1.2, pulse + 0.08);
+    };
+
+    const onAnswerComplete = () => {
+      answerEnergy = 0.35;
+      energy = 1.1;
+      colorMix = 0.55;
+      selectShape(3, 8);
+      triggerRipple();
+    };
+
+    const onAnswerError = () => {
+      answerEnergy = 0;
+      colorMix = 0;
+      selectShape(0, 6);
+    };
+
     container.addEventListener('pointermove', onPointerMove, { passive: true });
+    container.addEventListener('pointerleave', onPointerLeave, { passive: true });
+    container.addEventListener('pointerdown', onPointerDown, { passive: true });
+    window.addEventListener('quantum-ai-question', onQuestion);
+    window.addEventListener('quantum-ai-answer-start', onAnswerStart);
+    window.addEventListener('quantum-ai-answer-token', onAnswerToken);
+    window.addEventListener('quantum-ai-answer-complete', onAnswerComplete);
+    window.addEventListener('quantum-ai-answer-error', onAnswerError);
 
     const resize = () => {
       const width = container.clientWidth;
@@ -167,7 +301,7 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
-      quantumGroup.scale.setScalar(width < 640 ? 0.98 : 1.2);
+      baseScale = width < 640 ? 0.98 : 1.2;
     };
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
@@ -176,22 +310,104 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const clock = new THREE.Clock();
     let animationFrame = 0;
+    let elapsedTime = 0;
+
+    const updateConnections = () => {
+      for (let index = 0; index < nodeCount; index += 1) {
+        const nextIndex = (index + 1) % nodeCount;
+        const crossIndex = (index + 13) % nodeCount;
+        const nodeOffset = index * 3;
+        const nextOffset = nextIndex * 3;
+        const crossOffset = crossIndex * 3;
+        const connectionOffset = index * 12;
+
+        connectionPositions[connectionOffset] = nodePositions[nodeOffset];
+        connectionPositions[connectionOffset + 1] = nodePositions[nodeOffset + 1];
+        connectionPositions[connectionOffset + 2] = nodePositions[nodeOffset + 2];
+        connectionPositions[connectionOffset + 3] = nodePositions[nextOffset];
+        connectionPositions[connectionOffset + 4] = nodePositions[nextOffset + 1];
+        connectionPositions[connectionOffset + 5] = nodePositions[nextOffset + 2];
+        connectionPositions[connectionOffset + 6] = nodePositions[nodeOffset];
+        connectionPositions[connectionOffset + 7] = nodePositions[nodeOffset + 1];
+        connectionPositions[connectionOffset + 8] = nodePositions[nodeOffset + 2];
+        connectionPositions[connectionOffset + 9] = nodePositions[crossOffset];
+        connectionPositions[connectionOffset + 10] = nodePositions[crossOffset + 1];
+        connectionPositions[connectionOffset + 11] = nodePositions[crossOffset + 2];
+      }
+      connectionPositionAttribute.needsUpdate = true;
+    };
+
+    updateConnections();
 
     const render = () => {
-      const elapsed = clock.getElapsedTime();
-      quantumGroup.rotation.x += (targetRotation.x - quantumGroup.rotation.x) * 0.025;
-      quantumGroup.rotation.y += (targetRotation.y - quantumGroup.rotation.y) * 0.025;
-      quantumGroup.rotation.z = -0.08 + Math.sin(elapsed * 0.22) * 0.05;
-      core.rotation.y = elapsed * 0.09;
-      core.rotation.x = elapsed * 0.055;
-      innerCore.rotation.y = -elapsed * 0.16;
-      innerCore.scale.setScalar(1 + Math.sin(elapsed * 1.35) * 0.08);
-      rings[0].rotation.z += 0.0018;
-      rings[1].rotation.x -= 0.0014;
-      rings[2].rotation.y += 0.0012;
-      nodeCloud.rotation.y = elapsed * 0.025;
-      connections.rotation.y = elapsed * 0.025;
-      dust.rotation.y = -elapsed * 0.008;
+      const delta = Math.min(clock.getDelta(), 0.05);
+      elapsedTime += delta;
+
+      if (elapsedTime >= nextShapeAt) selectShape(shapeIndex + 1, 7 + Math.random() * 4);
+
+      energy = THREE.MathUtils.damp(energy, 0, 1.35, delta);
+      answerEnergy = THREE.MathUtils.damp(answerEnergy, 0, 0.65, delta);
+      pulse = THREE.MathUtils.damp(pulse, 0, 2.2, delta);
+      colorMix = THREE.MathUtils.damp(colorMix, 0.18, 0.5, delta);
+
+      quantumGroup.rotation.x = THREE.MathUtils.damp(quantumGroup.rotation.x, targetRotation.x, 3.5, delta);
+      quantumGroup.rotation.y = THREE.MathUtils.damp(quantumGroup.rotation.y, targetRotation.y, 3.5, delta);
+      quantumGroup.rotation.z = -0.08 + Math.sin(elapsedTime * 0.32) * 0.08;
+      quantumGroup.position.x = THREE.MathUtils.damp(quantumGroup.position.x, pointer.x * 0.13, 2.5, delta);
+      quantumGroup.position.y = THREE.MathUtils.damp(quantumGroup.position.y, pointer.y * 0.1, 2.5, delta);
+
+      const breathing = 1 + Math.sin(elapsedTime * 0.82) * 0.075;
+      const expansion = breathing + energy * 0.13 + pulse * 0.16;
+      quantumGroup.scale.setScalar(baseScale * expansion);
+
+      const shapeTarget = shapeTargets[shapeIndex];
+      const morphSpeed = 1 - Math.exp(-delta * (1.5 + energy * 2.5));
+      for (let index = 0; index < nodePositions.length; index += 3) {
+        const particleIndex = index / 3;
+        const wave = Math.sin(elapsedTime * 2.1 + particleIndex * 0.31) * (0.015 + answerEnergy * 0.035);
+        nodePositions[index] += (shapeTarget[index] * (1 + wave) - nodePositions[index]) * morphSpeed;
+        nodePositions[index + 1] += (shapeTarget[index + 1] * (1 + wave) - nodePositions[index + 1]) * morphSpeed;
+        nodePositions[index + 2] += (shapeTarget[index + 2] * (1 + wave) - nodePositions[index + 2]) * morphSpeed;
+      }
+      nodePositionAttribute.needsUpdate = true;
+      updateConnections();
+
+      core.rotation.y = elapsedTime * (0.12 + answerEnergy * 0.22);
+      core.rotation.x = elapsedTime * 0.07;
+      core.scale.set(
+        1 + Math.sin(elapsedTime * 1.1) * 0.08 + pulse * 0.12,
+        1 + Math.cos(elapsedTime * 0.9) * 0.1 + energy * 0.08,
+        1 + Math.sin(elapsedTime * 1.3) * 0.06 + answerEnergy * 0.1,
+      );
+      innerCore.rotation.y = -elapsedTime * (0.2 + answerEnergy * 0.35);
+      innerCore.rotation.z = elapsedTime * 0.12;
+      innerCore.scale.setScalar(1 + Math.sin(elapsedTime * (1.5 + answerEnergy)) * (0.1 + answerEnergy * 0.08));
+
+      rings[0].rotation.z += delta * (0.22 + energy * 0.5);
+      rings[1].rotation.x -= delta * (0.18 + answerEnergy * 0.55);
+      rings[2].rotation.y += delta * (0.16 + energy * 0.4);
+      rings.forEach((ring, index) => ring.scale.setScalar(1 + Math.sin(elapsedTime * 0.9 + index * 2.1) * 0.08 + pulse * 0.1));
+
+      nodeCloud.rotation.y = elapsedTime * (0.045 + answerEnergy * 0.05);
+      connections.rotation.y = nodeCloud.rotation.y;
+      dust.rotation.y = -elapsedTime * (0.012 + energy * 0.01);
+      dust.rotation.x = Math.sin(elapsedTime * 0.15) * 0.08;
+
+      nodeMaterial.size = 0.065 + answerEnergy * 0.025 + pulse * 0.018;
+      nodeMaterial.color.copy(CYAN).lerp(WHITE, Math.min(0.7, answerEnergy * 0.45));
+      connectionMaterial.color.copy(VIOLET).lerp(CYAN, colorMix);
+      connectionMaterial.opacity = 0.24 + energy * 0.2 + answerEnergy * 0.12;
+      innerMaterial.opacity = 0.3 + answerEnergy * 0.24 + pulse * 0.1;
+      coreMaterial.opacity = 0.2 + energy * 0.16;
+
+      if (rippleLife > 0) {
+        rippleLife = Math.max(0, rippleLife - delta * 0.75);
+        const rippleProgress = 1 - rippleLife;
+        ripple.scale.setScalar(0.12 + rippleProgress * 4.8);
+        rippleMaterial.opacity = rippleLife * 0.78;
+        ripple.visible = rippleLife > 0;
+      }
+
       renderer.render(scene, camera);
       animationFrame = window.requestAnimationFrame(render);
     };
@@ -203,6 +419,13 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
       container.removeEventListener('pointermove', onPointerMove);
+      container.removeEventListener('pointerleave', onPointerLeave);
+      container.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('quantum-ai-question', onQuestion);
+      window.removeEventListener('quantum-ai-answer-start', onAnswerStart);
+      window.removeEventListener('quantum-ai-answer-token', onAnswerToken);
+      window.removeEventListener('quantum-ai-answer-complete', onAnswerComplete);
+      window.removeEventListener('quantum-ai-answer-error', onAnswerError);
       coreGeometry.dispose();
       coreMaterial.dispose();
       innerGeometry.dispose();
@@ -215,10 +438,12 @@ export default function QuantumField({ className = '' }: QuantumFieldProps) {
       connectionMaterial.dispose();
       dustGeometry.dispose();
       dustMaterial.dispose();
+      rippleGeometry.dispose();
+      rippleMaterial.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     };
   }, []);
 
-  return <div ref={containerRef} className={`pointer-events-auto ${className}`} aria-hidden="true" />;
+  return <div ref={containerRef} className={`pointer-events-auto cursor-crosshair ${className}`} aria-hidden="true" />;
 }
