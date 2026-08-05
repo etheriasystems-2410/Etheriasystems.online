@@ -38,6 +38,7 @@ export default async (request) => {
   if (!openAiKey) {
     return new Response('Missing OPENAI_API_KEY', { status: 500 });
   }
+  const openAiBaseUrl = (Deno.env.get('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, '');
 
   let body;
   try {
@@ -56,7 +57,7 @@ export default async (request) => {
   let top = [];
 
   if (store) {
-    const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
+    const embeddingResponse = await fetch(`${openAiBaseUrl}/embeddings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiKey}` },
       body: JSON.stringify({
@@ -100,7 +101,7 @@ export default async (request) => {
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        const openAiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+        const openAiResponse = await fetch(`${openAiBaseUrl}/chat/completions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiKey}` },
           body: JSON.stringify({
@@ -122,11 +123,36 @@ export default async (request) => {
         }
 
         const reader = openAiResponse.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        const forwardLine = (line) => {
+          if (!line.startsWith('data:')) return;
+
+          const data = line.slice(5).trim();
+          if (!data || data === '[DONE]') return;
+
+          try {
+            const chunk = JSON.parse(data);
+            const token = chunk.choices?.[0]?.delta?.content;
+            if (token) controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token })}\n\n`));
+          } catch (error) {
+            console.error('Invalid OpenAI stream chunk', error instanceof Error ? error.message : error);
+          }
+        };
+
         while (true) {
           const { value, done } = await reader.read();
+          buffer += decoder.decode(value, { stream: !done });
+
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+          lines.forEach(forwardLine);
+
           if (done) break;
-          if (value) controller.enqueue(encoder.encode(`data: ${new TextDecoder().decode(value)}\n\n`));
         }
+
+        if (buffer.trim()) forwardLine(buffer);
 
         const metadata = {
           sources: top.map((item) => ({ path: item.path, score: item.score })),

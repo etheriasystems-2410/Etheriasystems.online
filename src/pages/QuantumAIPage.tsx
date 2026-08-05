@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Cpu, Atom, Network, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ChatWidget from '../components/ChatWidget';
 import LazyVideo from '../components/LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,6 +21,7 @@ export default function QuantumAIPage() {
   const bannerRef = useRef<HTMLElement>(null);
   const featuresRef = useRef<HTMLElement>(null);
   const archRef = useRef<HTMLElement>(null);
+  const chatRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -29,7 +31,7 @@ export default function QuantumAIPage() {
       gsap.fromTo(heroSubRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 0.5 });
 
       /* Sections staggered fade-up */
-      [bannerRef, featuresRef, archRef, ctaRef].forEach((ref) => {
+      [bannerRef, featuresRef, archRef, chatRef, ctaRef].forEach((ref) => {
         if (!ref.current) return;
         gsap.fromTo(ref.current, { opacity: 0, y: 30 }, {
           opacity: 1, y: 0, duration: 0.8,
@@ -142,6 +144,23 @@ export default function QuantumAIPage() {
                   </div>
                 ))}
               </div>
+            </GlassCard>
+          </div>
+        </section>
+
+        {/* ── Quantum AI Chat ── */}
+        <section className="py-10 px-6" ref={chatRef}>
+          <div className="max-w-4xl mx-auto">
+            <GlassCard className="p-6 sm:p-10 border-[#c9a227]/25">
+              <div className="text-center mb-8">
+                <h2 className="font-cinzel text-3xl sm:text-4xl mb-4 text-[#f5f5f5]">
+                  Speak With Quantum AI
+                </h2>
+                <p className="text-[#b0b0b0] max-w-2xl mx-auto">
+                  Ask about Etheria Systems, our applications, and the technology behind them.
+                </p>
+              </div>
+              <ChatWidget />
             </GlassCard>
           </div>
         </section>
