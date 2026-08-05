@@ -6,7 +6,6 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [verifyMode, setVerifyMode] = useState(false);
   const [lastMeta, setLastMeta] = useState<{ topScore?: number; inference?: boolean } | null>(null);
   const esRef = useRef<EventSource | null>(null);
@@ -24,7 +23,6 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
     appendMessage({ id: `u-${Date.now()}`, role: 'user', text: txt });
     setInput('');
     setLoading(true);
-    setIsSpeaking(true);
 
     try {
       const res = await fetch(apiPath, {
@@ -37,7 +35,6 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
         const t = await res.text();
         appendMessage({ id: `e-${Date.now()}`, role: 'assistant', text: `Error: ${t}` });
         setLoading(false);
-        setIsSpeaking(false);
         return;
       }
 
@@ -68,7 +65,6 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
           try { window.dispatchEvent(new CustomEvent('quantum-ai-meta', { detail: meta })); } catch (e) { }
 
           setLoading(false);
-          setIsSpeaking(false);
           es.close();
         } catch (e) {
           console.error('Invalid meta event', e);
@@ -79,13 +75,11 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
         console.error('SSE error', err);
         es.close();
         setLoading(false);
-        setIsSpeaking(false);
       };
 
     } catch (err: any) {
       appendMessage({ id: `x-${Date.now()}`, role: 'assistant', text: `Error: ${err?.message || 'Network error'}` });
       setLoading(false);
-      setIsSpeaking(false);
     }
   };
 
