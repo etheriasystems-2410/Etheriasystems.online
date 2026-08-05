@@ -5,9 +5,14 @@ function jsonResponse(payload, status) {
   });
 }
 
+function getEnvironmentVariable(name) {
+  if (typeof Deno !== 'undefined') return Deno.env.get(name);
+  return globalThis.process?.env?.[name];
+}
+
 function getOpenAiConfig() {
-  const gatewayKey = Deno.env.get('NETLIFY_AI_GATEWAY_KEY');
-  const gatewayBaseUrl = Deno.env.get('NETLIFY_AI_GATEWAY_BASE_URL');
+  const gatewayKey = getEnvironmentVariable('NETLIFY_AI_GATEWAY_KEY');
+  const gatewayBaseUrl = getEnvironmentVariable('NETLIFY_AI_GATEWAY_BASE_URL');
 
   if (gatewayKey && gatewayBaseUrl) {
     return {
@@ -16,17 +21,17 @@ function getOpenAiConfig() {
     };
   }
 
-  const openAiKey = Deno.env.get('OPENAI_API_KEY');
+  const openAiKey = getEnvironmentVariable('OPENAI_API_KEY');
   if (!openAiKey) return null;
 
   return {
     apiKey: openAiKey,
-    apiBaseUrl: (Deno.env.get('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, ''),
+    apiBaseUrl: (getEnvironmentVariable('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, ''),
   };
 }
 
 function getChatModel() {
-  const configuredModel = Deno.env.get('CHAT_MODEL');
+  const configuredModel = getEnvironmentVariable('CHAT_MODEL');
   const supportedModels = new Set(['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-5-mini']);
   return configuredModel && supportedModels.has(configuredModel) ? configuredModel : 'gpt-4.1-mini';
 }
@@ -104,7 +109,7 @@ export default async (request) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiConfig.apiKey}` },
       body: JSON.stringify({
-        model: Deno.env.get('EMBEDDING_MODEL') || 'text-embedding-3-small',
+        model: getEnvironmentVariable('EMBEDDING_MODEL') || 'text-embedding-3-small',
         input: message,
       }),
     });
@@ -128,7 +133,7 @@ export default async (request) => {
 
   const topScore = top[0]?.score ?? 0;
   const inferenceFlag = top.length === 0
-    || topScore < Number(Deno.env.get('SIMILARITY_THRESHOLD') || 0.15);
+    || topScore < Number(getEnvironmentVariable('SIMILARITY_THRESHOLD') || 0.15);
   const verifyInstruction = verifyMode
     ? '\n\nThe user enabled VERIFY mode. Add the provided source path after factual claims supported by context.'
     : '';

@@ -34,7 +34,7 @@ function parseEvent(frame: string): StreamEvent | null {
   return data.length ? { event, data: data.join('\n') } : null;
 }
 
-export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum-ai-chat' }: { apiPath?: string }) {
+export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPath?: string }) {
   const [messages, setMessages] = useState<Message[]>([
     { id: 'm0', role: 'assistant', text: 'Welcome. I am Quantum AI. Ask me about Etheria Systems, our applications, or the technology behind them.' },
   ]);
