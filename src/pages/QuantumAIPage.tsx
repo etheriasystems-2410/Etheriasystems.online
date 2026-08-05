@@ -81,6 +81,11 @@ export default function QuantumAIPage() {
             <div className="absolute inset-x-[8%] top-0 h-px bg-gradient-to-r from-transparent via-[#00e5e5]/70 to-transparent" />
             <QuantumField className="absolute -inset-[8%] z-10 opacity-100" />
             <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(10,10,11,0.18)_68%,rgba(10,10,11,0.62)_100%)] pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-5 z-30 text-center pointer-events-none" aria-hidden="true">
+              <span className="inline-flex rounded-full border border-[#00e5e5]/20 bg-black/30 px-4 py-1.5 text-[10px] uppercase tracking-[0.32em] text-[#b8ffff]/65 backdrop-blur-sm sm:text-xs">
+                Move · Tap · Ask
+              </span>
+            </div>
           </div>
         </section>
 
