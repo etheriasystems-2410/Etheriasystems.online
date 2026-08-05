@@ -1,21 +1,54 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+
+type Message = {
+  id: string;
+  role: 'assistant' | 'user';
+  text: string;
+};
+
+type Source = {
+  path: string;
+  score?: number;
+};
+
+type StreamMeta = {
+  sources?: Source[];
+  topScore?: number;
+  inference?: boolean;
+};
+
+type StreamEvent = {
+  event: string;
+  data: string;
+};
+
+function parseEvent(frame: string): StreamEvent | null {
+  let event = 'message';
+  const data: string[] = [];
+
+  frame.split('\n').forEach((line) => {
+    if (line.startsWith('event:')) event = line.slice(6).trim();
+    if (line.startsWith('data:')) data.push(line.slice(5).trimStart());
+  });
+
+  return data.length ? { event, data: data.join('\n') } : null;
+}
 
 export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum-ai-chat' }: { apiPath?: string }) {
-  const [messages, setMessages] = useState<{ id: string; role: string; text: string }[]>([
-    { id: 'm0', role: 'system', text: 'You are Quantum AI — an assistant that answers questions about Etheria Systems. Prefer site content and cite sources; label inferences.' },
+  const [messages, setMessages] = useState<Message[]>([
+    { id: 'm0', role: 'assistant', text: 'Welcome. I am Quantum AI. Ask me about Etheria Systems, our applications, or the technology behind them.' },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [verifyMode, setVerifyMode] = useState(false);
-  const [lastMeta, setLastMeta] = useState<{ topScore?: number; inference?: boolean } | null>(null);
-  const esRef = useRef<EventSource | null>(null);
+  const [lastMeta, setLastMeta] = useState<StreamMeta | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
-  const appendMessage = (m: { id: string; role: string; text: string }) => setMessages((s) => [...s, m]);
+  const appendMessage = (message: Message) => setMessages((current) => [...current, message]);
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
@@ -33,57 +66,78 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
 
       if (!res.ok) {
         const t = await res.text();
-        appendMessage({ id: `e-${Date.now()}`, role: 'assistant', text: `Error: ${t}` });
-        setLoading(false);
-        return;
+        throw new Error(t || 'Quantum AI is currently unavailable.');
       }
 
-      if (esRef.current) { esRef.current.close(); esRef.current = null; }
-      const streamUrl = apiPath;
-      const es = new EventSource(streamUrl);
-      esRef.current = es;
+      if (!res.body) throw new Error('Quantum AI returned an empty response.');
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
       let partial = '';
+      let buffer = '';
+      let receivedMeta = false;
 
-      const assistantId = 'assistant-stream';
-
-      es.onmessage = (ev) => {
-        const data = ev.data;
-        partial += data;
+      const assistantId = `assistant-${Date.now()}`;
+      const updateAssistant = () => {
         setMessages((prev) => {
           const others = prev.filter((p) => p.id !== assistantId);
           return [...others, { id: assistantId, role: 'assistant', text: partial }];
         });
       };
 
-      es.addEventListener('meta', (ev: any) => {
-        try {
-          const meta = JSON.parse(ev.data);
-          setLastMeta({ topScore: meta.topScore, inference: meta.inference });
-          appendMessage({ id: `meta-${Date.now()}`, role: 'assistant', text: `Sources:\n${meta.sources.map((s: any) => `- ${s.path} (score:${(s.score ?? 0).toFixed(3)})`).join('\n')}` });
-          if (meta.inference) appendMessage({ id: `inf-${Date.now()}`, role: 'assistant', text: 'Inference: This answer includes an informed inference where the site did not provide explicit details.' });
-
-          try { window.dispatchEvent(new CustomEvent('quantum-ai-meta', { detail: meta })); } catch (e) { }
-
-          setLoading(false);
-          es.close();
-        } catch (e) {
-          console.error('Invalid meta event', e);
+      const handleEvent = (streamEvent: StreamEvent) => {
+        if (streamEvent.event === 'meta') {
+          const meta = JSON.parse(streamEvent.data) as StreamMeta;
+          receivedMeta = true;
+          setLastMeta(meta);
+          window.dispatchEvent(new CustomEvent('quantum-ai-meta', { detail: meta }));
+          return;
         }
-      });
 
-      es.onerror = (err) => {
-        console.error('SSE error', err);
-        es.close();
-        setLoading(false);
+        if (streamEvent.event === 'error') {
+          const error = JSON.parse(streamEvent.data) as { error?: string };
+          throw new Error(error.error || 'Quantum AI could not complete the response.');
+        }
+
+        const payload = JSON.parse(streamEvent.data) as { token?: string };
+        if (payload.token) {
+          partial += payload.token;
+          updateAssistant();
+        }
       };
 
-    } catch (err: any) {
-      appendMessage({ id: `x-${Date.now()}`, role: 'assistant', text: `Error: ${err?.message || 'Network error'}` });
+      while (true) {
+        const { value, done } = await reader.read();
+        buffer += decoder.decode(value, { stream: !done }).replace(/\r\n/g, '\n');
+
+        const frames = buffer.split('\n\n');
+        buffer = frames.pop() || '';
+        frames.forEach((frame) => {
+          const streamEvent = parseEvent(frame);
+          if (streamEvent) handleEvent(streamEvent);
+        });
+
+        if (done) break;
+      }
+
+      if (buffer.trim()) {
+        const streamEvent = parseEvent(buffer);
+        if (streamEvent) handleEvent(streamEvent);
+      }
+
+      if (!partial && !receivedMeta) throw new Error('Quantum AI returned an incomplete response.');
+    } catch (error) {
+      appendMessage({
+        id: `x-${Date.now()}`,
+        role: 'assistant',
+        text: error instanceof Error ? error.message : 'Quantum AI is currently unavailable.',
+      });
+    } finally {
       setLoading(false);
     }
   };
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   };
 
@@ -130,10 +184,12 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
           </button>
         </div>
 
-        <div className="mt-3 text-xs text-[#8b8b9a]">
-          <div>Last response confidence: <span className="font-mono text-sm">{lastMeta?.topScore ? lastMeta.topScore.toFixed(3) : 'n/a'}</span> {lastMeta?.inference ? <span className="text-[#f0a100]">(Inference)</span> : ''}</div>
-          <div>Note: This widget streams responses from the Netlify Edge function at <code className="bg-black/30 px-1 rounded">/.netlify/edge-functions/quantum-ai-chat</code>.</div>
-        </div>
+        {lastMeta && (
+          <div className="mt-3 text-xs text-[#8b8b9a]" aria-live="polite">
+            <div>Last response confidence: <span className="font-mono text-sm">{lastMeta.topScore ? lastMeta.topScore.toFixed(3) : 'n/a'}</span> {lastMeta.inference ? <span className="text-[#f0a100]">(Inference)</span> : ''}</div>
+            {lastMeta.sources?.length ? <div>Sources: {lastMeta.sources.map((source) => source.path).join(', ')}</div> : null}
+          </div>
+        )}
       </div>
     </div>
   );
