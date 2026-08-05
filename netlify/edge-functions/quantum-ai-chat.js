@@ -1,4 +1,48 @@
-const jsonHeaders = { 'Content-Type': 'application/json' };
+function jsonResponse(payload, status) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+function getOpenAiConfig() {
+  const gatewayKey = Deno.env.get('NETLIFY_AI_GATEWAY_KEY');
+  const gatewayBaseUrl = Deno.env.get('NETLIFY_AI_GATEWAY_BASE_URL');
+
+  if (gatewayKey && gatewayBaseUrl) {
+    return {
+      apiKey: gatewayKey,
+      apiBaseUrl: `${gatewayBaseUrl.replace(/\/$/, '')}/v1`,
+    };
+  }
+
+  const openAiKey = Deno.env.get('OPENAI_API_KEY');
+  if (!openAiKey) return null;
+
+  return {
+    apiKey: openAiKey,
+    apiBaseUrl: (Deno.env.get('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, ''),
+  };
+}
+
+function getChatModel() {
+  const configuredModel = Deno.env.get('CHAT_MODEL');
+  const supportedModels = new Set(['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-5-mini']);
+  return configuredModel && supportedModels.has(configuredModel) ? configuredModel : 'gpt-4.1-mini';
+}
+
+async function logProviderError(label, response) {
+  let detail = '';
+
+  try {
+    const payload = await response.clone().json();
+    detail = payload?.error?.code || payload?.error?.type || '';
+  } catch {
+    detail = '';
+  }
+
+  console.error(label, response.status, detail);
+}
 
 function dot(left, right) {
   let total = 0;
@@ -34,32 +78,31 @@ export default async (request) => {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } });
   }
 
-  const openAiKey = Deno.env.get('OPENAI_API_KEY');
-  if (!openAiKey) {
-    return new Response('Missing OPENAI_API_KEY', { status: 500 });
+  const openAiConfig = getOpenAiConfig();
+  if (!openAiConfig) {
+    return jsonResponse({ error: 'AI service configuration unavailable' }, 503);
   }
-  const openAiBaseUrl = (Deno.env.get('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, '');
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ error: 'Invalid JSON body' }), { status: 400, headers: jsonHeaders });
+    return jsonResponse({ error: 'Invalid JSON body' }, 400);
   }
 
   const message = typeof body.message === 'string' ? body.message.trim() : '';
   const verifyMode = Boolean(body.verify);
   if (!message) {
-    return new Response(JSON.stringify({ error: 'Missing message' }), { status: 400, headers: jsonHeaders });
+    return jsonResponse({ error: 'Missing message' }, 400);
   }
 
   const store = await loadVectorStore(request);
   let top = [];
 
   if (store) {
-    const embeddingResponse = await fetch(`${openAiBaseUrl}/embeddings`, {
+    const embeddingResponse = await fetch(`${openAiConfig.apiBaseUrl}/embeddings`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiKey}` },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiConfig.apiKey}` },
       body: JSON.stringify({
         model: Deno.env.get('EMBEDDING_MODEL') || 'text-embedding-3-small',
         input: message,
@@ -67,8 +110,8 @@ export default async (request) => {
     });
 
     if (!embeddingResponse.ok) {
-      console.error('Embedding request failed', embeddingResponse.status);
-      return new Response('Embedding error', { status: 502 });
+      await logProviderError('Embedding request failed', embeddingResponse);
+      return jsonResponse({ error: 'AI context service unavailable' }, 502);
     }
 
     const embeddingData = await embeddingResponse.json();
@@ -101,11 +144,11 @@ export default async (request) => {
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        const openAiResponse = await fetch(`${openAiBaseUrl}/chat/completions`, {
+        const openAiResponse = await fetch(`${openAiConfig.apiBaseUrl}/chat/completions`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiKey}` },
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiConfig.apiKey}` },
           body: JSON.stringify({
-            model: Deno.env.get('CHAT_MODEL') || 'gpt-4o-mini',
+            model: getChatModel(),
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user', content: userPrompt },
@@ -117,7 +160,8 @@ export default async (request) => {
         });
 
         if (!openAiResponse.ok || !openAiResponse.body) {
-          controller.enqueue(encoder.encode(`event: error\ndata: ${JSON.stringify({ error: 'Chat request failed' })}\n\n`));
+          await logProviderError('Chat request failed', openAiResponse);
+          controller.enqueue(encoder.encode(`event: error\ndata: ${JSON.stringify({ error: 'Quantum AI is temporarily unavailable. Please try again.' })}\n\n`));
           controller.close();
           return;
         }
