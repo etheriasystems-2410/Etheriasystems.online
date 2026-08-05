@@ -1,4 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function useScrollSnapDelay(delay: number = 800, duration: number = 600, threshold: number = 0.05) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -79,8 +83,11 @@ export function useScrollSnapDelay(delay: number = 800, duration: number = 600, 
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          // Give a tiny buffer before allowing another snap
-          setTimeout(() => { isSnappingRef.current = false; }, 80);
+          // Give a tiny buffer before allowing another snap and refresh ScrollTrigger to keep GSAP in sync
+          setTimeout(() => {
+            isSnappingRef.current = false;
+            try { ScrollTrigger.refresh(); } catch (e) { /* ignore if not available */ }
+          }, 120);
         }
       };
       requestAnimationFrame(animate);
