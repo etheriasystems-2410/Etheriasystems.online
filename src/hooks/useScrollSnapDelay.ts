@@ -101,7 +101,6 @@ export function useScrollSnapDelay(delay: number = 800, duration: number = 600, 
 
       // If any (non-current) section has even a small visible portion beyond thresholdFraction
       // choose the section with the largest visible portion and snap to it immediately with a tight duration.
-      const viewportHeight = window.innerHeight;
       let largestVisibleSection: HTMLElement | null = null;
       let largestVisible = 0;
       for (const section of sections) {
