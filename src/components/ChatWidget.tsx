@@ -7,6 +7,8 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [verifyMode, setVerifyMode] = useState(false);
+  const [lastMeta, setLastMeta] = useState<{ topScore?: number; inference?: boolean } | null>(null);
   const esRef = useRef<EventSource | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -25,11 +27,10 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
     setIsSpeaking(true);
 
     try {
-      // Start SSE connection
       const res = await fetch(apiPath, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: txt, sessionContext: 'quantum-ai-page' }),
+        body: JSON.stringify({ message: txt, sessionContext: 'quantum-ai-page', verify: verifyMode }),
       });
 
       if (!res.ok) {
@@ -40,22 +41,17 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
         return;
       }
 
-      // We assume the endpoint returns a text/event-stream; create EventSource via a special endpoint
-      // Workaround: fetch the streaming endpoint URL from response if provided, else use apiPath
-      const streamUrl = res.url || apiPath;
       if (esRef.current) { esRef.current.close(); esRef.current = null; }
+      const streamUrl = apiPath;
       const es = new EventSource(streamUrl);
       esRef.current = es;
       let partial = '';
-      let metaReceived = false;
+
+      const assistantId = 'assistant-stream';
 
       es.onmessage = (ev) => {
-        // Each data chunk could be partial json from OpenAI; we append raw
         const data = ev.data;
         partial += data;
-        // Update UI with current partial
-        // Replace or append assistant message
-        const assistantId = 'assistant-stream';
         setMessages((prev) => {
           const others = prev.filter((p) => p.id !== assistantId);
           return [...others, { id: assistantId, role: 'assistant', text: partial }];
@@ -65,9 +61,15 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
       es.addEventListener('meta', (ev: any) => {
         try {
           const meta = JSON.parse(ev.data);
-          metaReceived = true;
-          appendMessage({ id: `meta-${Date.now()}`, role: 'assistant', text: `Sources:\n${meta.sources.map((s: any) => `- ${s.path} (score:${s.score.toFixed(3)})`).join('\n')}` });
+          setLastMeta({ topScore: meta.topScore, inference: meta.inference });
+          appendMessage({ id: `meta-${Date.now()}`, role: 'assistant', text: `Sources:\n${meta.sources.map((s: any) => `- ${s.path} (score:${(s.score ?? 0).toFixed(3)})`).join('\n')}` });
           if (meta.inference) appendMessage({ id: `inf-${Date.now()}`, role: 'assistant', text: 'Inference: This answer includes an informed inference where the site did not provide explicit details.' });
+
+          try { window.dispatchEvent(new CustomEvent('quantum-ai-meta', { detail: meta })); } catch (e) { }
+
+          setLoading(false);
+          setIsSpeaking(false);
+          es.close();
         } catch (e) {
           console.error('Invalid meta event', e);
         }
@@ -80,13 +82,6 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
         setIsSpeaking(false);
       };
 
-      // Close stream when finished (some servers send a special event or close connection)
-      es.addEventListener('end', () => {
-        es.close();
-        setLoading(false);
-        setIsSpeaking(false);
-      });
-
     } catch (err: any) {
       appendMessage({ id: `x-${Date.now()}`, role: 'assistant', text: `Error: ${err?.message || 'Network error'}` });
       setLoading(false);
@@ -98,12 +93,28 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   };
 
+  const downloadTranscript = () => {
+    const lines = messages.map((m) => `${m.role.toUpperCase()}: ${m.text}`);
+    const blob = new Blob([lines.join('\n\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `quantum-ai-transcript-${Date.now()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="w-full max-w-3xl mx-auto">
       <div className="p-4 rounded-2xl bg-[#0a0a0b]/40 border border-white/10 backdrop-blur-md">
         <div className="flex items-center justify-between mb-4">
           <h4 className="font-cinzel text-lg text-[#f5f5f5]">Ask Quantum AI</h4>
-          <span className="text-xs text-[#a0a0b8]">Powered by Quantum AI</span>
+          <div className="flex items-center gap-3">
+            <label className="flex items-center gap-2 text-xs text-[#a0a0b8]"><input type="checkbox" checked={verifyMode} onChange={(e) => setVerifyMode(e.target.checked)} /> Verify</label>
+            <button onClick={downloadTranscript} className="text-xs text-[#a0a0b8] hover:text-[#00e5e5]">Download transcript</button>
+          </div>
         </div>
 
         <div ref={containerRef} className="h-56 overflow-auto p-3 rounded-md bg-black/20 border border-white/5 mb-4">
@@ -125,7 +136,10 @@ export default function ChatWidget({ apiPath = '/.netlify/edge-functions/quantum
           </button>
         </div>
 
-        <p className="mt-3 text-xs text-[#8b8b9a]">Note: This widget streams responses from the Netlify Edge function at <code className="bg-black/30 px-1 rounded">/.netlify/edge-functions/quantum-ai-chat</code>.</p>
+        <div className="mt-3 text-xs text-[#8b8b9a]">
+          <div>Last response confidence: <span className="font-mono text-sm">{lastMeta?.topScore ? lastMeta.topScore.toFixed(3) : 'n/a'}</span> {lastMeta?.inference ? <span className="text-[#f0a100]">(Inference)</span> : ''}</div>
+          <div>Note: This widget streams responses from the Netlify Edge function at <code className="bg-black/30 px-1 rounded">/.netlify/edge-functions/quantum-ai-chat</code>.</div>
+        </div>
       </div>
     </div>
   );
