@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { Square, Volume2, VolumeX } from 'lucide-react';
 
 type Message = {
   id: string;
@@ -42,17 +43,65 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
   const [loading, setLoading] = useState(false);
   const [verifyMode, setVerifyMode] = useState(false);
   const [lastMeta, setLastMeta] = useState<StreamMeta | null>(null);
+  const [speechSupported] = useState(() => typeof window !== 'undefined' && 'speechSynthesis' in window);
+  const [voiceEnabled, setVoiceEnabled] = useState(() => typeof window !== 'undefined' && 'speechSynthesis' in window);
+  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const voiceEnabledRef = useRef(voiceEnabled);
 
   useEffect(() => {
     containerRef.current?.scrollTo({ top: containerRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => () => {
+    if (speechSupported) window.speechSynthesis.cancel();
+  }, [speechSupported]);
+
+  useEffect(() => {
+    voiceEnabledRef.current = voiceEnabled;
+  }, [voiceEnabled]);
+
   const appendMessage = (message: Message) => setMessages((current) => [...current, message]);
+
+  const stopSpeaking = () => {
+    if (!speechSupported) return;
+    window.speechSynthesis.cancel();
+    setSpeakingMessageId(null);
+  };
+
+  const speakMessage = (text: string, messageId: string) => {
+    if (!speechSupported || !text.trim()) return;
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(
+      text
+        .replace(/https?:\/\/\S+/g, 'link')
+        .replace(/[*_#`>]/g, '')
+        .trim(),
+    );
+    const voices = window.speechSynthesis.getVoices();
+    utterance.voice = voices.find((voice) => voice.lang.startsWith('en') && /natural|premium|enhanced/i.test(voice.name))
+      || voices.find((voice) => voice.lang.startsWith('en'))
+      || null;
+    utterance.rate = 0.96;
+    utterance.pitch = 0.94;
+    utterance.onend = () => setSpeakingMessageId(null);
+    utterance.onerror = () => setSpeakingMessageId(null);
+    setSpeakingMessageId(messageId);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const toggleVoice = () => {
+    const nextEnabled = !voiceEnabled;
+    voiceEnabledRef.current = nextEnabled;
+    setVoiceEnabled(nextEnabled);
+    if (!nextEnabled) stopSpeaking();
+  };
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
     const txt = input.trim();
+    stopSpeaking();
     window.dispatchEvent(new CustomEvent('quantum-ai-question', { detail: { length: txt.length } }));
     appendMessage({ id: `u-${Date.now()}`, role: 'user', text: txt });
     setInput('');
@@ -131,6 +180,7 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
 
       if (!partial && !receivedMeta) throw new Error('Quantum AI returned an incomplete response.');
       window.dispatchEvent(new CustomEvent('quantum-ai-answer-complete', { detail: { length: partial.length } }));
+      if (voiceEnabledRef.current && partial) speakMessage(partial, assistantId);
     } catch (error) {
       window.dispatchEvent(new CustomEvent('quantum-ai-answer-error'));
       appendMessage({
@@ -161,37 +211,60 @@ export default function ChatWidget({ apiPath = '/api/quantum-ai-chat' }: { apiPa
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      <div className="p-4 rounded-2xl bg-[#0a0a0b]/40 border border-white/10 backdrop-blur-md">
-        <div className="flex items-center justify-between mb-4">
-          <h4 className="font-cinzel text-lg text-[#f5f5f5]">Ask Quantum AI</h4>
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-xs text-[#a0a0b8]"><input type="checkbox" checked={verifyMode} onChange={(e) => setVerifyMode(e.target.checked)} /> Verify</label>
-            <button onClick={downloadTranscript} className="text-xs text-[#a0a0b8] hover:text-[#00e5e5]">Download transcript</button>
+    <div className="w-full max-w-4xl mx-auto min-h-0">
+      <div className="flex h-full min-h-0 flex-col rounded-xl sm:rounded-2xl bg-[#0a0a0b]/40 border border-white/10 p-2.5 sm:p-3 backdrop-blur-md">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2 sm:mb-3">
+          <h4 className="font-cinzel text-sm sm:text-base text-[#f5f5f5]">Ask Quantum AI</h4>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={toggleVoice}
+              disabled={!speechSupported}
+              className="inline-flex items-center gap-1 rounded-full border border-white/10 px-2 py-1 text-[10px] sm:text-xs text-[#a0a0b8] transition-colors hover:border-[#00e5e5]/35 hover:text-[#00e5e5] disabled:cursor-not-allowed disabled:opacity-40"
+              aria-pressed={voiceEnabled}
+              title={speechSupported ? 'Toggle spoken answers' : 'Speech is not supported by this browser'}
+            >
+              {voiceEnabled ? <Volume2 size={13} aria-hidden="true" /> : <VolumeX size={13} aria-hidden="true" />}
+              {voiceEnabled ? 'Voice on' : 'Voice off'}
+            </button>
+            <label className="hidden sm:flex items-center gap-1.5 text-xs text-[#a0a0b8]"><input type="checkbox" checked={verifyMode} onChange={(e) => setVerifyMode(e.target.checked)} /> Verify</label>
+            <button onClick={downloadTranscript} className="hidden lg:inline text-xs text-[#a0a0b8] hover:text-[#00e5e5]">Download</button>
           </div>
         </div>
 
-        <div ref={containerRef} className="h-56 overflow-auto p-3 rounded-md bg-black/20 border border-white/5 mb-4">
+        <div ref={containerRef} className="min-h-[6.5rem] flex-1 overflow-auto p-2 sm:p-3 rounded-md bg-black/20 border border-white/5 mb-2 sm:mb-3" aria-live="polite">
           {messages.map((m) => (
-            <div key={m.id} className={`mb-3 ${m.role === 'user' ? 'text-right' : 'text-left'}`}>
-              <div className={`inline-block max-w-[85%] break-words px-3 py-2 rounded-md ${m.role === 'user' ? 'bg-[#c9a227]/15 text-[#f5f5f5]' : 'bg-[#111111]/70 text-[#dcdcdc]'}`}>
-                <div className="text-sm whitespace-pre-wrap">{m.text}</div>
+            <div key={m.id} className={`mb-2 ${m.role === 'user' ? 'text-right' : 'text-left'}`}>
+              <div className={`group relative inline-block max-w-[90%] break-words px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-md ${m.role === 'user' ? 'bg-[#c9a227]/15 text-[#f5f5f5]' : 'bg-[#111111]/70 text-[#dcdcdc] pr-9'}`}>
+                <div className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">{m.text}</div>
+                {m.role === 'assistant' && speechSupported && m.text && (
+                  <button
+                    type="button"
+                    onClick={() => speakingMessageId === m.id ? stopSpeaking() : speakMessage(m.text, m.id)}
+                    className="absolute right-1.5 top-1.5 rounded p-1 text-[#85859a] transition-colors hover:bg-white/5 hover:text-[#00e5e5] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00e5e5]"
+                    aria-label={speakingMessageId === m.id ? 'Stop speaking answer' : 'Speak answer'}
+                    title={speakingMessageId === m.id ? 'Stop speaking' : 'Speak this answer'}
+                  >
+                    {speakingMessageId === m.id ? <Square size={12} fill="currentColor" aria-hidden="true" /> : <Volume2 size={14} aria-hidden="true" />}
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-2 sm:gap-3">
           <textarea value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={onKeyDown}
             placeholder="Ask about Quantum AI, our company, or products..."
-            className="flex-1 resize-none min-h-[44px] max-h-36 px-3 py-2 rounded-md bg-transparent border border-white/10 text-[#e6e6e6] focus:outline-none focus:ring-2 focus:ring-[#c9a227]/40" />
-          <button onClick={sendMessage} disabled={loading || !input.trim()} className="px-4 py-2 bg-gradient-to-r from-[#c9a227] to-[#e5c100] text-[#0a0a0b] font-cinzel rounded-md disabled:opacity-50">
+            aria-label="Message Quantum AI"
+            className="flex-1 resize-none min-h-[40px] max-h-24 px-2.5 sm:px-3 py-2 rounded-md bg-transparent border border-white/10 text-xs sm:text-sm text-[#e6e6e6] focus:outline-none focus:ring-2 focus:ring-[#c9a227]/40" />
+          <button onClick={sendMessage} disabled={loading || !input.trim()} className="px-3 sm:px-4 py-2 bg-gradient-to-r from-[#c9a227] to-[#e5c100] text-[#0a0a0b] text-xs sm:text-sm font-cinzel rounded-md disabled:opacity-50">
             {loading ? 'Thinking...' : 'Send'}
           </button>
         </div>
 
         {lastMeta && (
-          <div className="mt-3 text-xs text-[#8b8b9a]" aria-live="polite">
+          <div className="hidden xl:block mt-2 text-[10px] text-[#8b8b9a]" aria-live="polite">
             <div>Last response confidence: <span className="font-mono text-sm">{lastMeta.topScore ? lastMeta.topScore.toFixed(3) : 'n/a'}</span> {lastMeta.inference ? <span className="text-[#f0a100]">(Inference)</span> : ''}</div>
             {lastMeta.sources?.length ? <div>Sources: {lastMeta.sources.map((source) => source.path).join(', ')}</div> : null}
           </div>
