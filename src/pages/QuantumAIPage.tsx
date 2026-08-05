@@ -22,7 +22,7 @@ export default function QuantumAIPage() {
   const bannerRef = useRef<HTMLElement>(null);
   const featuresRef = useRef<HTMLElement>(null);
   const archRef = useRef<HTMLElement>(null);
-  const chatRef = useRef<HTMLElement>(null);
+  const chatRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -30,9 +30,10 @@ export default function QuantumAIPage() {
       /* Hero entrance */
       gsap.fromTo(heroTitleRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, delay: 0.3 });
       gsap.fromTo(heroSubRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 0.5 });
+      gsap.fromTo(chatRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.8, delay: 0.65 });
 
       /* Sections staggered fade-up */
-      [chatRef, bannerRef, featuresRef, archRef, ctaRef].forEach((ref) => {
+      [bannerRef, featuresRef, archRef, ctaRef].forEach((ref) => {
         if (!ref.current) return;
         gsap.fromTo(ref.current, { opacity: 0, y: 30 }, {
           opacity: 1, y: 0, duration: 0.8,
@@ -59,40 +60,38 @@ export default function QuantumAIPage() {
       {/* ═════ SCROLLABLE CONTENT ═════ */}
       <div className="relative z-10">
         {/* ── Hero ── */}
-        <section className="relative px-4 sm:px-6 pt-28 sm:pt-32 pb-0 overflow-hidden">
-          <div className="relative z-10 text-center max-w-4xl mx-auto pointer-events-none">
+        <section className="quantum-first-view relative px-3 sm:px-6 overflow-hidden">
+          <div className="quantum-first-view__heading relative z-10 text-center max-w-4xl mx-auto pointer-events-none">
             <h1
               ref={heroTitleRef}
-              className="font-cinzel text-5xl sm:text-7xl lg:text-8xl mb-4 sm:mb-6 text-[#f5f5f5] drop-shadow-[0_2px_20px_rgba(0,0,0,0.95)] tracking-wider"
+              className="font-cinzel text-[clamp(2rem,6vw,5.5rem)] leading-none mb-2 sm:mb-3 text-[#f5f5f5] drop-shadow-[0_2px_20px_rgba(0,0,0,0.95)] tracking-wider"
             >
               Quantum AI
             </h1>
             <p
               ref={heroSubRef}
-              className="text-lg sm:text-2xl text-[#e0e0e0] max-w-2xl mx-auto px-4 drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]"
+              className="text-[clamp(0.78rem,2vw,1.3rem)] leading-snug text-[#e0e0e0] max-w-2xl mx-auto px-4 drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]"
             >
               The engine that powers every Etheria Systems experience
             </p>
-            <div className="w-24 sm:w-32 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-7 sm:mt-9" />
+            <div className="w-20 sm:w-28 h-px bg-gradient-to-r from-transparent via-[#c9a227] to-transparent mx-auto mt-3 sm:mt-4" />
           </div>
 
-          <div className="relative w-full max-w-6xl h-[430px] sm:h-[560px] lg:h-[640px] mx-auto mt-6 sm:mt-8 overflow-hidden rounded-[2rem] border border-[#c9a227]/30 bg-black/20 shadow-[0_0_90px_rgba(139,92,246,0.18),0_30px_80px_rgba(0,0,0,0.5)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,229,229,0.08)_0%,rgba(139,92,246,0.08)_42%,rgba(10,10,11,0.72)_100%)] pointer-events-none" />
-            <div className="absolute inset-x-[8%] top-0 h-px bg-gradient-to-r from-transparent via-[#00e5e5]/70 to-transparent" />
-            <QuantumField className="absolute -inset-[8%] z-10 opacity-100" />
-            <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(10,10,11,0.18)_68%,rgba(10,10,11,0.62)_100%)] pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-5 z-30 text-center pointer-events-none" aria-hidden="true">
-              <span className="inline-flex rounded-full border border-[#00e5e5]/20 bg-black/30 px-4 py-1.5 text-[10px] uppercase tracking-[0.32em] text-[#b8ffff]/65 backdrop-blur-sm sm:text-xs">
-                Move · Tap · Ask
-              </span>
+          <div className="quantum-first-view__experience w-full max-w-7xl mx-auto">
+            <div className="quantum-first-view__field relative min-h-0 overflow-hidden rounded-2xl sm:rounded-[2rem] border border-[#c9a227]/30 bg-black/20 shadow-[0_0_90px_rgba(139,92,246,0.18),0_30px_80px_rgba(0,0,0,0.5)]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,229,229,0.08)_0%,rgba(139,92,246,0.08)_42%,rgba(10,10,11,0.72)_100%)] pointer-events-none" />
+              <div className="absolute inset-x-[8%] top-0 h-px bg-gradient-to-r from-transparent via-[#00e5e5]/70 to-transparent" />
+              <QuantumField className="absolute -inset-[8%] z-10 opacity-100" />
+              <div className="absolute inset-0 z-20 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(10,10,11,0.18)_68%,rgba(10,10,11,0.62)_100%)] pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-3 z-30 text-center pointer-events-none" aria-hidden="true">
+                <span className="inline-flex rounded-full border border-[#00e5e5]/20 bg-black/30 px-3 py-1 text-[9px] uppercase tracking-[0.28em] text-[#b8ffff]/65 backdrop-blur-sm sm:text-[10px]">
+                  Move · Tap · Ask
+                </span>
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* ── Quantum AI Chat ── */}
-        <section className="relative z-20 px-4 sm:px-6 pt-5 sm:pt-6 pb-12" ref={chatRef}>
-          <div className="max-w-4xl mx-auto rounded-2xl border border-[#c9a227]/25 bg-black/45 p-2 sm:p-3 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-md">
-            <ChatWidget />
+            <div className="quantum-first-view__chat relative z-20 min-h-0 rounded-2xl border border-[#c9a227]/25 bg-black/45 p-1.5 sm:p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-md" ref={chatRef}>
+              <ChatWidget />
+            </div>
           </div>
         </section>
 

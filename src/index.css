@@ -42,6 +42,65 @@
   }
 }
 
+@layer components {
+  .quantum-first-view {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: clamp(0.55rem, 1.4vh, 1rem);
+    height: 100vh;
+    height: 100svh;
+    padding-top: clamp(5.1rem, 12vh, 7rem);
+    padding-bottom: clamp(0.5rem, 1.6vh, 1rem);
+  }
+
+  .quantum-first-view__experience {
+    display: grid;
+    grid-template-rows: minmax(5.5rem, 0.58fr) minmax(12.5rem, 1.42fr);
+    gap: clamp(0.45rem, 1.2vh, 0.8rem);
+    min-height: 0;
+  }
+
+  .quantum-first-view__chat > div,
+  .quantum-first-view__chat > div > div {
+    height: 100%;
+    min-height: 0;
+  }
+
+  @media (min-width: 768px) {
+    .quantum-first-view__experience {
+      grid-template-columns: minmax(0, 1.08fr) minmax(22rem, 0.92fr);
+      grid-template-rows: minmax(0, 1fr);
+      gap: clamp(0.8rem, 1.8vw, 1.5rem);
+    }
+  }
+
+  @media (max-height: 700px) and (max-width: 767px) {
+    .quantum-first-view {
+      padding-top: 4.75rem;
+    }
+
+    .quantum-first-view__heading p,
+    .quantum-first-view__heading div {
+      display: none;
+    }
+
+    .quantum-first-view__experience {
+      grid-template-rows: minmax(4.5rem, 0.42fr) minmax(11.5rem, 1.58fr);
+    }
+  }
+
+  @media (max-height: 620px) and (min-width: 768px) {
+    .quantum-first-view {
+      padding-top: 4.6rem;
+    }
+
+    .quantum-first-view__heading p,
+    .quantum-first-view__heading div {
+      display: none;
+    }
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
