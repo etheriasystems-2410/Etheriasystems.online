@@ -10,6 +10,8 @@ export default function Footer() {
           <span className="text-[#6b6b8a]">|</span>
           <Link to="/privacy" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Privacy Policy</Link>
           <span className="text-[#6b6b8a]">|</span>
+          <Link to="/app-privacy" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Etheria App Privacy</Link>
+          <span className="text-[#6b6b8a]">|</span>
           <Link to="/contest-rules" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Contest Rules</Link>
           <span className="text-[#6b6b8a]">|</span>
           <Link to="/credits" className="text-[#a0a0b8] hover:text-[#00e5e5] transition-colors">Credits</Link>

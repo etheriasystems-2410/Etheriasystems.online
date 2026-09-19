@@ -14,6 +14,7 @@ import ContactPage from './pages/ContactPage';
 import DonatePage from './pages/DonatePage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
+import AppPrivacyPage from './pages/AppPrivacyPage';
 import PricingPage from './pages/PricingPage';
 import ContestRulesPage from './pages/ContestRulesPage';
 import CreditsPage from './pages/CreditsPage';
@@ -39,6 +40,7 @@ function App() {
             <Route path="/donate" element={<DonatePage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/app-privacy" element={<AppPrivacyPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/contest-rules" element={<ContestRulesPage />} />
             <Route path="/credits" element={<CreditsPage />} />
