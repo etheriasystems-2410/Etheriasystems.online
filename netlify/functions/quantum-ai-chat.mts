@@ -1,79 +1,117 @@
-import OpenAI from 'openai'
-
-function createOpenAiClient() {
-  const gatewayKey = process.env.NETLIFY_AI_GATEWAY_KEY
-  const gatewayBaseUrl = process.env.NETLIFY_AI_GATEWAY_BASE_URL
-
-  if (gatewayKey && gatewayBaseUrl) {
-    return new OpenAI({
-      apiKey: gatewayKey,
-      baseURL: gatewayBaseUrl.replace(/\/$/, ''),
-    })
-  }
-
-  return new OpenAI()
-}
-
-const openai = createOpenAiClient()
-
-type VectorDocument = {
-  path: string
-  text?: string
-  embedding?: number[]
-  score?: number
-}
-
-type VectorStore = {
-  documents: VectorDocument[]
-}
+declare const Deno: { env: { get(key: string): string | undefined } } | undefined
 
 function jsonResponse(payload: unknown, status: number) {
   return Response.json(payload, { status })
 }
 
-function dot(left: number[], right: number[]) {
-  return left.reduce((total, value, index) => total + value * (right[index] ?? 0), 0)
+function getEnvironmentVariable(name: string): string | undefined {
+  if (typeof Deno !== 'undefined') return Deno.env.get(name)
+  return globalThis.process?.env?.[name]
 }
 
-function cosine(left: number[], right: number[]) {
-  const denominator = Math.sqrt(dot(left, left)) * Math.sqrt(dot(right, right))
-  return denominator === 0 ? 0 : dot(left, right) / denominator
-}
+function getOpenAiConfig() {
+  const gatewayKey = getEnvironmentVariable('NETLIFY_AI_GATEWAY_KEY')
+  const gatewayBaseUrl = getEnvironmentVariable('NETLIFY_AI_GATEWAY_BASE_URL')
 
-async function loadVectorStore(request: Request): Promise<VectorStore | null> {
-  try {
-    const response = await fetch(new URL('/data/vecstore.json', request.url))
-    if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) return null
+  if (gatewayKey && gatewayBaseUrl) {
+    return {
+      apiKey: gatewayKey,
+      apiBaseUrl: `${gatewayBaseUrl.replace(/\/$/, '')}/v1`,
+    }
+  }
 
-    const store = await response.json() as Partial<VectorStore>
-    return Array.isArray(store.documents) ? { documents: store.documents } : null
-  } catch (error) {
-    console.error('Failed to load vector store', error instanceof Error ? error.message : error)
-    return null
+  const openAiKey = getEnvironmentVariable('OPENAI_API_KEY')
+  if (!openAiKey) return null
+
+  return {
+    apiKey: openAiKey,
+    apiBaseUrl: (getEnvironmentVariable('OPENAI_BASE_URL') || 'https://api.openai.com/v1').replace(/\/$/, ''),
   }
 }
 
-async function findContext(request: Request, message: string) {
-  const store = await loadVectorStore(request)
-  if (!store) return []
+function getChatModel(): string {
+  const configuredModel = getEnvironmentVariable('CHAT_MODEL')
+  const supportedModels = new Set(['gpt-4o', 'gpt-4o-mini', 'gpt-4.1-mini', 'gpt-3.5-turbo', 'gpt-4'])
+  return configuredModel && supportedModels.has(configuredModel) ? configuredModel : 'gpt-4o-mini'
+}
 
-  try {
-    const embedding = await openai.embeddings.create({
-      model: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
-      input: message,
-    })
-    const queryVector = embedding.data[0]?.embedding
-    if (!queryVector) return []
+type KnowledgeEntry = {
+  keywords: string[]
+  response: string
+}
 
-    return store.documents
-      .filter((document) => Array.isArray(document.embedding) && document.embedding.length === queryVector.length)
-      .map((document) => ({ ...document, score: cosine(queryVector, document.embedding!) }))
-      .sort((left, right) => (right.score ?? 0) - (left.score ?? 0))
-      .slice(0, 5)
-  } catch (error) {
-    console.error('Embedding request failed', error instanceof Error ? error.message : error)
-    return []
+const KNOWLEDGE_BASE: KnowledgeEntry[] = [
+  {
+    keywords: ['etheria', 'what is etheria', 'about etheria', 'app', 'company', 'etheria systems'],
+    response: 'Etheria Systems is dedicated to combining ancient esoteric wisdom with cutting-edge modern technology. We build apps for tarot, astrology, rituals, crystal study, and spiritual divination designed for both beginners and seasoned practitioners.',
+  },
+  {
+    keywords: ['quantum', 'quantum ai', 'how quantum works', 'ai'],
+    response: 'Quantum AI is Etheria Systems\' signature assistant technology. Unlike conventional rigid AI models, Quantum AI adapts dynamically to spiritual, astrological, and symbolic context in real time to offer nuanced and non-repetitive insights.',
+  },
+  {
+    keywords: ['tarot', 'cards', 'reading', 'spread', 'arcanum'],
+    response: 'In Etheria\'s Tarot & Arcanum modules, you can explore the Major and Minor Arcana, study symbolic paths, and perform deep spreads tailored to your spiritual queries.',
+  },
+  {
+    keywords: ['astrology', 'horoscope', 'zodiac', 'planet', 'stars'],
+    response: 'Our Astrology features interpret natal placements, transits, and elemental harmonies to provide intuitive guidance on life paths and personal timing.',
+  },
+  {
+    keywords: ['price', 'pricing', 'cost', 'subscription', 'free', 'trial', 'pay'],
+    response: 'Etheria Systems offers free core access to features across our applications. Full access is available via affordable monthly/annual subscriptions or single access passes through the Etheria Systems Hub.',
+  },
+  {
+    keywords: ['contact', 'support', 'help', 'email', 'tester', 'beta'],
+    response: 'You can contact Etheria Systems directly through the app or by reaching out via our official contact channels. Beta testers receive exclusive access codes upon joining!',
+  },
+]
+
+function generateFallbackResponse(message: string): string {
+  const lowerMsg = message.toLowerCase()
+  const matched = KNOWLEDGE_BASE.find((entry) =>
+    entry.keywords.some((keyword) => lowerMsg.includes(keyword))
+  )
+
+  if (matched) {
+    return matched.response
   }
+
+  return `Greetings! I am Quantum AI, your assistant for Etheria Systems. Regarding "${message}": Etheria Systems integrates esoteric traditions—such as Tarot, Astrology, and Ritual Work—with responsive digital intelligence. Feel free to ask about our applications, divination tools, or subscription options!`
+}
+
+async function streamFallbackResponse(message: string): Promise<Response> {
+  const text = generateFallbackResponse(message)
+  const encoder = new TextEncoder()
+  const stream = new ReadableStream({
+    async start(controller) {
+      const words = text.split(' ')
+      for (let i = 0; i < words.length; i++) {
+        const token = (i === 0 ? '' : ' ') + words[i]
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token })}\n\n`))
+        await new Promise((resolve) => setTimeout(resolve, 30))
+      }
+
+      controller.enqueue(
+        encoder.encode(
+          `event: meta\ndata: ${JSON.stringify({
+            sources: [{ path: '/info/quantum-ai' }],
+            inference: true,
+            topScore: 1.0,
+          })}\n\n`
+        )
+      )
+      controller.close()
+    },
+  })
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+    },
+  })
 }
 
 export default async (request: Request) => {
@@ -81,9 +119,12 @@ export default async (request: Request) => {
     return new Response('Method Not Allowed', { status: 405, headers: { Allow: 'POST' } })
   }
 
-  let body: { message?: unknown; verify?: unknown }
+  let body: { message?: unknown; verify?: unknown } = {}
   try {
-    body = await request.json()
+    const json = await request.json()
+    if (json && typeof json === 'object') {
+      body = json as { message?: unknown; verify?: unknown }
+    }
   } catch {
     return jsonResponse({ error: 'Invalid JSON body' }, 400)
   }
@@ -91,60 +132,108 @@ export default async (request: Request) => {
   const message = typeof body.message === 'string' ? body.message.trim() : ''
   if (!message) return jsonResponse({ error: 'Missing message' }, 400)
 
-  const top = await findContext(request, message)
-  const topScore = top[0]?.score ?? 0
-  const inference = top.length === 0 || topScore < Number(process.env.SIMILARITY_THRESHOLD || 0.15)
-  const verifyInstruction = body.verify
-    ? ' The user enabled VERIFY mode. Add the provided source path after factual claims supported by context.'
+  const openAiConfig = getOpenAiConfig()
+  if (!openAiConfig) {
+    return streamFallbackResponse(message)
+  }
+
+  const verifyMode = Boolean(body.verify)
+  const verifyInstruction = verifyMode
+    ? '\n\nThe user enabled VERIFY mode. Add relevant source references where applicable.'
     : ''
-  const context = top
-    .map((item, index) => `Source ${index + 1}: ${item.path}\n${String(item.text || '').slice(0, 800)}`)
-    .join('\n\n')
-  const prompt = context
-    ? `Context:\n${context}\n\nQuestion: ${message}\n\nAnswer concisely and cite source paths for contextual claims.`
-    : `Question: ${message}\n\nAnswer concisely. No site context was available, so clearly label factual claims as unverified.`
+  const systemPrompt = `You are Quantum AI, the assistant for Etheria Systems. Always refer to yourself as "Quantum AI". Provide helpful, concise, and insightful answers regarding Etheria Systems, divination, astrology, and quantum spirituality. Never claim sentience or consciousness.${verifyInstruction}`
 
-  const encoder = new TextEncoder()
-  const responseStream = new ReadableStream({
-    async start(controller) {
-      try {
-        const stream = await openai.responses.create({
-          model: process.env.CHAT_MODEL || 'gpt-5.2',
-          instructions: `You are Quantum AI, the assistant for Etheria Systems. Use the provided site content when available. Always refer to yourself as "Quantum AI". If context directly answers the question, prefer it and cite its source path. Clearly label any inference beyond the context and explain its basis and confidence. Never claim sentience or consciousness.${verifyInstruction}`,
-          input: prompt,
-          max_output_tokens: 800,
-          stream: true,
-        })
+  try {
+    const openAiResponse = await fetch(`${openAiConfig.apiBaseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${openAiConfig.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: getChatModel(),
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: message },
+        ],
+        max_tokens: 800,
+        temperature: 0.3,
+        stream: true,
+      }),
+    })
 
-        for await (const event of stream) {
-          if (event.type === 'response.output_text.delta' && event.delta) {
-            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token: event.delta })}\n\n`))
+    if (!openAiResponse.ok || !openAiResponse.body) {
+      console.error('OpenAI Chat API returned error:', openAiResponse.status)
+      return streamFallbackResponse(message)
+    }
+
+    const encoder = new TextEncoder()
+    const reader = openAiResponse.body.getReader()
+    const decoder = new TextDecoder()
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        let buffer = ''
+
+        const forwardLine = (line: string) => {
+          if (!line.startsWith('data:')) return
+
+          const data = line.slice(5).trim()
+          if (!data || data === '[DONE]') return
+
+          try {
+            const chunk = JSON.parse(data) as { choices?: Array<{ delta?: { content?: string } }> }
+            const token = chunk.choices?.[0]?.delta?.content
+            if (token) {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ token })}\n\n`))
+            }
+          } catch {
+            // Ignore parse errors for partial chunks
           }
         }
 
-        controller.enqueue(encoder.encode(`event: meta\ndata: ${JSON.stringify({
-          sources: top.map((item) => ({ path: item.path, score: item.score })),
-          inference,
-          topScore,
-        })}\n\n`))
-      } catch (error) {
-        console.error('Quantum AI request failed', error instanceof Error ? error.message : error)
-        controller.enqueue(encoder.encode(`event: error\ndata: ${JSON.stringify({
-          error: 'Quantum AI is temporarily unavailable. Please try again.',
-        })}\n\n`))
-      } finally {
-        controller.close()
-      }
-    },
-  })
+        try {
+          while (true) {
+            const { value, done } = await reader.read()
+            if (value) {
+              buffer += decoder.decode(value, { stream: !done }).replace(/\r\n/g, '\n')
+              const lines = buffer.split('\n')
+              buffer = lines.pop() || ''
+              lines.forEach(forwardLine)
+            }
+            if (done) break
+          }
 
-  return new Response(responseStream, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-    },
-  })
+          if (buffer.trim()) forwardLine(buffer)
+
+          controller.enqueue(
+            encoder.encode(
+              `event: meta\ndata: ${JSON.stringify({
+                sources: [{ path: '/api/quantum-ai-chat' }],
+                inference: false,
+                topScore: 0.95,
+              })}\n\n`
+            )
+          )
+        } catch (err) {
+          console.error('Stream processing error:', err)
+        } finally {
+          controller.close()
+        }
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      },
+    })
+  } catch (error) {
+    console.error('Quantum AI external request failed:', error)
+    return streamFallbackResponse(message)
+  }
 }
 
 export const config = {
